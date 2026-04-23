@@ -6,6 +6,16 @@ A web-based calculator that determines the physical, energy, and gas-phase prope
 
 ---
 
+## Screenshots
+
+![Main calculator view](screenshots/main-view.png)
+
+![Calculation results](screenshots/results.png)
+
+![Theory and documentation panel](screenshots/theory.png)
+
+---
+
 ## What it calculates
 
 From three measured inputs, the tool produces twelve commercially and operationally significant cargo properties, plus an extensive panel of intermediate values for audit and verification.
@@ -74,7 +84,10 @@ Open the deployment URL in any modern browser. The calculator runs immediately i
 - **Safari (iOS / iPadOS):** tap the share button → "Add to Home Screen."
 - **Safari (macOS 14+):** File → "Add to Dock."
 
-Once installed, the app works fully offline and launches as a standalone window without browser chrome.
+Once installed, the app works fully offline and launches as a standalone window without browser chrome. The PWA version also remembers your last-used cargo values across sessions so a cargo reconciliation in progress can be resumed the next day.
+
+### Standalone offline HTML file
+A single-file offline version (`LNG_Cargo_Properties_Calculator.html`) is included in this repository. This is suitable for isolated workstations that have no internet access — for example, shipboard Cargo Control Room computers on an isolated LAN. Download the file once, copy it to any computer, and it runs in any browser with no network dependency, ever. No PWA install prompt appears in this mode, and no persistent state is saved (so multiple users can share one file without data contamination).
 
 ---
 
@@ -118,3 +131,19 @@ All Rights Reserved. The calculator's source code, design, and original document
 This project is released under the MIT License — see [LICENSE](LICENSE) for details.
 
 The embedded JetBrains Mono font is licensed separately under the SIL Open Font License 1.1; its license notice is preserved in the application source and is distinct from the MIT license covering the calculator's own code.
+
+---
+
+## Changelog
+
+### Version 2.1
+- Persistent session memory on PWA installs — last-used composition, temperature, volume, and reference selections are restored on reopen
+- Platform-aware install banner for Android, Windows, macOS, and iOS (previously iOS only)
+- Auto-dismissing banner with a 10-second progress bar; manual dismiss still available
+- Header subtitles shortened for better mobile legibility
+- Offline standalone HTML file now included in the repository for isolated-workstation use
+- New app icon
+
+### Version 2.0
+- Initial public release
+
