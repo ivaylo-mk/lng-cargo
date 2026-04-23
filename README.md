@@ -84,7 +84,7 @@ Open the deployment URL in any modern browser. The calculator runs immediately i
 - **Safari (iOS / iPadOS):** tap the share button → "Add to Home Screen."
 - **Safari (macOS 14+):** File → "Add to Dock."
 
-Once installed, the app works fully offline and launches as a standalone window without browser chrome. The PWA version also remembers your last-used cargo values across sessions so a cargo reconciliation in progress can be resumed the next day.
+Once installed, the app works fully offline and launches as a standalone window — no browser address bar, tabs, or menu visible, just the calculator. The PWA version also remembers your last-used cargo values across sessions so a cargo reconciliation in progress can be resumed the next day.
 
 ### Standalone offline HTML file
 A single-file offline version (`LNG_Cargo_Properties_Calculator.html`) is included in this repository. This is suitable for isolated workstations that have no internet access — for example, shipboard Cargo Control Room computers on an isolated LAN. Download the file once, copy it to any computer, and it runs in any browser with no network dependency, ever. No PWA install prompt appears in this mode, and no persistent state is saved (so multiple users can share one file without data contamination).
@@ -136,11 +136,17 @@ The embedded JetBrains Mono font is licensed separately under the SIL Open Font 
 
 ## Changelog
 
+### Version 2.1.1
+- Fixed PWA restore: volume field now shows thousand-separator formatting immediately on reopen (previously required clicking into the field to see `146,000` instead of `146000`)
+- Composition fields now normalize to three-decimal display on restore, matching how they format during normal use
+- Input save trigger changed from every keystroke to field-commit only (change/blur), avoiding mid-edit values being persisted
+
 ### Version 2.1
 - Persistent session memory on PWA installs — last-used composition, temperature, volume, and reference selections are restored on reopen
 - Platform-aware install banner for Android, Windows, macOS, and iOS (previously iOS only)
 - Auto-dismissing banner with a 10-second progress bar; manual dismiss still available
 - Header subtitles shortened for better mobile legibility
+- Australia added to the Sale and Purchase Agreement regional list in theory
 - Offline standalone HTML file now included in the repository for isolated-workstation use
 - New app icon
 

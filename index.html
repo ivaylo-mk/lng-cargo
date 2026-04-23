@@ -538,7 +538,7 @@ Combustion &amp; metering reference fixed at <strong style="color:var(--tx)">60 
 <div class="footer-copy" id="f-copy">© 2026 Ivaylo Krastev. All Rights Reserved.</div>
 <div style="font-size:var(--fs-xs);margin-bottom:6px"><a id="f-site" href="http://ivaylokrastev.com" target="_blank" rel="noopener" style="color:var(--tx);text-decoration:none;display:inline-flex;align-items:center;gap:6px"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>ivaylokrastev.com</a></div>
 <div style="font-size:var(--fs-xs);color:var(--tm);margin-top:4px;opacity:0.6">Calculations provided for reference purposes only.</div>
-<div style="font-size:var(--fs-xs);color:var(--tm);margin-top:10px;opacity:0.6">Version 2.1</div>
+<div style="font-size:var(--fs-xs);color:var(--tm);margin-top:10px;opacity:0.6">Version 2.1.1</div>
 </footer>
 
 <script>
@@ -1095,11 +1095,27 @@ document.addEventListener("DOMContentLoaded",init);
         var el = document.getElementById(id);
         if (el) {
           el.value = data.fields[id];
-          /* Dispatch input event so any listeners update */
           el.dispatchEvent(new Event("change", { bubbles: true }));
           restored = true;
         }
       }
+      /* Some fields have blur-triggered formatters that don't run during
+         programmatic restore. Apply the same normalizations here. */
+      /* Volume: add thousand separators (fmtVol) */
+      var volEl = document.getElementById("inp-vol");
+      if (volEl && typeof fmtVol === "function") {
+        var formatted = fmtVol(volEl.value);
+        if (formatted) volEl.value = formatted;
+      }
+      /* Composition fields: at least 3 decimal places */
+      document.querySelectorAll(".c-inp").forEach(function(el){
+        var v = parseFloat(el.value);
+        if (!isFinite(v)) return;
+        var s = el.value.trim();
+        var dotIdx = s.indexOf(".");
+        var decimals = (dotIdx >= 0) ? (s.length - dotIdx - 1) : 0;
+        el.value = v.toFixed(Math.max(3, decimals));
+      });
       return restored;
     } catch(e) { return false; }
   }
@@ -1110,17 +1126,19 @@ document.addEventListener("DOMContentLoaded",init);
     setTimeout(function(){
       var didRestore = restoreInputs();
       if (didRestore && typeof render === "function") render();
-      /* Attach change listeners to persist new values */
+      /* Attach listeners that save only when a field's edit is committed
+         (change, blur) — not on every keystroke (input) — so we don't
+         store mid-edit intermediate values that would look wrong on restore. */
       ["inp-temp","inp-vol","inp-std","inp-cref","inp-mref"].forEach(function(id){
         var el = document.getElementById(id);
         if (el) {
           el.addEventListener("change", saveInputs);
-          el.addEventListener("input", saveInputs);
+          el.addEventListener("blur", saveInputs);
         }
       });
       document.querySelectorAll(".c-inp").forEach(function(el){
         el.addEventListener("change", saveInputs);
-        el.addEventListener("input", saveInputs);
+        el.addEventListener("blur", saveInputs);
       });
     }, 100);
   }
