@@ -1,14 +1,20 @@
 <p align="center">
-  <img src="icons/icon-transparent.png" alt="LNG Cargo Properties Calculator" width="160" />
+  <img src="icons/icon-transparent.png" alt="LNG Cargo Properties Calculator" width="280" />
 </p>
 
+<h1 align="center">LNG Cargo Properties Calculator</h1>
+
 <p align="center">
-# LNG Cargo Properties Calculator
+  <a href="https://lng.ivaylokrastev.com"><img src="https://img.shields.io/badge/PWA-Ready-blue" alt="PWA" /></a>
+  <a href="https://lng.ivaylokrastev.com"><img src="https://img.shields.io/badge/Offline-Ready-blue" alt="Offline" /></a>
+  <a href="https://lng.ivaylokrastev.com"><img src="https://img.shields.io/badge/Version-2.1.2-blue" alt="Version" /></a>
+  <a href="./LICENSE"><img src="https://img.shields.io/badge/License-MIT-blue" alt="License" /></a>
 </p>
 
 Determines the physical, energy, and gas-phase properties of an LNG cargo from a measured composition, liquid volume, and temperature. Built for cargo surveyors, terminal operators, ship officers, and commercial analysts who require high-fidelity property estimates derived from a rigorous implementation of industry-standard methods.
 
-**Live App:** [https://lng.ivaylokrastev.com](https://lng.ivaylokrastev.com)
+**Live App:** **[https://lng.ivaylokrastev.com](https://lng.ivaylokrastev.com)**
+> Once installed, the app works fully offline. For isolated offline workstations, you can download a [standalone HTML version](./LNG_Cargo_Properties_Calculator.html). On the next page, click the "Download raw file" icon in the top-right corner of the code box. Jump to the [Installation](#installation) section for additional information.
 
 ---
 
@@ -89,7 +95,7 @@ The dual-standard design means the calculator matches the way cargo Certificates
 ## Installation
 
 ### As a web app
-Open the deployment URL in any modern browser. The calculator runs immediately in the tab.
+Open the [deployment URL](https://lng.ivaylokrastev.com) in any modern browser. The calculator runs immediately in the tab.
 
 ### As an installed app
 - **Chrome / Edge / Brave (desktop & Android):** click the install icon (⊕) that appears in the address bar, or select "Install app" / "Add to Home screen" from the browser menu.
@@ -98,8 +104,9 @@ Open the deployment URL in any modern browser. The calculator runs immediately i
 
 Once installed, the app works fully offline and launches as a standalone window — no browser address bar, tabs, or menu visible, just the calculator. The PWA version also remembers your last-used cargo values across sessions so a cargo reconciliation in progress can be resumed the next day.
 
-### Standalone offline HTML file
-A single-file offline version (`LNG_Cargo_Properties_Calculator.html`) is included in this repository. This is suitable for isolated workstations that have no internet access — for example, shipboard Cargo Control Room computers on an isolated LAN. Download the file once, copy it to any computer, and it runs in any browser with no network dependency, ever. No PWA install prompt appears in this mode, and no persistent state is saved (so multiple users can share one file without data contamination).
+### As a standalone offline HTML file
+A single-file offline version (`LNG_Cargo_Properties_Calculator.html`) is included in this repository. This is suitable for isolated workstations that have no internet access — for example, shipboard Cargo Control Room computers on an isolated LAN.
+[Download the file](./LNG_Cargo_Properties_Calculator.html) once, copy it to any computer, and it runs in any browser with no network dependency, ever. No PWA install prompt appears in this mode, and no persistent state is saved (so multiple users can share one file without data contamination).
 
 ---
 
