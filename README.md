@@ -1,16 +1,28 @@
+<p align="center">
+  <img src="icons/icon-transparent.png" alt="LNG Cargo Properties Calculator" width="160" />
+</p>
+
+<p align="center">
 # LNG Cargo Properties Calculator
+</p>
 
-A web-based calculator that determines the physical, energy, and gas-phase properties of an LNG cargo from a measured composition, liquid volume, and temperature. Built for cargo surveyors, terminal operators, ship officers, and commercial analysts who need authoritative property estimates aligned with industry-standard methods.
+Determines the physical, energy, and gas-phase properties of an LNG cargo from a measured composition, liquid volume, and temperature. Built for cargo surveyors, terminal operators, ship officers, and commercial analysts who require high-fidelity property estimates derived from a rigorous implementation of industry-standard methods.
 
-**Open in browser:** `https://lng.ivaylokrastev.com`
+**Live App:** [https://lng.ivaylokrastev.com](https://lng.ivaylokrastev.com)
 
 ---
 
 ## Screenshots
 
+**Main calculator view:**
+
 ![Main calculator view](screenshots/main-view.png)
 
+**Calculation results:**
+
 ![Calculation results](screenshots/results.png)
+
+**Theory and documentation panel:**
 
 ![Theory and documentation panel](screenshots/theory.png)
 
@@ -80,7 +92,7 @@ The dual-standard design means the calculator matches the way cargo Certificates
 Open the deployment URL in any modern browser. The calculator runs immediately in the tab.
 
 ### As an installed app
-- **Chrome / Edge / Brave (desktop & Android):** click the install icon (⊕) that appears in the address bar, or select "Install app" from the browser menu.
+- **Chrome / Edge / Brave (desktop & Android):** click the install icon (⊕) that appears in the address bar, or select "Install app" / "Add to Home screen" from the browser menu.
 - **Safari (iOS / iPadOS):** tap the share button → "Add to Home Screen."
 - **Safari (macOS 14+):** File → "Add to Dock."
 
@@ -135,6 +147,9 @@ The embedded JetBrains Mono font is licensed separately under the SIL Open Font 
 ---
 
 ## Changelog
+
+### Version 2.1.2
+- Refined project documentation, updated metadata for SEO/PWA alignment, and polished UI copy for better clarity
 
 ### Version 2.1.1
 - Fixed PWA restore: volume field now shows thousand-separator formatting immediately on reopen (previously required clicking into the field to see `146,000` instead of `146000`)
