@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="icons/icon-transparent.png" alt="LNG Cargo Properties Calculator" width="280" />
+  <img src="icons/icon-transparent.png" alt="LNG Cargo Properties Calculator" width="250" />
 </p>
 
 <h1 align="center">LNG Cargo Properties Calculator</h1>
@@ -7,8 +7,8 @@
 <p align="center">
   <a href="https://lng.ivaylokrastev.com"><img src="https://img.shields.io/badge/PWA-Ready-blue" alt="PWA" /></a>
   <a href="https://lng.ivaylokrastev.com"><img src="https://img.shields.io/badge/Offline-Ready-blue" alt="Offline" /></a>
-  <a href="https://lng.ivaylokrastev.com"><img src="https://img.shields.io/badge/Version-2.1.2-blue" alt="Version" /></a>
-  <a href="./LICENSE"><img src="https://img.shields.io/badge/License-MIT-blue" alt="License" /></a>
+  <a href="https://lng.ivaylokrastev.com"><img src="https://img.shields.io/badge/Version-2.2.0-blue" alt="Version" /></a>
+  <a href="./LICENSE"><img src="https://img.shields.io/badge/License-AGPL--3.0-blue" alt="License" /></a>
 </p>
 
 Determines the physical, energy, and gas-phase properties of an LNG cargo from a measured composition, liquid volume, and temperature. Built for cargo surveyors, terminal operators, ship officers, and commercial analysts who require high-fidelity property estimates derived from a rigorous implementation of industry-standard methods.
@@ -82,10 +82,11 @@ The dual-standard design means the calculator matches the way cargo Certificates
 ## Features
 
 - **Extensive in-app theory documentation.** Ten step-by-step derivations of every calculation, with source formulas attributed to their originating standards and clauses. Every result card has a `?` icon that scrolls to the corresponding theory step.
+- **EVP Sensitivity Curve.** A graph panel showing the equilibrium vapor pressure across a ±1.4 °C window around the observed cargo temperature, with shaded zones indicating the typical membrane LNG carrier tank-pressure operating range. Helps surveyors and officers anticipate tank pressure response to heat ingress or active cooling during the voyage.
 - **Full unit-system coverage.** Every quantity where multiple conventions exist (MJ/kg, kWh/kg, MMBTU/tonne, Btu/lb; MJ/m³, kWh/Sm³, BTU/SCF; Sm³, Nm³, SCF) is computed and exposed.
 - **Real-gas correction** using the compression factor Z from ISO 6976:2016 Table 2 summation factors (or GPA 2145-16 equivalents).
 - **Sanity warnings.** Out-of-scope cargo temperature, composition summation deviation, and excess CO₂ content (solubility flag at 100 ppm) trigger visible warnings without blocking calculation.
-- **Clean printout.** Browser print produces a four-page cargo report (Molar Composition · Cargo Parameters · Calculation Results · Intermediate Values) with "Calculations provided for reference purposes only." in the page footer.
+- **Clean printout.** Browser print produces a five-page cargo report (Molar Composition · Cargo Parameters · Calculation Results · EVP Sensitivity Curve · Intermediate Values) with "Calculations provided for reference purposes only." in the page footer.
 - **Offline-first.** Once loaded, the app runs entirely in-browser with no network dependency. Installable as a PWA on Windows, macOS, Linux, Android, and iOS for quick access.
 - **Locale-robust inputs.** Liquid volume accepts both US notation (`145,000`) and European notation (`145.000` or `145 000`).
 - **Embedded JetBrains Mono font** for consistent, legible typography of numerical data across every device and operating system.
@@ -129,10 +130,10 @@ Full applicability discussion and numerical accuracy expectations are documented
 ## Legal and attribution
 
 ### Disclaimer
-The calculator is provided for reference and informational purposes only. Results are based on physical correlations and industry-standard methods with known accuracy bounds (±0.1 % for density under validated conditions); nonetheless, they should not be treated as authoritative custody-transfer figures or substituted for measurements produced by certified metering systems, official cargo surveyors, or the terminal-issued Certificates of Quality. Commercial decisions and regulatory submissions should always rely on the appropriate official documents.
+The calculator is provided for reference and informational purposes only. Results are based on physical correlations and industry-standard methods with known accuracy bounds (±0.1 % for density under validated conditions); nonetheless, they should not be treated as authoritative custody-transfer figures or substituted for measurements produced by certified metering systems, official cargo surveyors or terminal-issued Certificates of Quality. Commercial decisions and regulatory submissions should always rely on the appropriate official documents.
 
 ### Source standards
-This tool does not reproduce or distribute any copyrighted standards documents. It implements publicly documented calculation methods using the numerical physical constants defined in the underlying standards — constants which are physical facts of nature (densities, heating values, molar masses, vapor pressures) and therefore not subject to copyright protection as expressive content.
+This tool does not reproduce or distribute any copyrighted standards documents. It implements widely known calculation methods based on publicly available scientific principles, using numerical physical constants defined in the underlying standards — constants which are physical facts of nature (e.g., densities, heating values, molar masses, vapor pressures) and are generally not subject to copyright protection.
 
 Users requiring the full text, formal specifications, or authoritative interpretation of the underlying standards should obtain **ISO 6578:2017**, **ISO 6976:2016**, and **GPA Midstream 2145-16** directly from the respective publishers (ISO at iso.org, GPA Midstream at gpamidstream.org).
 
@@ -144,16 +145,38 @@ The calculator embeds the JetBrains Mono font subset, distributed under the SIL 
 ### Author
 © 2026 Ivaylo Krastev · [ivaylokrastev.com](http://ivaylokrastev.com)
 
-All Rights Reserved. The calculator's source code, design, and original documentation are the intellectual property of the author.
-
 ### License
-This project is released under the MIT License — see [LICENSE](LICENSE) for details.
+This project is released under the **GNU Affero General Public License v3.0 (AGPL-3.0)** — see [LICENSE](LICENSE) for the full text.
 
-The embedded JetBrains Mono font is licensed separately under the SIL Open Font License 1.1; its license notice is preserved in the application source and is distinct from the MIT license covering the calculator's own code.
+**Attribution Notice (Important):**  
+The original author’s name and copyright notice must be preserved in all copies and modified versions of this software.
+
+**Internal Use:**  
+Use of this software within a single organization, without redistribution or modification, does not trigger additional obligations beyond those defined by the AGPL license.
+
+**Practical Use (Non-Technical Summary):**  
+You are free to use this calculator in your operational and professional work, including within commercial companies and operations, without requiring additional permission from the author, as long as you are not redistributing or modifying the software.
+
+**Modifications and Network Use:**  
+If you modify this software and make it available to others—including as a hosted network service—you must:
+- retain the original copyright and attribution notices, and  
+- provide access to the complete corresponding source code under the same AGPL-3.0 license.
+
+**Commercial Licensing:**  
+If you wish to use this software without the obligations of the AGPL (for example, in proprietary systems without releasing source code), a commercial license may be obtained from the author.
+
+**Third-Party Components:**  
+The embedded JetBrains Mono font is licensed separately under the SIL Open Font License 1.1. Its license notice is preserved in the application source and is distinct from the AGPL license covering the calculator code.
 
 ---
 
 ## Changelog
+
+### Version 2.2.0
+- **New: EVP Sensitivity Curve.** A graph of equilibrium vapor pressure versus cargo temperature, spanning ±1.4 °C around the observed value in 0.2 °C steps, with shaded zones indicating typical membrane LNG carrier operating pressure ranges (green for normal, orange for caution). Allows an at-a-glance read of how tank pressure will respond to heat ingress or active cooling during the voyage — useful for operational planning on board. Lives in a new collapsible panel between Calculation Results and Intermediate Values, open by default. Now included in the printed cargo report (page 4 of 5).
+- Licensed under the **GNU Affero General Public License v3.0 (AGPL-3.0)** with header applied to the HTML source and scope explained in the README license section
+- Install banner constrained to 600 px max-width on desktop, centered horizontally (previously spanned the full viewport); duration extended from 10 s to 15 s
+- Banner title styled as "Install This App" (Title Case) for stronger visual presence
 
 ### Version 2.1.2
 - Refined project documentation, updated metadata for SEO/PWA alignment, and polished UI copy for better clarity
@@ -168,7 +191,6 @@ The embedded JetBrains Mono font is licensed separately under the SIL Open Font 
 - Platform-aware install banner for Android, Windows, macOS, and iOS (previously iOS only)
 - Auto-dismissing banner with a 10-second progress bar; manual dismiss still available
 - Header subtitles shortened for better mobile legibility
-- Australia added to the Sale and Purchase Agreement regional list in theory
 - Offline standalone HTML file now included in the repository for isolated-workstation use
 - New app icon
 

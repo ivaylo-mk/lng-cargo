@@ -1,4 +1,46 @@
 <!DOCTYPE html>
+<!--
+  LNG Cargo Properties Calculator
+  Copyright (C) 2026 Ivaylo Krastev <https://ivaylokrastev.com>
+
+  Licensed under the GNU Affero General Public License v3.0 (AGPL-3.0)
+
+  IMPORTANT NOTICE:
+  This software must retain the original author’s name and copyright
+  notice in all copies and modified versions.
+
+  Use within a single organization, without redistribution or modification,
+  does not trigger additional obligations beyond those of the AGPL license.
+
+  If you modify this software and share it with others, or make it available
+  as a network service, you must:
+  - keep the original author’s copyright notice and attribution intact, and
+  - provide access to the full corresponding source code under the same
+    license (GNU AGPL v3.0 or later).
+
+  This program is free software: you can redistribute it and/or modify
+  it under the terms of the GNU Affero General Public License as published
+  by the Free Software Foundation, either version 3 of the License, or
+  (at your option) any later version.
+
+  This program is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU Affero General Public License for more details.
+
+  You should have received a copy of the GNU Affero General Public License
+  along with this program.  If not, see <https://www.gnu.org/licenses/>.
+
+  SOURCE CODE: https://github.com/ivaylo-mk/lng-cargo-calculator
+
+  COMMERCIAL LICENSING:
+  A separate commercial license is available from the author for use cases
+  that require exemption from AGPL obligations (for example, proprietary
+  integration without source code disclosure).
+
+  The embedded JetBrains Mono font subset is licensed separately under
+  the SIL Open Font License 1.1 — see its inline notice below.
+-->
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -86,6 +128,21 @@ details.panel summary::-webkit-details-marker{display:none}
 details.panel summary::before{content:"\25B8";font-size:0.8em;transition:transform 0.2s}
 details.panel[open] summary::before{transform:rotate(90deg)}
 details.panel .pb{padding:0 clamp(14px,3vw,20px) clamp(14px,2vw,20px)}
+/* EVP Sensitivity Curve panel */
+.evp-curve-intro{font-size:var(--fs-sm);color:var(--tm);line-height:1.55;margin:0 0 14px 0}
+#evp-chart-wrap{width:100%;max-width:900px;margin:0 auto;background:rgba(3,7,18,0.35);border:1px solid var(--bd);border-radius:10px;padding:clamp(10px,2vw,18px)}
+#evp-chart-wrap svg{display:block;width:100%;height:auto;font-family:var(--font);font-variant-numeric:tabular-nums}
+#evp-chart-wrap .evp-grid{stroke:rgba(148,163,184,0.15);stroke-width:1}
+#evp-chart-wrap .evp-grid-whole{stroke:rgba(148,163,184,0.32);stroke-width:1;stroke-dasharray:3,3}
+#evp-chart-wrap .evp-axis{stroke:rgba(148,163,184,0.45);stroke-width:1.25}
+#evp-chart-wrap .evp-tick-label{fill:var(--tm);font-size:11px}
+#evp-chart-wrap .evp-axis-title{fill:var(--tm);font-size:11px;font-weight:600;letter-spacing:0.04em;text-transform:uppercase}
+#evp-chart-wrap .evp-line{fill:none;stroke:var(--ac);stroke-width:2.2;stroke-linejoin:round;stroke-linecap:round}
+#evp-chart-wrap .evp-point{fill:var(--ac);stroke:var(--bg);stroke-width:1.5}
+#evp-chart-wrap .evp-point-current{fill:#fff;stroke:var(--ac);stroke-width:2.5}
+#evp-chart-wrap .evp-current-line{stroke:rgba(59,130,246,0.5);stroke-width:1;stroke-dasharray:3,3}
+#evp-chart-wrap .evp-current-label{fill:var(--ac);font-size:11px;font-weight:700}
+#evp-chart-wrap .evp-point-label{fill:var(--tx);font-size:10px;font-variant-numeric:tabular-nums}
 .d-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:8px;margin-bottom:20px}
 .di{display:flex;justify-content:space-between;gap:12px;padding:6px 0;border-bottom:1px solid rgba(148,163,184,0.1)}
 .di-l{font-size:var(--fs-xs);color:var(--tm);flex-shrink:0}.di-v{font-size:var(--fs-xs);font-weight:600;font-variant-numeric:tabular-nums;text-align:right;word-break:break-all}
@@ -191,10 +248,30 @@ footer{text-align:center;padding:clamp(16px,3vw,24px) var(--pad);font-size:var(-
   .grid2>.card:nth-child(2){page-break-before:always;break-before:page}
   section.section:nth-of-type(2){page-break-before:always;break-before:page}
   #detail-section{page-break-before:always;break-before:page}
+  #evp-curve-panel{page-break-before:always;break-before:page}
   /* Hide Theory, Units of Measure, Formula Reference, and footer when printing —
      these sections are for on-screen reference only. Cargo reports stop after
      the Intermediate & Additional Values. */
   #theory-panel,#units-panel,#formula-panel,footer{display:none !important}
+  /* Print-specific styling for the EVP Sensitivity Curve chart.
+     The on-screen chart relies on a dark navy panel background and light-on-dark
+     colors. For paper output we adapt to a white-paper aesthetic: dark gridlines
+     and text, no chart background fill, dashed band borders preserved. The
+     operating-zone fills are kept very light so they're visible if the user has
+     "print background graphics" enabled, but the chart is also legible without it. */
+  #evp-chart-wrap{background:#fff !important;border:1px solid #999 !important;padding:8mm !important;max-width:100% !important;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  #evp-chart-wrap svg{font-family:inherit !important}
+  #evp-chart-wrap .evp-grid{stroke:#bbb !important;stroke-width:0.5 !important}
+  #evp-chart-wrap .evp-grid-whole{stroke:#888 !important;stroke-width:0.7 !important;stroke-dasharray:3,3 !important}
+  #evp-chart-wrap .evp-axis{stroke:#000 !important;stroke-width:1 !important}
+  #evp-chart-wrap .evp-tick-label,#evp-chart-wrap .evp-axis-title,#evp-chart-wrap .evp-point-label{fill:#000 !important}
+  #evp-chart-wrap .evp-axis-title{font-weight:700 !important}
+  #evp-chart-wrap .evp-line{stroke:#000 !important;stroke-width:1.5 !important}
+  #evp-chart-wrap .evp-point{fill:#000 !important;stroke:#fff !important;stroke-width:1 !important}
+  #evp-chart-wrap .evp-point-current{fill:#fff !important;stroke:#000 !important;stroke-width:1.8 !important}
+  #evp-chart-wrap .evp-current-line{stroke:#666 !important;stroke-width:0.8 !important;stroke-dasharray:2,2 !important}
+  #evp-chart-wrap .evp-current-label{fill:#000 !important;font-weight:700 !important}
+  .evp-curve-intro{color:#444 !important;font-size:9pt !important;margin-bottom:8pt !important}
   /* Hide the Component Contributions table — it's wide with 12 columns and
      always gets cut off horizontally on paper. The 30 intermediate values
      above it carry all the derived quantities a cargo report needs. */
@@ -256,6 +333,11 @@ Combustion &amp; metering reference fixed at <strong style="color:var(--tx)">60 
 </div></section>
 
 <section class="section"><div class="r-title">Calculation Results</div><div id="results-area"><div class="r-grid" id="results-grid"></div></div></section>
+<details class="panel" id="evp-curve-panel" open><summary>EVP Sensitivity Curve</summary><div class="pb">
+<p class="evp-curve-intro">Shows how the equilibrium vapor pressure changes if the cargo temperature shifts from the observed value. Useful for anticipating tank-pressure response to heat ingress or active cooling during a voyage.</p>
+<div id="evp-chart-wrap"></div>
+</div></details>
+
 <details class="panel" id="detail-section"><summary>Intermediate &amp; Additional Values</summary><div class="pb" id="detail-body"></div></details>
 
 <!-- ═══ THEORY ═══ -->
@@ -384,6 +466,8 @@ Combustion &amp; metering reference fixed at <strong style="color:var(--tx)">60 
 </ul>
 <p>In practice, LNG carriers maintain tank pressure slightly above the EVP (typically 100–250 mbar gauge). This means the cargo is subcooled, which is the normal and desired operating condition. The EVP is strongly influenced by composition — small changes in nitrogen content have a disproportionate effect because nitrogen's saturation pressure at LNG temperatures is roughly 15 times that of methane.</p>
 <p>The <strong>normal boiling point (BP at 1 atm)</strong> reported alongside the EVP is the temperature at which the mixture's bubble-point pressure equals 101.325 kPa (standard atmospheric pressure). It is obtained by numerically inverting the bubble-point equation — solving <code>Σ(xᵢ · Pᵢ_sat(T)) = 101.325 kPa</code> for <em>T</em>. For pure methane this would be −161.5 °C; for typical commercial LNG it sits between −160 and −163 °C depending on composition. A cargo warmer than its atmospheric BP would flash-boil if exposed to 1 atm; a cargo cooler than its atmospheric BP is subcooled at 1 atm and can absorb heat ingress before boil-off begins.</p>
+
+<p><strong>Negative gauge EVP values are physically meaningful, not erroneous.</strong> When a cargo is cooled below its atmospheric boiling point (e.g., a methane-rich cargo at −162 °C, below methane's NBP of −161.5 °C), the bubble-point pressure falls below atmospheric, so the EVP expressed in <em>gauge</em> units becomes negative. This indicates a deeply subcooled cargo: the liquid would not boil even if exposed to atmospheric pressure, and has reserve thermal capacity to absorb heat ingress before any boil-off begins. In real cargo operations the tank does not actually go sub-atmospheric — LNG carrier tanks are not vacuum-rated and operators maintain positive pressure (typically +100 to +250 mbar gauge) against ambient ingress. Instead, the negative EVP value represents the depth of subcooling: more negative means more thermal margin before boil-off becomes active. This is a desirable operating state for long voyages with significant heat ingress.</p>
 
 <h4>Applicability &amp; Limitations</h4>
 <ul>
@@ -525,10 +609,10 @@ Combustion &amp; metering reference fixed at <strong style="color:var(--tx)">60 
 
 <footer id="app-footer">
 <div class="footer-iso">Based on ISO 6578:2017 / ISO 6976:2016 and GPA 2145-16</div>
-<div class="footer-copy" id="f-copy">© 2026 Ivaylo Krastev. All Rights Reserved.</div>
+<div class="footer-copy" id="f-copy">© 2026 Ivaylo Krastev · Licensed under AGPL-3.0</div>
 <div style="font-size:var(--fs-xs);margin-bottom:6px"><a id="f-site" href="http://ivaylokrastev.com" target="_blank" rel="noopener" style="color:var(--tx);text-decoration:none;display:inline-flex;align-items:center;gap:6px"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>ivaylokrastev.com</a></div>
 <div style="font-size:var(--fs-xs);color:var(--tm);margin-top:4px;opacity:0.6">Calculations provided for reference purposes only.</div>
-<div style="font-size:var(--fs-xs);color:var(--tm);margin-top:10px;opacity:0.6">Version 2.1.2</div>
+<div style="font-size:var(--fs-xs);color:var(--tm);margin-top:10px;opacity:0.6">Version 2.2.0</div>
 </footer>
 
 <script>
@@ -695,7 +779,7 @@ function calc(temp,vol,pct,ck,mk,std){
   var MMBTU_per_tonne=(mass>0)?EM/(mass/1000):0;
   var MJ_per_tonne=Hm*1000;
   var det=COMP.map(function(c){return{id:c.id,formula:c.formula,M:c.M,xi:x[c.id],vi:Vi[c.id],hvi:useGPA?GHV_GPA[c.id]:GHV[c.id][ci],xiMi:x[c.id]*c.M,xiVi:x[c.id]*Vi[c.id],xiHvi:x[c.id]*(useGPA?GHV_GPA[c.id]:GHV[c.id][ci]),mf:Mm>0?(x[c.id]*c.M)/Mm:0,psi:psat(c.id,temp),sfi:SF_GPA[c.id],ghvBtuFt3:GHV_GPA_BTUFT3[c.id]}});
-  return{rho:rho,mass:mass,Hm:Hm,HkW:HkW,Hc:Hc,E:E,EMW:EMW,EM:EM,conv:vol>0?EM/vol:0,Mm:Mm,Vc:Vc,Cc:Cc,k1:k1,k2:k2,sXV:sXV,sumX:sumX,tOK:temp>=TV[TV.length-1]&&temp<=TV[0],evp:evp,evp_mbar:evp_mbar,bp:bp,G:G_real,Gi:G_ideal,Hv_kWh:Hv_kWh,Hv_ideal_kWh:Hv_ideal_kWh,Hv_real:Hv_real,Hv_ideal:Hv_ideal,W:W,W_MJ:W_MJ,Wi:Wi,Wi_MJ:Wi_MJ,Hv_real_BtuSCF:Hv_real_BtuSCF,Hv_ideal_BtuSCF:Hv_ideal_BtuSCF,W_BtuSCF:W_BtuSCF,Wi_BtuSCF:Wi_BtuSCF,Zmix:Zmix,sumXS:sumXS,wUnit:wUnit,useGPA:useGPA,Vm_m:Vm_m,gasVol_m3:gasVol_m3,gasVol_SCF:gasVol_SCF,expRatio:expRatio,MMBTU_per_tonne:MMBTU_per_tonne,MJ_per_tonne:MJ_per_tonne,vol:vol,det:det};
+  return{rho:rho,mass:mass,Hm:Hm,HkW:HkW,Hc:Hc,E:E,EMW:EMW,EM:EM,conv:vol>0?EM/vol:0,Mm:Mm,Vc:Vc,Cc:Cc,k1:k1,k2:k2,sXV:sXV,sumX:sumX,tOK:temp>=TV[TV.length-1]&&temp<=TV[0],evp:evp,evp_mbar:evp_mbar,bp:bp,G:G_real,Gi:G_ideal,Hv_kWh:Hv_kWh,Hv_ideal_kWh:Hv_ideal_kWh,Hv_real:Hv_real,Hv_ideal:Hv_ideal,W:W,W_MJ:W_MJ,Wi:Wi,Wi_MJ:Wi_MJ,Hv_real_BtuSCF:Hv_real_BtuSCF,Hv_ideal_BtuSCF:Hv_ideal_BtuSCF,W_BtuSCF:W_BtuSCF,Wi_BtuSCF:Wi_BtuSCF,Zmix:Zmix,sumXS:sumXS,wUnit:wUnit,useGPA:useGPA,Vm_m:Vm_m,gasVol_m3:gasVol_m3,gasVol_SCF:gasVol_SCF,expRatio:expRatio,MMBTU_per_tonne:MMBTU_per_tonne,MJ_per_tonne:MJ_per_tonne,vol:vol,temp:temp,x:x,det:det};
 }
 
 var $=function(id){return document.getElementById(id)};
@@ -769,11 +853,11 @@ function render(){
   var r=calc(inp.t,inp.v,inp.p,inp.cr,inp.mr,inp.std);
   if(r&&r.error){
     $("results-area").innerHTML='<div class="err-box"><h3>\u26D4 Error \u2014 Calculation Engine Modified</h3><p>Integrity verification failed. The calculation engine has been modified and cannot produce reliable results.</p><p style="margin-top:12px;font-size:0.72rem;opacity:0.6">All calibration constants, attribution, and engine code must remain unmodified.</p></div>';
-    $("detail-section").classList.add("hidden");var ft=$("app-footer");if(ft)ft.style.display="none";var fb=$("f-brand");if(fb)fb.style.display="none";return;
+    $("detail-section").classList.add("hidden");var ep=$("evp-curve-panel");if(ep)ep.classList.add("hidden");var ft=$("app-footer");if(ft)ft.style.display="none";var fb=$("f-brand");if(fb)fb.style.display="none";return;
   }
   var ft=$("app-footer");if(ft)ft.style.display="";var fb=$("f-brand");if(fb)fb.style.display="";
-  $("detail-section").classList.remove("hidden");
-  if(!r){$("results-area").innerHTML='<div class="r-grid"></div>';$("detail-body").innerHTML="";return}
+  $("detail-section").classList.remove("hidden");var ep=$("evp-curve-panel");if(ep)ep.classList.remove("hidden");
+  if(!r){$("results-area").innerHTML='<div class="r-grid"></div>';$("detail-body").innerHTML="";var ec=$("evp-chart-wrap");if(ec)ec.innerHTML="";return}
   r.tOK?$("warn-temp").classList.add("hidden"):$("warn-temp").classList.remove("hidden");
   /* Unified 12-card set for both standards. Unit labels and subtitles
      adapt to the selected standard so the cards remain informative in both. */
@@ -804,6 +888,7 @@ function render(){
   ];
   $("results-area").innerHTML='<div class="r-grid">'+cards.join("")+'</div>';
   renderDetail(r);
+  renderEvpChart(r);
 }
 
 function renderDetail(r){
@@ -848,6 +933,113 @@ function renderDetail(r){
     +'<tr class="sum-row"><td>\u03A3</td><td class="tn">'+r.sumX.toFixed(6)+'</td><td class="tn"></td><td class="tn">'+r.Mm.toFixed(6)+'</td><td class="tn"></td><td class="tn">'+r.sXV.toFixed(6)+'</td><td class="tn"></td><td class="tn"></td><td class="tn">'+r.Hc.toFixed(4)+'</td><td class="tn"></td><td class="tn"></td><td class="tn">'+r.evp.toFixed(3)+'</td></tr>'
     +'</tbody></table></div>';
   $("detail-body").innerHTML=body;
+}
+
+/* Render the EVP Sensitivity Curve — a mini SVG chart showing how bubble-point
+   pressure varies over ±2 °C around the observed cargo temperature, in 0.5 °C
+   steps. Pure SVG (no chart library). Re-rendered on every input change. */
+function renderEvpChart(r){
+  var wrap=$("evp-chart-wrap");if(!wrap)return;
+  var tCenter=Math.round(r.temp*10)/10; /* round observed T to 1 decimal */
+  var steps=[-1.4,-1.2,-1.0,-0.8,-0.6,-0.4,-0.2,0,0.2,0.4,0.6,0.8,1.0,1.2,1.4];
+  var pts=steps.map(function(d){
+    var t=tCenter+d;
+    var pKpaAbs=bubbleP(r.x,t);
+    var pMbarGauge=(pKpaAbs-101.325)*10;
+    return{t:t,kpa:pKpaAbs,mbar:pMbarGauge};
+  });
+  /* Compute Y-axis range with some padding. Round to nice values. */
+  var yMin=Math.min.apply(null,pts.map(function(p){return p.mbar}));
+  var yMax=Math.max.apply(null,pts.map(function(p){return p.mbar}));
+  var yRange=yMax-yMin;
+  var yPad=yRange*0.15||20;
+  var yLo=yMin-yPad,yHi=yMax+yPad;
+  /* Round Y bounds to nearest 50 mbar for readable tick labels */
+  var yStep=yRange>400?100:yRange>200?50:yRange>80?25:10;
+  yLo=Math.floor(yLo/yStep)*yStep;
+  yHi=Math.ceil(yHi/yStep)*yStep;
+
+  /* SVG dimensions using viewBox so it scales fluidly to container width */
+  var W=820,H=340,padL=64,padR=24,padT=24,padB=46;
+  var plotW=W-padL-padR,plotH=H-padT-padB;
+  var xPos=function(t){return padL+(t-(tCenter-1.4))/2.8*plotW};
+  var yPos=function(m){return padT+(yHi-m)/(yHi-yLo)*plotH};
+
+  var svg='<svg viewBox="0 0 '+W+' '+H+'" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Equilibrium vapor pressure vs cargo temperature chart">';
+
+  /* Tank-pressure operating zones for membrane LNG carriers:
+       Green (100-200 mbar gauge): normal operating range
+       Orange (50-100 and 200-250 mbar gauge): caution / approaching limits
+     Each band clipped to the visible Y range so it doesn't extend past the plot. */
+  function drawBand(loVal, hiVal, fill, stroke){
+    var lo=Math.max(yLo,loVal), hi=Math.min(yHi,hiVal);
+    if(hi<=lo) return;
+    var yH=yPos(hi), yL=yPos(lo);
+    svg+='<rect x="'+padL+'" y="'+yH+'" width="'+plotW+'" height="'+(yL-yH)+'" fill="'+fill+'" stroke="'+stroke+'" stroke-width="0.5" stroke-dasharray="2,3"/>';
+  }
+  drawBand(50, 100, "rgba(251,146,60,0.07)", "rgba(251,146,60,0.22)");   /* orange lower */
+  drawBand(100, 200, "rgba(74,222,128,0.08)", "rgba(74,222,128,0.25)");  /* green normal */
+  drawBand(200, 250, "rgba(251,146,60,0.07)", "rgba(251,146,60,0.22)");  /* orange upper */
+
+  /* Horizontal gridlines and Y-axis tick labels */
+  for(var y=yLo;y<=yHi+0.0001;y+=yStep){
+    var yp=yPos(y);
+    svg+='<line class="evp-grid" x1="'+padL+'" y1="'+yp+'" x2="'+(W-padR)+'" y2="'+yp+'"/>';
+    svg+='<text class="evp-tick-label" x="'+(padL-8)+'" y="'+(yp+4)+'" text-anchor="end">'+Math.round(y)+'</text>';
+  }
+
+  /* Vertical gridlines at every 0.2°C data tick. X-axis labels at every 0.4°C from observed center. */
+  steps.forEach(function(d,i){
+    var t=tCenter+d;
+    var xp=xPos(t);
+    svg+='<line class="evp-grid" x1="'+xp+'" y1="'+padT+'" x2="'+xp+'" y2="'+(H-padB)+'"/>';
+    var labelThis=Math.abs(d-Math.round(d/0.4)*0.4)<0.01;
+    if(labelThis){
+      svg+='<text class="evp-tick-label" x="'+xp+'" y="'+(H-padB+16)+'" text-anchor="middle">'+t.toFixed(1)+'</text>';
+    }
+  });
+
+  /* Whole-degree reference lines drawn at their actual temperature positions, independent
+     of the 0.2°C data ticks. Allows visual anchoring at integer temperatures even when
+     observed T isn't itself near a whole degree (e.g., observed = -159.7°C still shows
+     reference lines at -161, -160, -159). Style: same stroke width as ordinary gridlines,
+     dashed (checkered) so they read as a different element, with slightly higher opacity. */
+  var tMin=tCenter-1.4, tMax=tCenter+1.4;
+  for(var wd=Math.ceil(tMin); wd<=Math.floor(tMax); wd++){
+    var xpw=xPos(wd);
+    svg+='<line class="evp-grid-whole" x1="'+xpw+'" y1="'+padT+'" x2="'+xpw+'" y2="'+(H-padB)+'"/>';
+  }
+
+  /* Axes (drawn on top of grid) */
+  svg+='<line class="evp-axis" x1="'+padL+'" y1="'+padT+'" x2="'+padL+'" y2="'+(H-padB)+'"/>';
+  svg+='<line class="evp-axis" x1="'+padL+'" y1="'+(H-padB)+'" x2="'+(W-padR)+'" y2="'+(H-padB)+'"/>';
+
+  /* Axis titles */
+  svg+='<text class="evp-axis-title" x="'+(padL+plotW/2)+'" y="'+(H-8)+'" text-anchor="middle">Cargo Temperature (\u00B0C)</text>';
+  svg+='<text class="evp-axis-title" transform="translate(16,'+(padT+plotH/2)+') rotate(-90)" text-anchor="middle">EVP (mbar gauge)</text>';
+
+  /* Vertical dashed line at observed temperature (center) */
+  var xCenter=xPos(tCenter);
+  svg+='<line class="evp-current-line" x1="'+xCenter+'" y1="'+padT+'" x2="'+xCenter+'" y2="'+(H-padB)+'"/>';
+  svg+='<text class="evp-current-label" x="'+xCenter+'" y="'+(padT-8)+'" text-anchor="middle">Observed</text>';
+
+  /* Curve path */
+  var path=pts.map(function(p,i){return(i===0?"M":"L")+xPos(p.t)+","+yPos(p.mbar)}).join(" ");
+  svg+='<path class="evp-line" d="'+path+'"/>';
+
+  /* Data points; mark the observed-T point distinctly */
+  pts.forEach(function(p){
+    var isCurrent=Math.abs(p.t-tCenter)<0.01;
+    svg+='<circle class="'+(isCurrent?"evp-point-current":"evp-point")+'" cx="'+xPos(p.t)+'" cy="'+yPos(p.mbar)+'" r="'+(isCurrent?5:3.2)+'"/>';
+  });
+
+  /* Value label at observed point, offset above it */
+  /* Value label at observed point, offset above it. The observed-T entry is the middle of the steps array. */
+  var cur=pts[Math.floor(steps.length/2)];
+  svg+='<text class="evp-point-label" x="'+xPos(cur.t)+'" y="'+(yPos(cur.mbar)-12)+'" text-anchor="middle" font-weight="700">'+Math.round(cur.mbar)+' mbar</text>';
+
+  svg+='</svg>';
+  wrap.innerHTML=svg;
 }
 
 function scrollToRef(id){var el=document.getElementById(id);if(!el)return;var d=el.closest("details");if(d)d.open=true;setTimeout(function(){el.scrollIntoView({behavior:"smooth",block:"start"})},150)}
