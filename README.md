@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="icons/icon-transparent.png" alt="LNG Cargo Properties Calculator" width="250" />
+  <a href="https://lng.ivaylokrastev.com"><img src="icons/icon-transparent.png" alt="LNG Cargo Properties Calculator" width="250" />
 </p>
 
 <h1 align="center">LNG Cargo Properties Calculator</h1>
@@ -13,7 +13,7 @@
 
 Determines the physical, energy, and gas-phase properties of an LNG cargo from a measured composition, liquid volume, and temperature. Built for cargo surveyors, terminal operators, ship officers, and commercial analysts who require high-fidelity property estimates derived from a rigorous implementation of industry-standard methods.
 
-**Live App:** **[https://lng.ivaylokrastev.com](https://lng.ivaylokrastev.com)**
+**🌐 Live App:** **[https://lng.ivaylokrastev.com](https://lng.ivaylokrastev.com)**
 > Once installed, the app works fully offline. For isolated offline workstations, you can download a [standalone HTML version](./LNG_Cargo_Properties_Calculator.html). On the next page, click the "Download raw file" icon in the top-right corner of the code box. Jump to the [Installation](#installation) section for additional information.
 
 ---
