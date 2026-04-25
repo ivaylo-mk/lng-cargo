@@ -7,7 +7,7 @@
 <p align="center">
   <a href="https://lng.ivaylokrastev.com"><img src="https://img.shields.io/badge/PWA-Ready-blue" alt="PWA" /></a>
   <a href="https://lng.ivaylokrastev.com"><img src="https://img.shields.io/badge/Offline-Ready-blue" alt="Offline" /></a>
-  <a href="https://lng.ivaylokrastev.com"><img src="https://img.shields.io/badge/Version-2.2.0-blue" alt="Version" /></a>
+  <a href="https://lng.ivaylokrastev.com"><img src="https://img.shields.io/badge/Version-2.2.1-blue" alt="Version" /></a>
   <a href="./LICENSE"><img src="https://img.shields.io/badge/License-AGPL--3.0-blue" alt="License" /></a>
 </p>
 
@@ -118,7 +118,7 @@ The calculator is designed for fully-refrigerated LNG at cargo conditions, not f
 - Average molar mass ≤ 20 kg/kmol
 - Nitrogen < 5 mol%, butanes < 5 mol%, pentanes+ < 1 mol%
 - Temperature range: −167.15 °C to −155.15 °C (extrapolated outside this range)
-- Vapor pressures near atmospheric — typical LNG carrier membrane tanks at 100–250 mbar gauge are well within scope
+- Vapor pressures near atmospheric — typical LNG carrier membrane tanks at 80–250 mbar gauge (with normal operating range 100–200 mbar gauge) are well within scope
 - C₆+ content approximated as a linear extrapolation from n-pentane (valid for typical < 0.01 mol% commercial levels)
 - Antoine vapor-pressure correlations most accurate in the 80–150 % range of each component's normal boiling point
 - CO₂ above 0.01 mol% (100 ppm) triggers a solubility flag — solid-phase CO₂ may be present
@@ -158,7 +158,7 @@ Use of this software within a single organization, without redistribution or mod
 You are free to use this calculator in your operational and professional work, including within commercial companies and operations, without requiring additional permission from the author, as long as you are not redistributing or modifying the software.
 
 **Modifications and Network Use:**  
-If you modify this software and make it available to others—including as a hosted network service—you must:
+If you modify this software and make it available to others — including as a hosted network service — you must:
 - retain the original copyright and attribution notices, and  
 - provide access to the complete corresponding source code under the same AGPL-3.0 license.
 
@@ -171,6 +171,10 @@ The embedded JetBrains Mono font is licensed separately under the SIL Open Font 
 ---
 
 ## Changelog
+
+### Version 2.2.1
+- Install banner widened on desktop to match the calculator's content area (1200 px max-width, previously 600 px)
+- README polish: corrected typical membrane-carrier operating-pressure range to match the EVP Sensitivity Curve chart
 
 ### Version 2.2.0
 - **New: EVP Sensitivity Curve.** A graph of equilibrium vapor pressure versus cargo temperature, spanning ±1.4 °C around the observed value in 0.2 °C steps, with shaded zones indicating typical membrane LNG carrier operating pressure ranges (green for normal, orange for caution). Allows an at-a-glance read of how tank pressure will respond to heat ingress or active cooling during the voyage — useful for operational planning on board. Lives in a new collapsible panel between Calculation Results and Intermediate Values, open by default. Now included in the printed cargo report (page 4 of 5).

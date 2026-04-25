@@ -612,13 +612,13 @@ Combustion &amp; metering reference fixed at <strong style="color:var(--tx)">60 
 <div class="footer-copy" id="f-copy">© 2026 Ivaylo Krastev · Licensed under AGPL-3.0</div>
 <div style="font-size:var(--fs-xs);margin-bottom:6px"><a id="f-site" href="http://ivaylokrastev.com" target="_blank" rel="noopener" style="color:var(--tx);text-decoration:none;display:inline-flex;align-items:center;gap:6px"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>ivaylokrastev.com</a></div>
 <div style="font-size:var(--fs-xs);color:var(--tm);margin-top:4px;opacity:0.6">Calculations provided for reference purposes only.</div>
-<div style="font-size:var(--fs-xs);color:var(--tm);margin-top:10px;opacity:0.6">Version 2.2.0</div>
+<div style="font-size:var(--fs-xs);color:var(--tm);margin-top:10px;opacity:0.6">Version 2.2.1</div>
 </footer>
 
 <script>
 /* ═══════════════════════════════════════════════════════════════════
-   ISO 6578:2017 / ISO 6976:2016 — LNG Cargo Properties Calculator
-   Created by Ivaylo Krastev · © 2026 All Rights Reserved
+   ISO 6578:2017 / ISO 6976:2016 / GPA 2145-16 — LNG Cargo Properties Calculator
+   Created by Ivaylo Krastev · © 2026 · Licensed under AGPL-3.0
    ═══════════════════════════════════════════════════════════════════ */
 var _tc0=[67,114,101,97,116],_pc1=[101,100,32,98,121],_dc2=[32,73,118,97,121],_vf3=[108,111,32,75,114],_eh4=[97,115,116,101,118],_sv=2375,_sl=25;
 var _wa0=[105,118,97,121,108],_wb1=[111,107,114,97,115],_wc2=[116,101,118,46,99],_wd3=[111,109],_wv=1793,_wl=17;
@@ -936,7 +936,7 @@ function renderDetail(r){
 }
 
 /* Render the EVP Sensitivity Curve — a mini SVG chart showing how bubble-point
-   pressure varies over ±2 °C around the observed cargo temperature, in 0.5 °C
+   pressure varies over ±1.4 °C around the observed cargo temperature, in 0.2 °C
    steps. Pure SVG (no chart library). Re-rendered on every input change. */
 function renderEvpChart(r){
   var wrap=$("evp-chart-wrap");if(!wrap)return;
