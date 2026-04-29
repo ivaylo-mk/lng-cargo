@@ -1,5 +1,5 @@
 <p align="center">
-  <a href="https://lng.ivaylokrastev.com"><img src="icons/icon-transparent.png" alt="LNG Cargo Properties Calculator" width="250" />
+  <img src="icons/icon-transparent.png" alt="LNG Cargo Properties Calculator" width="250" />
 </p>
 
 <h1 align="center">LNG Cargo Properties Calculator</h1>
@@ -7,7 +7,7 @@
 <p align="center">
   <a href="https://lng.ivaylokrastev.com"><img src="https://img.shields.io/badge/PWA-Ready-blue" alt="PWA" /></a>
   <a href="https://lng.ivaylokrastev.com"><img src="https://img.shields.io/badge/Offline-Ready-blue" alt="Offline" /></a>
-  <a href="https://lng.ivaylokrastev.com"><img src="https://img.shields.io/badge/Version-2.2.1-blue" alt="Version" /></a>
+  <a href="https://lng.ivaylokrastev.com"><img src="https://img.shields.io/badge/Version-2.3.0-blue" alt="Version" /></a>
   <a href="./LICENSE"><img src="https://img.shields.io/badge/License-AGPL--3.0-blue" alt="License" /></a>
 </p>
 
@@ -27,6 +27,10 @@ Determines the physical, energy, and gas-phase properties of an LNG cargo from a
 **Calculation results:**
 
 ![Calculation results](screenshots/results.png)
+
+**Methane Number panel:**
+
+![Methane Number panel](screenshots/methane-number.png)
 
 **Theory and documentation panel:**
 
@@ -59,6 +63,8 @@ From three measured inputs, the tool produces twelve commercially and operationa
 11. **Boiling point** — °C at atmospheric pressure (101.325 kPa)
 12. **Equilibrium vapor pressure** — mbar gauge (+ kPa abs and bar subtitle)
 
+In addition to the twelve result cards, a dedicated **Methane Number** panel reports the gas-fuel knock resistance (EN 16726:2025 / MNc method) for use by ship engineers and dual-fuel engine operators. See the Features section below for details.
+
 ### Intermediate & additional values
 An expandable panel exposes the underlying 24 derived quantities used in the calculation chain — k₁, k₂, Vc, Hc, Zmix, summation factors, real-gas and ideal-gas GHV in multiple unit systems, Wobbe Index ideal-gas and real-gas in MJ/m³ and BTU/SCF, and others. A component contributions table shows the per-component xᵢMᵢ, xᵢVᵢ, xᵢHvᵢ, mass fractions, summation factors, and partial saturation pressures.
 
@@ -81,12 +87,13 @@ The dual-standard design means the calculator matches the way cargo Certificates
 
 ## Features
 
-- **Extensive in-app theory documentation.** Ten step-by-step derivations of every calculation, with source formulas attributed to their originating standards and clauses. Every result card has a `?` icon that scrolls to the corresponding theory step.
+- **Extensive in-app theory documentation.** Eleven step-by-step derivations of every calculation, with source formulas attributed to their originating standards and clauses. Every result card has a `?` icon that scrolls to the corresponding theory step.
+- **Methane Number panel.** Computes the gas-fuel methane number (EN 16726:2025 Annex A / MNc method) from the LNG composition, with a color-coded indicator (green / amber / red) against typical engine minimums. Includes an "Engine Impact" reference table explaining what each MN range means operationally (full power vs derating vs diesel-mode transfer) and a reference table of indicative MN minimums by manufacturer (MAN, Wärtsilä, WinGD, Rolls-Royce / Bergen) for quick comparison. Useful for ship engineers and dual-fuel engine operators making fuel-quality assessments alongside cargo accounting work — applies to both direct-drive arrangements (e.g., ME-GI, X-DF main engines) and electric arrangements (DFDE / TFDE with dual-fuel medium-speed gensets). The implementation has been validated against the LNG-relevant reference compositions in EN 16726 Annex A Table A.10, agreeing to within 1 MN unit.
 - **EVP Sensitivity Curve.** A graph panel showing the equilibrium vapor pressure across a ±1.4 °C window around the observed cargo temperature, with shaded zones indicating the typical membrane LNG carrier tank-pressure operating range. Helps surveyors and officers anticipate tank pressure response to heat ingress or active cooling during the voyage.
 - **Full unit-system coverage.** Every quantity where multiple conventions exist (MJ/kg, kWh/kg, MMBTU/tonne, Btu/lb; MJ/m³, kWh/Sm³, BTU/SCF; Sm³, Nm³, SCF) is computed and exposed.
 - **Real-gas correction** using the compression factor Z from ISO 6976:2016 Table 2 summation factors (or GPA 2145-16 equivalents).
 - **Sanity warnings.** Out-of-scope cargo temperature, composition summation deviation, and excess CO₂ content (solubility flag at 100 ppm) trigger visible warnings without blocking calculation.
-- **Clean printout.** Browser print produces a five-page cargo report (Molar Composition · Cargo Parameters · Calculation Results · EVP Sensitivity Curve · Intermediate Values) with "Calculations provided for reference purposes only." in the page footer.
+- **Clean printout.** Browser print produces a six-page cargo report (Molar Composition · Cargo Parameters · Calculation Results · EVP Sensitivity Curve · Methane Number · Intermediate Values) with "Calculations provided for reference purposes only." in the page footer.
 - **Offline-first.** Once loaded, the app runs entirely in-browser with no network dependency. Installable as a PWA on Windows, macOS, Linux, Android, and iOS for quick access.
 - **Locale-robust inputs.** Liquid volume accepts both US notation (`145,000`) and European notation (`145.000` or `145 000`).
 - **Embedded JetBrains Mono font** for consistent, legible typography of numerical data across every device and operating system.
@@ -168,9 +175,17 @@ If you wish to use this software without the obligations of the AGPL (for exampl
 **Third-Party Components:**  
 The embedded JetBrains Mono font is licensed separately under the SIL Open Font License 1.1. Its license notice is preserved in the application source and is distinct from the AGPL license covering the calculator code.
 
+The Methane Number calculation (introduced in v2.3.0) embeds a JavaScript implementation of the EN 16726 / MNc method by Joaquín Torrens, distributed under the MIT License (2024). The MIT license terms apply only to that specific section of the source code; the surrounding calculator code remains licensed under AGPL-3.0. The MIT copyright notice and license text are preserved inline in the application source. The method itself is documented by EUROMOT and codified in EN 16726:2025 Annex A — independent of any specific implementation.
+
 ---
 
 ## Changelog
+
+### Version 2.3.0
+- **New: Methane Number panel.** Computes the methane number of the LNG composition per **EN 16726:2025 Annex A** (the MNc method, based on the original AVL approach with the 2005 and 2011 MWM amendments). Lives in a new collapsible panel between the EVP Sensitivity Curve and Intermediate Values, open by default. Includes a colour-coded indicator with bands aligned to the EN 16726:2025 framing (red < 65, amber 65–80, green > 80), a "Methane Number Performance Impact" reference table explaining the operational implications of the MN value, and an indicative MN-minimums table for major marine dual-fuel engine families (MAN, Wärtsilä, WinGD, Rolls-Royce / Bergen). The implementation has been validated against the LNG-relevant reference compositions in EN 16726 Annex A Table A.10, agreeing to within 1 MN unit. Now included in the printed cargo report (page 5 of 6).
+- **Theory Step 11 added.** Walks through what the Methane Number measures, how the MNc method calculates it (with attribution to the MWM amendments credited within EN 16726 Annex A), how it compares to the AVL Methane 3.20 method that some OEMs (notably WinGD) reference, and the operational interpretation including the EN 16726:2025 baseline of MN ≥ 70 with explicit fallback to ≥ 65 for exemptions including LNG terminals (Table 1, Note 5) and the related informative Annex L. Applies to both direct-drive arrangements (e.g., ME-GI, X-DF main engines) and electric arrangements (DFDE / TFDE with dual-fuel medium-speed gensets).
+- **Footer:** Added "Source Code" link with GitHub icon next to the website link for direct access to the project repository.
+- **Performance:** Methane Number calculation is debounced (250 ms) to keep the calculator responsive during active typing.
 
 ### Version 2.2.1
 - Install banner widened on desktop to match the calculator's content area (1200 px max-width, previously 600 px)

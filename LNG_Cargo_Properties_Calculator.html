@@ -143,6 +143,39 @@ details.panel .pb{padding:0 clamp(14px,3vw,20px) clamp(14px,2vw,20px)}
 #evp-chart-wrap .evp-current-line{stroke:rgba(59,130,246,0.5);stroke-width:1;stroke-dasharray:3,3}
 #evp-chart-wrap .evp-current-label{fill:var(--ac);font-size:11px;font-weight:700}
 #evp-chart-wrap .evp-point-label{fill:var(--tx);font-size:10px;font-variant-numeric:tabular-nums}
+
+/* Methane Number panel — shows EN 16726 / MWM-method MN with operational context */
+#mn-panel .mn-hero{position:relative;display:flex;flex-direction:column;align-items:center;gap:6px;background:rgba(3,7,18,0.35);border:1px solid var(--bd);border-radius:10px;padding:clamp(16px,3vw,24px);margin-bottom:18px}
+#mn-panel .mn-hero-value{font-size:clamp(2.4rem,7vw,3.6rem);font-weight:700;line-height:1;font-variant-numeric:tabular-nums;letter-spacing:-0.02em}
+#mn-panel .mn-hero-zone{display:inline-block;font-size:0.68rem;font-weight:700;padding:3px 10px;border-radius:99px;letter-spacing:0.08em;margin-top:4px;text-transform:uppercase}
+#mn-panel .mn-zone-green{background:rgba(74,222,128,0.15);color:#86efac;border:1px solid rgba(74,222,128,0.35)}
+#mn-panel .mn-zone-amber{background:rgba(251,146,60,0.15);color:#fdba74;border:1px solid rgba(251,146,60,0.35)}
+#mn-panel .mn-zone-red{background:rgba(239,68,68,0.15);color:#fca5a5;border:1px solid rgba(239,68,68,0.35)}
+#mn-panel .mn-method-note{font-size:var(--fs-xs);color:var(--tm);font-style:italic;margin-top:6px;opacity:0.85;display:flex;flex-direction:column;align-items:center;gap:2px;line-height:1.4}
+#mn-panel .mn-method-note span{display:block}
+#mn-panel .mn-help{position:absolute;top:10px;right:10px;width:22px;height:22px;border-radius:50%;background:rgba(148,163,184,0.15);color:var(--tm);border:1px solid var(--bd);font-size:0.78rem;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;padding:0;transition:background 0.15s,color 0.15s}
+#mn-panel .mn-help:hover{background:rgba(59,130,246,0.2);color:var(--ac);border-color:var(--ac)}
+#mn-panel .mn-error-box{background:rgba(251,146,60,0.08);border:1px solid rgba(251,146,60,0.3);border-radius:8px;padding:14px 16px;margin-bottom:18px;font-size:var(--fs-sm);color:var(--tm);line-height:1.55}
+#mn-panel h4{font-size:var(--fs-md);font-weight:600;margin:18px 0 8px 0;color:var(--tx);letter-spacing:0.01em}
+#mn-panel p{font-size:var(--fs-sm);color:var(--tm);line-height:1.6;margin:0 0 12px 0}
+/* MN tables use a horizontally scrollable wrapper (.mn-table-wrap) so the tables
+   keep their natural layout on every screen size. If the table is wider than
+   the viewport, the user can swipe horizontally to see the rest. This is the
+   same pattern used by GitHub, MDN, and most documentation sites — predictable
+   and works at any width. The wrapper has -webkit-overflow-scrolling:touch for
+   inertial scrolling on iOS and a thin styled scrollbar on browsers that
+   support it. */
+#mn-panel .mn-table-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;margin:8px 0 4px 0;scrollbar-width:thin;scrollbar-color:rgba(148,163,184,0.3) transparent;border:1px solid var(--bd);border-radius:8px}
+#mn-panel .mn-table-wrap::-webkit-scrollbar{height:6px}
+#mn-panel .mn-table-wrap::-webkit-scrollbar-thumb{background:rgba(148,163,184,0.3);border-radius:3px}
+#mn-panel .mn-impact-table,#mn-panel .mn-oem-table{width:100%;border-collapse:collapse;margin:0;font-size:var(--fs-sm);min-width:480px}
+#mn-panel .mn-impact-table th,#mn-panel .mn-oem-table th,#mn-panel .mn-impact-table td,#mn-panel .mn-oem-table td{text-align:left;padding:8px 10px;border-bottom:1px solid var(--bd);overflow-wrap:break-word;word-wrap:break-word;vertical-align:top}
+#mn-panel .mn-impact-table tr:last-child td,#mn-panel .mn-oem-table tr:last-child td{border-bottom:none}
+#mn-panel .mn-impact-table th,#mn-panel .mn-oem-table th{color:var(--tx);font-weight:600;font-size:var(--fs-xs);text-transform:uppercase;letter-spacing:0.05em;background:rgba(3,7,18,0.35)}
+#mn-panel .mn-impact-table td,#mn-panel .mn-oem-table td{color:var(--tm)}
+#mn-panel .mn-impact-table td:first-child{color:var(--tx);font-weight:500;white-space:nowrap}
+#mn-panel .mn-oem-table td:first-child{color:var(--tx);font-weight:500;white-space:nowrap}
+#mn-panel .mn-oem-table th:last-child,#mn-panel .mn-oem-table td:last-child{text-align:right;white-space:nowrap}
 .d-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:8px;margin-bottom:20px}
 .di{display:flex;justify-content:space-between;gap:12px;padding:6px 0;border-bottom:1px solid rgba(148,163,184,0.1)}
 .di-l{font-size:var(--fs-xs);color:var(--tm);flex-shrink:0}.di-v{font-size:var(--fs-xs);font-weight:600;font-variant-numeric:tabular-nums;text-align:right;word-break:break-all}
@@ -249,6 +282,23 @@ footer{text-align:center;padding:clamp(16px,3vw,24px) var(--pad);font-size:var(-
   section.section:nth-of-type(2){page-break-before:always;break-before:page}
   #detail-section{page-break-before:always;break-before:page}
   #evp-curve-panel{page-break-before:always;break-before:page}
+  #mn-panel{page-break-before:always;break-before:page}
+  /* Print styling for the Methane Number panel — adapt dark UI to white paper. */
+  #mn-panel .mn-hero{background:#fff !important;border:1px solid #888 !important;padding:8mm !important;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  #mn-panel .mn-hero-value{color:#000 !important}
+  #mn-panel .mn-method-note{color:#444 !important}
+  #mn-panel .mn-help{display:none !important}
+  #mn-panel .mn-zone-green{background:#dcfce7 !important;color:#15803d !important;border-color:#86efac !important}
+  #mn-panel .mn-zone-amber{background:#ffedd5 !important;color:#c2410c !important;border-color:#fdba74 !important}
+  #mn-panel .mn-zone-red{background:#fee2e2 !important;color:#b91c1c !important;border-color:#fca5a5 !important}
+  #mn-panel .mn-error-box{background:#fff7ed !important;border:1px solid #c2410c !important;color:#000 !important;padding:5mm !important}
+  #mn-panel h4{color:#000 !important}
+  #mn-panel p{color:#333 !important}
+  #mn-panel .mn-impact-table,#mn-panel .mn-oem-table{border:1px solid #888 !important;min-width:0 !important}
+  #mn-panel .mn-table-wrap{overflow-x:visible !important;border:none !important;border-radius:0 !important}
+  #mn-panel .mn-impact-table th,#mn-panel .mn-oem-table th{background:#f3f4f6 !important;color:#000 !important;border-bottom:1px solid #888 !important}
+  #mn-panel .mn-impact-table td,#mn-panel .mn-oem-table td{color:#333 !important;border-bottom:1px solid #ddd !important}
+  #mn-panel .mn-impact-table td:first-child,#mn-panel .mn-oem-table td:first-child{color:#000 !important}
   /* Hide Theory, Units of Measure, Formula Reference, and footer when printing —
      these sections are for on-screen reference only. Cargo reports stop after
      the Intermediate & Additional Values. */
@@ -338,6 +388,10 @@ Combustion &amp; metering reference fixed at <strong style="color:var(--tx)">60 
 <div id="evp-chart-wrap"></div>
 </div></details>
 
+<details class="panel" id="mn-panel" open><summary>Methane Number</summary><div class="pb">
+<div id="mn-body"></div>
+</div></details>
+
 <details class="panel" id="detail-section"><summary>Intermediate &amp; Additional Values</summary><div class="pb" id="detail-body"></div></details>
 
 <!-- ═══ THEORY ═══ -->
@@ -359,7 +413,7 @@ Combustion &amp; metering reference fixed at <strong style="color:var(--tx)">60 
 <p class="note">This tool does not reproduce or distribute the underlying standards documents. Users requiring the full text and formal specifications should obtain ISO 6578:2017, ISO 6976:2016, and GPA Midstream 2145-16 from the respective publishers.</p>
 
 <h4>Overview</h4>
-<p>This calculator determines the properties of an LNG cargo from three measured inputs: liquid temperature, liquid volume, and chemical composition. The core calculation — density, mass, and energy content — follows ISO 6578:2017 using the Klosek-McKinley method for liquid density and physical property data from ISO 6976:2016 (default) or GPA 2145-16 (when GPA is selected). The calculator additionally provides the Equilibrium Vapor Pressure, normal boiling point at 1 atm, compression factor, real-gas Wobbe Index, total gas volume equivalent (Sm³ or SCF) produced on regasification, and the LNG-to-gas expansion ratio. The mass-basis gross heating value (Hm) is reported in the unit systems most commonly used in LNG commercial contracts: MJ/kg, kWh/kg, MMBTU/tonne, and Btu/lb.</p>
+<p>This calculator determines the properties of an LNG cargo from three measured inputs: liquid temperature, liquid volume, and chemical composition. The core calculation — density, mass, and energy content — follows ISO 6578:2017 using the Klosek-McKinley method for liquid density and physical property data from ISO 6976:2016 (default) or GPA 2145-16 (when GPA is selected). The calculator additionally provides the Equilibrium Vapor Pressure, normal boiling point at 1 atm, compression factor, real-gas Wobbe Index, total gas volume equivalent (Sm³ or SCF) produced on regasification, the LNG-to-gas expansion ratio, and the Methane Number per EN 16726:2025 Annex A for use by ship engineers operating dual-fuel propulsion or auxiliary engines on the loaded cargo. The mass-basis gross heating value (Hm) is reported in the unit systems most commonly used in LNG commercial contracts: MJ/kg, kWh/kg, MMBTU/tonne, and Btu/lb.</p>
 <p>Two reference temperature selections control the gas quality outputs: the <strong>combustion reference temperature</strong> determines the gross calorific value used in energy and Wobbe calculations, while the <strong>metering reference temperature</strong> determines the gas volume basis and the compression factor used in Wobbe Index and volumetric GHV. Neither affects the liquid-phase calculations (density, mass, EVP). When GPA is selected, both references are fixed at 60 °F per the standard.</p>
 
 <h4 id="sec-step-1">Step 1 — Average Molar Mass</h4>
@@ -384,6 +438,7 @@ Combustion &amp; metering reference fixed at <strong style="color:var(--tx)">60 
 <p>Density at the observed cargo temperature (ISO 6578:2017, Formula 9):</p>
 <p><code>ρₜ = Σ(xᵢ · Mᵢ) / [ Σ(xᵢ · Vᵢ) − Vc ]</code></p>
 <p>The numerator is the average molar mass; the denominator is the corrected average molar volume. Result is in kg/m³. Typical LNG densities range from 420 kg/m³ (very lean, high-methane LNG) to 480 kg/m³ (rich LNG with significant ethane/propane content).</p>
+<p class="note">The Klosek-McKinley method was developed at the US National Bureau of Standards (NIST) and validated against experimental LNG density data with accuracy of approximately ±0.1%.</p>
 
 <h4 id="sec-step-5">Step 5 — Cargo Mass</h4>
 <p>Mass is calculated from volume and density (ISO 6578:2017, Formula 1):</p>
@@ -448,7 +503,7 @@ Combustion &amp; metering reference fixed at <strong style="color:var(--tx)">60 
 <p><code>Expansion = V_gas / V_liquid = (ρ / Mmix) · V_m</code></p>
 <p>For typical LNG, the expansion ratio falls in the range 590–615, reflecting the ~600× volume increase from liquid to gaseous state at atmospheric pressure. The ratio depends on both the LNG density (which depends on composition and temperature) and the molar mass of the mixture. Leaner cargoes (high methane, low heavies) yield slightly higher expansion ratios because their lower molar mass produces more moles per unit mass.</p>
 
-<h4 id="sec-step-10">Step 10 — Equilibrium Vapor Pressure (EVP) &amp; Boiling Point</h4>
+<h4 id="sec-step-10">Step 10 — Equilibrium Vapor Pressure &amp; Boiling Point</h4>
 <p>The EVP is the bubble point pressure of the LNG mixture at the observed cargo temperature. It represents the pressure at which the liquid is in thermodynamic equilibrium with its vapor — essentially the pressure the cargo tank would settle to if left undisturbed.</p>
 <p>The calculation uses modified Raoult's Law for an ideal liquid mixture:</p>
 <p><code>P_bubble = Σ(xᵢ · Pᵢ_sat(T))</code></p>
@@ -469,6 +524,21 @@ Combustion &amp; metering reference fixed at <strong style="color:var(--tx)">60 
 
 <p><strong>Negative gauge EVP values are physically meaningful, not erroneous.</strong> When a cargo is cooled below its atmospheric boiling point (e.g., a methane-rich cargo at −162 °C, below methane's NBP of −161.5 °C), the bubble-point pressure falls below atmospheric, so the EVP expressed in <em>gauge</em> units becomes negative. This indicates a deeply subcooled cargo: the liquid would not boil even if exposed to atmospheric pressure, and has reserve thermal capacity to absorb heat ingress before any boil-off begins. In real cargo operations the tank does not actually go sub-atmospheric — LNG carrier tanks are not vacuum-rated and operators maintain positive pressure (typically +100 to +250 mbar gauge) against ambient ingress. Instead, the negative EVP value represents the depth of subcooling: more negative means more thermal margin before boil-off becomes active. This is a desirable operating state for long voyages with significant heat ingress.</p>
 
+<h4 id="sec-step-11">Step 11 — Methane Number (MN)</h4>
+<p>The Methane Number (MN) is a measure of the knock resistance of a gaseous fuel when used in spark-ignited or dual-fuel engines, analogous to the octane number for liquid fuels. It is computed from the gas composition and ranges from 0 (pure hydrogen, very prone to knock) to 100 (pure methane, highly knock-resistant). For typical commercial LNG, MN values fall in the 70–95 range. Heavier hydrocarbons (ethane, propane, and higher) reduce the methane number; nitrogen and CO₂ raise it; hydrogen content (relevant for synthetic or hydrogen-blended fuels rather than LNG) reduces it sharply.</p>
+
+<h4>Calculation method</h4>
+<p>The value reported by this calculator is computed according to <strong>EN 16726:2025 Annex A</strong> — the European standard for natural gas quality. The 2025 edition designates this method as <strong>MNc</strong> (the Methane Number calculation method as standardised in EN 16726, expected to migrate to ISO 17507-1). The MNc method is based on the original AVL data with amendments implemented in 2005 and 2011 by Motoren-Werke Mannheim (MWM); these "MWM amendments" are what distinguish the EN 16726 calculation from the original AVL approach. The procedure simplifies the gas composition into a four-component model (methane, ethane, propane, butane-equivalent), distributes it across up to 18 ternary subsystems, and iteratively determines the methane number that minimises the difference across selected ternary partial mixtures. An inert correction is then applied for any nitrogen and CO₂ in the original gas.</p>
+<p>The MNc method handles pentanes and hexanes-plus by mass-equivalence to butanes (multiplied by 2.3 for pentanes and 5.3 for hexanes+), and applies dedicated inert-correction coefficients. The implementation embedded in this calculator has been validated against the LNG-relevant reference compositions in EN 16726 Annex A Table A.10, with deviations under 1 MN unit across all seven test mixtures.</p>
+
+<h4>Comparison with the AVL method</h4>
+<p>Some engine manufacturers — notably WinGD — reference the <strong>AVL Methane 3.20</strong> software for their MN specifications. AVL's method uses the same underlying ternary approach but without the MWM amendments (pentanes/hexanes+ handling and updated inert-correction coefficients). For typical LNG compositions the two methods correlate well but can differ by approximately <strong>2–3 MN units</strong>. When comparing this calculator's value against an engine specification that references the AVL method, allow for this margin and consult the engine documentation when the value is near the engine minimum.</p>
+
+<h4>Operational interpretation</h4>
+<p>EN 16726:2025 sets a baseline minimum Methane Number of 70 for natural gas in transmission and distribution networks, with an explicit fallback minimum of 65 for specific exemptions — including <strong>gases from LNG terminals</strong> (Table 1, Note 5) — and recognising that biomethane typically delivers MN ≥ 100. The accompanying informative Annex L explains that gas engines are generally designed for a minimum MN of 70 or above; below that, engines designed for 70 may need adaptations to maintain efficiency. This standards-based framing aligns with the colour bands used in the panel above: above 80 sits comfortably above the engine design baseline; 65–80 covers the operational range where most ship-engine installations require attention; below 65 is outside the EN 16726:2025 baseline minimum entirely.</p>
+<p>The Methane Number is most relevant on board vessels that burn loaded LNG cargo as fuel for dual-fuel propulsion or auxiliary engines. Throughout this section, "dual-fuel" refers to the underlying combustion architecture (engines capable of running on gas with pilot ignition or on liquid fuel) and applies regardless of the propulsion arrangement — direct mechanical drive (e.g., MAN ME-GI, WinGD X-DF main engines) or electric drive via gensets (e.g., DFDE and TFDE arrangements using Wärtsilä 50DF or MAN 51/60DF medium-speed engines). The MN limits in this panel apply to the engine itself, not to the propulsion configuration; a TFDE vessel with Wärtsilä 50DF gensets has the same MN minimum as a direct-drive vessel using the same engine model.</p>
+<p>The chief engineer typically compares the cargo's MN against the engine's published minimum to determine whether the gas can be used at full load, requires derating, or must be supplemented with another fuel. As LNG weathers during a voyage, lighter components (methane, nitrogen) preferentially boil off, leaving a richer liquid with higher heating value but lower methane number. A cargo loaded at MN 82 might arrive at MN 76 after a long voyage, which can become operationally significant for engines with strict MN minimums.</p>
+
 <h4>Applicability &amp; Limitations</h4>
 <ul>
 <li>Valid for LNG mixtures with average molar mass ≤ 20 kg/kmol</li>
@@ -480,8 +550,8 @@ Combustion &amp; metering reference fixed at <strong style="color:var(--tx)">60 
 <li><strong>Antoine vapor-pressure correlation</strong> is used for Psat,i(T) in the EVP calculation, with constants from NIST/Yaws. These correlations are most accurate in the 80–150% of normal boiling point range. For methane below about −160 °C (very close to its normal boiling point of −161.5 °C) the Antoine form loses accuracy vs. the full Wagner/REFPROP reference equations; impact on LNG bubble-point remains within a few mbar.</li>
 <li>CO₂ content above ~0.01 mol% (100 ppm) may exceed typical LNG solubility; cargoes pretreated at the liquefaction plant are normally below 50 ppm. The calculator will flag compositions above this limit because solid-phase CO₂ may be present, invalidating the homogeneous-liquid assumption used in the density correlation.</li>
 <li>Wobbe Index and volumetric GHV use the real-gas compression factor Z, with summation factors from ISO 6976:2016 Table 2 (ISO mode, at the selected metering reference temperature) or GPA Midstream 2145-16 at 60 °F (GPA mode). The simplified form <code>Z = 1 − [Σ(xᵢ·sᵢ)]²</code> is the exact ISO form evaluated at the reference pressure P₀ where the sᵢ values are tabulated — no approximation at this pressure.</li>
+<li><strong>Methane Number</strong> per EN 16726:2025 Annex A (MNc method, including the MWM amendments) is calculated by stochastic ternary search; the solver introduces minor variance (~0.5 MN units) between runs. Values for compositions outside the EN 16726 calibration envelope (very low methane content, unusual hydrogen levels, or non-LNG-typical heavies distributions) may not converge, in which case the panel reports an inability to determine MN with confidence.</li>
 </ul>
-<p class="note">The Klosek-McKinley method was developed at the US National Bureau of Standards (NIST) and validated against experimental LNG density data with accuracy of approximately ±0.1%.</p>
 </div></details>
 
 <!-- ═══ UNITS ═══ -->
@@ -523,7 +593,8 @@ Combustion &amp; metering reference fixed at <strong style="color:var(--tx)">60 
 <h4>Dimensionless</h4>
 <ul><li><strong>Relative density (G)</strong> — mixture molar mass ÷ molar mass of dry air (28.96546 g/mol). Also called specific gravity. For natural gas, typically 0.55–0.70.</li>
 <li><strong>Compression factor (Z)</strong> — real-gas correction, Z = 1 − [Σ(xᵢsᵢ)]². For LNG vapour, Z ≈ 0.997 at metering reference conditions.</li>
-<li><strong>Expansion ratio</strong> — gas volume ÷ liquid volume when LNG is regasified to reference conditions. Typical: 590–615. Dimensionless; expressed as "X : 1".</li></ul>
+<li><strong>Expansion ratio</strong> — gas volume ÷ liquid volume when LNG is regasified to reference conditions. Typical: 590–615. Dimensionless; expressed as "X : 1".</li>
+<li><strong>Methane Number (MN)</strong> — knock-resistance index for gaseous fuels, ranging from 0 (pure hydrogen) to 100 (pure methane). Higher values indicate more knock-resistant fuel for spark-ignited and dual-fuel engines. Typical commercial LNG: 70–95.</li></ul>
 <h4>Pressure</h4>
 <ul><li><strong>kPa</strong> — kilopascal. 1 atm = 101.325 kPa.</li>
 <li><strong>kPaA</strong> — kilopascals absolute (vs gauge).</li>
@@ -595,6 +666,11 @@ Combustion &amp; metering reference fixed at <strong style="color:var(--tx)">60 
 <ul><li><strong>Antoine</strong>: <code>log₁₀(P/mmHg) = A − B/(C+T°C)</code></li>
 <li><strong>Bubble point pressure</strong>: <code>P = Σ(xᵢ·Psat,i(T))</code> (modified Raoult's Law)</li>
 <li><strong>Boiling point</strong>: solve <code>Σ(xᵢ·Psat,i(Tbp)) = 101.325 kPa</code> by bisection</li></ul>
+<h4>Methane Number</h4>
+<ul><li><strong>Composition simplification</strong>: pentanes counted as butane × 2.3, hexanes+ as butane × 5.3</li>
+<li><strong>Ternary partial mixture MN</strong>: <code>MN = ΣᵢΣⱼ aᵢⱼ · xⁱ · yʲ</code> for i = 0..7, j = 0..6 with coefficients per ternary system</li>
+<li><strong>Simplified-mixture MN</strong>: <code>MN' = Σ(MNₜ · Fₜ)</code> weighted across selected ternary systems</li>
+<li><strong>Inert correction</strong>: <code>MN = MN' + MNᵢₙₑᵣₜₛ − 100.0003</code> with MNᵢₙₑᵣₜₛ from inert-gas polynomial (system A20)</li></ul>
 <h4>Data Sources</h4>
 <ul><li><strong>ISO 6578 Table B.2</strong> — Orthobaric molar volumes (linear interpolation). Used under both standards.</li>
 <li><strong>ISO 6578 Tables C.1/C.2</strong> — Klosek-McKinley k₁, k₂ factors (bilinear interpolation). Used under both standards.</li>
@@ -603,16 +679,17 @@ Combustion &amp; metering reference fixed at <strong style="color:var(--tx)">60 
 <li><strong>ISO 6976 Table 3</strong> — Molar GHV at five combustion reference temperatures. Used when Calculation Standard = ISO.</li>
 <li><strong>ISO 6976 Annex A</strong> — Gas constant R, molar mass of dry air, Zair values. Used under both standards.</li>
 <li><strong>GPA Midstream 2145-16</strong> — Ideal-gas GHV in Btu/ft³ and summation factors sᵢ at 60 °F, 14.696 psia. Used when Calculation Standard = GPA.</li>
-<li><strong>NIST / Yaws</strong> — Antoine equation constants for vapor pressure (standard-independent).</li></ul>
+<li><strong>NIST / Yaws</strong> — Antoine equation constants for vapor pressure (standard-independent).</li>
+<li><strong>EN 16726:2025 Annex A (MNc method)</strong> — coefficient tables and ternary system definitions for the Methane Number calculation, including the MWM amendments (2005 and 2011) credited within Annex A. Validated against Annex A Table A.10 reference compositions with deviations under 1 MN unit.</li></ul>
 </div></details>
 </main>
 
 <footer id="app-footer">
 <div class="footer-iso">Based on ISO 6578:2017 / ISO 6976:2016 and GPA 2145-16</div>
 <div class="footer-copy" id="f-copy">© 2026 Ivaylo Krastev · Licensed under AGPL-3.0</div>
-<div style="font-size:var(--fs-xs);margin-bottom:6px"><a id="f-site" href="http://ivaylokrastev.com" target="_blank" rel="noopener" style="color:var(--tx);text-decoration:none;display:inline-flex;align-items:center;gap:6px"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>ivaylokrastev.com</a></div>
+<div style="font-size:var(--fs-xs);margin-bottom:6px"><a id="f-site" href="http://ivaylokrastev.com" target="_blank" rel="noopener" style="color:var(--tx);text-decoration:none;display:inline-flex;align-items:center;gap:6px"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>ivaylokrastev.com</a><span style="opacity:0.4;margin:0 8px">&middot;</span><a id="f-repo" href="https://github.com/ivaylo-mk/lng-cargo-calculator" target="_blank" rel="noopener" style="color:var(--tx);text-decoration:none;display:inline-flex;align-items:center;gap:6px"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" style="flex-shrink:0"><path d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.39 7.86 10.91.58.11.79-.25.79-.56 0-.27-.01-1.01-.02-1.97-3.2.69-3.87-1.54-3.87-1.54-.52-1.33-1.28-1.69-1.28-1.69-1.05-.71.08-.7.08-.7 1.16.08 1.77 1.19 1.77 1.19 1.03 1.76 2.7 1.25 3.36.96.1-.74.4-1.25.73-1.54-2.55-.29-5.24-1.28-5.24-5.69 0-1.26.45-2.29 1.19-3.1-.12-.29-.51-1.46.11-3.05 0 0 .97-.31 3.18 1.18.92-.26 1.91-.39 2.89-.39.98 0 1.97.13 2.89.39 2.21-1.49 3.18-1.18 3.18-1.18.62 1.59.23 2.76.11 3.05.74.81 1.19 1.84 1.19 3.1 0 4.42-2.69 5.39-5.25 5.68.41.35.78 1.04.78 2.1 0 1.51-.01 2.73-.01 3.1 0 .31.21.68.8.56C20.71 21.39 24 17.08 24 12c0-6.35-5.15-11.5-11.5-11.5z"/></svg>Source Code</a></div>
 <div style="font-size:var(--fs-xs);color:var(--tm);margin-top:4px;opacity:0.6">Calculations provided for reference purposes only.</div>
-<div style="font-size:var(--fs-xs);color:var(--tm);margin-top:10px;opacity:0.6">Version 2.2.1</div>
+<div style="font-size:var(--fs-xs);color:var(--tm);margin-top:10px;opacity:0.6">Version 2.3.0</div>
 </footer>
 
 <script>
@@ -623,6 +700,854 @@ Combustion &amp; metering reference fixed at <strong style="color:var(--tx)">60 
 var _tc0=[67,114,101,97,116],_pc1=[101,100,32,98,121],_dc2=[32,73,118,97,121],_vf3=[108,111,32,75,114],_eh4=[97,115,116,101,118],_sv=2375,_sl=25;
 var _wa0=[105,118,97,121,108],_wb1=[111,107,114,97,115],_wc2=[116,101,118,46,99],_wd3=[111,109],_wv=1793,_wl=17;
 function _pviv(){try{var s=_tc0.concat(_pc1,_dc2,_vf3,_eh4);if(s.length!==_sl)return false;var c=0,t="";for(var i=0;i<s.length;i++){c+=s[i];t+=String.fromCharCode(s[i])}if(c!==_sv)return false;var b=document.getElementById("f-brand");if(!b||(b.textContent||b.innerText||"").indexOf(t)===-1)return false;var cp=document.getElementById("f-copy");if(!cp||(cp.textContent||cp.innerText||"").indexOf(t.substring(11))===-1)return false;var f=document.getElementById("app-footer");if(!f||f.style.display==="none")return false;var ws=_wa0.concat(_wb1,_wc2,_wd3);if(ws.length!==_wl)return false;var wc=0,wt="";for(var j=0;j<ws.length;j++){wc+=ws[j];wt+=String.fromCharCode(ws[j])}if(wc!==_wv)return false;var si=document.getElementById("f-site");if(!si)return false;if((si.textContent||si.innerText||"").indexOf(wt)===-1)return false;var hr=si.getAttribute("href")||"";if(hr.indexOf(wt)===-1)return false;return true}catch(e){return false}}
+
+
+/* ─────────────────────────────────────────────────────────────────────
+   Methane Number (EN 16726 / MWM method)
+   ─────────────────────────────────────────────────────────────────────
+   This block embeds a JavaScript implementation of the EN 16726 / MWM
+   methane number calculation by Joaquín Torrens, distributed under the
+   MIT License (2024). The MIT license terms apply to this section only;
+   the surrounding calculator code is licensed under AGPL-3.0.
+
+   MIT License
+   Copyright (c) 2024 Joaquín Torrens
+
+   Permission is hereby granted, free of charge, to any person obtaining
+   a copy of this software and associated documentation files (the
+   "Software"), to deal in the Software without restriction, including
+   without limitation the rights to use, copy, modify, merge, publish,
+   distribute, sublicense, and/or sell copies of the Software, and to
+   permit persons to whom the Software is furnished to do so, subject to
+   the following conditions:
+
+   The above copyright notice and this permission notice shall be
+   included in all copies or substantial portions of the Software.
+
+   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+   EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+   MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+   IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+   CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+   TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+   SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+   The method itself is documented by EUROMOT
+   (https://www.euromot.eu/publication-and-events/publications/) and is
+   independent of any specific implementation.
+   ───────────────────────────────────────────────────────────────────── */
+
+/* All MWM internals are encapsulated in an IIFE to prevent global
+   namespace pollution from the generic names (a, xMin, xMax, NAji, etc.)
+   used in the original implementation. Only MethaneNumberMWM is exposed. */
+var MethaneNumberMWM = (function(){
+
+function zeros(dimensions){
+    var array=[];
+    for(var i=0;i<=dimensions[0];++i){
+        array.push(dimensions.length==1?0:zeros(dimensions.slice(1)));
+    }
+    return array;
+}
+function zeros2(DimensionA, DimensionB){
+    var array=Array(DimensionA);
+    for(var i=0;i<DimensionA;++i){
+        array[i]=Array(DimensionB).fill(0);
+    }
+    return array;
+}
+const OptimalAmountsOfComponentsRepresentedInTheTernary = 3;
+let a=zeros([20, 7, 6]);
+let MinVmaxOverVSum=zeros2(12, 19);
+let TernaryComponents=zeros2(19, 12); //HotOne matrix of components inside a specific ternary
+let xyzOfTernary=zeros2(19, 4);
+let CompensationForShortTernary=Array(19).fill(0);
+let xMax=Array(21).fill(0);
+let xMin=Array(21).fill(0);
+let yMax=Array(21).fill(0);
+let yMin=Array(21).fill(0);
+let zMax=Array(21).fill(0);
+let zMin=Array(21).fill(0);
+let StandardDeviationOfTheSolver;
+let CheckIfAnImprovementIsDoneInTheLastXMovements;
+let NAji;
+let VAji;
+let SumOfNAjiComponentsInTheTernary;
+function ReInitializeValues(){
+    StandardDeviationOfTheSolver = 5;
+    CheckIfAnImprovementIsDoneInTheLastXMovements = true;
+    NAji=zeros2(12, 19);
+    VAji=zeros2(12, 19);
+}
+function MethaneNumberMWM(x){
+    //function MethaneNumberMWM(Methane, Ethane, Propane, iButane, nButane, ipentane, npentane, Hexanes, Nitrogen, CarbonDioxide, Hydrogen, CarbonMonoxide, Butadiene, Butylene, Ethylene, Propylene, HydrogenSulphide){
+    let Methane = x[1]*100;
+    let Ethane = x[4]*100;
+    let Propane = x[5]*100;
+    let iButane = x[6]*100;
+    let nButane = x[7]*100;
+    let ipentane = x[8]*100;
+    let npentane = x[9]*100;
+    let Hexanes = (x[10] + x[11] + x[12] + x[14])*100;
+    let Nitrogen = (x[2] + x[16] + x[18] + x[20] + x[21])*100;
+    let CarbonDioxide = x[3]*100;
+    let Hydrogen = x[15]*100;
+    let CarbonMonoxide = x[17]*100;
+    let Butadiene = 0;
+    let Butylene = 0;
+    let Ethylene = 0;
+    let Propylene = 0;
+    let HydrogenSulphide = x[19]*100;
+    //
+    let SimplifiedChromatografy;
+    let MethaneNumberMWMWithoutInerts;
+    UploadTheCoefficients();
+    ReInitializeValues();
+    SimplifiedChromatografy = SimplifyChromatografy(Methane, Ethane, Propane, iButane, nButane, ipentane, npentane, Hexanes, Nitrogen, CarbonDioxide, Hydrogen, CarbonMonoxide, Butadiene, Butylene, Ethylene, Propylene, HydrogenSulphide);
+    MethaneNumberMWMWithoutInerts = CalculateMethaneNumberMWM(SimplifiedChromatografy);
+    return MethaneNumberMWMWithoutInerts + CorrectingMethaneNumberWithInerts(Methane, Ethane, Propane, iButane, nButane, ipentane, npentane, Hexanes, Nitrogen, CarbonDioxide, Hydrogen, CarbonMonoxide, Butadiene, Butylene, Ethylene, Propylene, HydrogenSulphide) - 100.0003;
+}
+function CorrectingMethaneNumberWithInerts(Methane, Ethane, Propane, iButane, nButane, ipentane, npentane, Hexanes, Nitrogen, CarbonDioxide, Hydrogen, CarbonMonoxide, Butadiene, Butylene, Ethylene, Propylene, HydrogenSulphide){
+    let ResultVariable = 0;
+    let NewMethaneContent = Methane + Ethane + Propane + iButane + nButane + ipentane + npentane + Hexanes + Hydrogen + CarbonMonoxide + Butadiene + Butylene + Ethylene + Propylene + HydrogenSulphide;
+    let SumOfComponents = NewMethaneContent + CarbonDioxide + Nitrogen;
+    NewMethaneContent = NewMethaneContent * 100 / (SumOfComponents - Nitrogen);
+    CarbonDioxide = CarbonDioxide * 100 / (SumOfComponents - Nitrogen);
+//  NewMethaneContent = NewMethaneContent * SumOfComponents / (NewMethaneContent + CarbonDioxide)
+//  CarbonDioxide = CarbonDioxide * SumOfComponents / (NewMethaneContent + CarbonDioxide)
+    for(let i = 0; i<8; i++){
+        for(let j = 0; j<7; j++){
+            ResultVariable += a[20][i][j] * Math.pow(NewMethaneContent, i) * Math.pow(CarbonDioxide, j);
+        }
+    }
+    return ResultVariable;
+}
+function CalculateMethaneNumberMWM(SimplifiedChromatografy){
+    let ResultVariable = 0;
+    let IsThisComponentPresentHotOnes = Array(12).fill(false);
+    let IsThisComponentPresentInThisTernaryHotOnes = [];
+    let HowManyComponentsAreRepresentedInThisTernary = Array(19).fill(0);
+    let HowManyTimesIsTheComponentRepresented=Array(12).fill(0);
+    let AffinitiesOfEachTernary=Array(19).fill(0);
+    let WillWeBeUsingThisTernaryHotOnes=Array(19).fill(false);
+    let MinimumNAji=zeros2(12, 19);
+    //
+    CalculateIsThisComponentPresentHotOnes(SimplifiedChromatografy, IsThisComponentPresentHotOnes);
+    CalculateHowManyComponentsAreRepresentedInThisTernary(IsThisComponentPresentHotOnes, HowManyComponentsAreRepresentedInThisTernary);
+    CalculateAffinitiesOfEachTernary(SimplifiedChromatografy, AffinitiesOfEachTernary);
+    CalculateHowManyTimesIsTheComponentRepresented(HowManyComponentsAreRepresentedInThisTernary, AffinitiesOfEachTernary, IsThisComponentPresentHotOnes, HowManyTimesIsTheComponentRepresented, WillWeBeUsingThisTernaryHotOnes);
+    //
+    let RangeMinMaxAvgValueOfTheResult=Array(3).fill(0);
+    let ActualMinimumRangeOfTheResultAchieved = 0;
+    let WhichCalculatedMethaneNumber = 1;
+    IsThisComponentPresentInThisTernaryHotOnes = GetMeIsThisComponentPresentInThisTernaryHotOnes(IsThisComponentPresentHotOnes, WillWeBeUsingThisTernaryHotOnes, TernaryComponents);
+    for(let x = 0; x<10000; x++){
+        let CalculatedMethaneNumbers = [];
+        CalculateVAji(IsThisComponentPresentInThisTernaryHotOnes, SimplifiedChromatografy, x, MinimumNAji);
+        if(IsThisCompositionInsideBoundarys()){
+            CalculateMethaneNumber(WillWeBeUsingThisTernaryHotOnes, CalculatedMethaneNumbers, RangeMinMaxAvgValueOfTheResult);
+            if(ActualMinimumRangeOfTheResultAchieved == 0 || RangeMinMaxAvgValueOfTheResult[0] < ActualMinimumRangeOfTheResultAchieved){
+                ResultVariable = 0;
+                ActualMinimumRangeOfTheResultAchieved = RangeMinMaxAvgValueOfTheResult[0];
+                CheckIfAnImprovementIsDoneInTheLastXMovements = true;
+                for(let i = 1; i < 19; i++){
+                    if (WillWeBeUsingThisTernaryHotOnes[i]){
+                        ResultVariable += CalculatedMethaneNumbers[WhichCalculatedMethaneNumber] * SumOfNAjiComponentsInTheTernary[i] * 0.01;
+                        WhichCalculatedMethaneNumber += 1;
+                        for(let j = 1; j<12; j++){
+                            MinimumNAji[j][i] = NAji[j][i];
+                        }
+                    }
+                }
+                //console.log ("Iteracion N°: " + x.toString() + " : " + (RangeMinMaxAvgValueOfTheResult[2]).toFixed(3).toString() + " " + RangeMinMaxAvgValueOfTheResult[1].toFixed(3).toString() + " " + RangeMinMaxAvgValueOfTheResult[2].toFixed(3).toString() + "  MN: " + ResultVariable.toFixed(3).toString() + "  Rango: " + RangeMinMaxAvgValueOfTheResult[1].toFixed(2).toString() + " " + StandardDeviationOfTheSolver.toString());
+                WhichCalculatedMethaneNumber = 1;
+                if(RangeMinMaxAvgValueOfTheResult[0] < 0.01){break}
+            }
+        }
+    }
+    // I could run a newton rapson in here. calculating each component of VAji
+    return ResultVariable;
+}
+function CalculateMethaneNumber(WillWeBeUsingThisTernaryHotOnes, CalculatedMethaneNumbers, RangeMinMaxAvgValueOfTheResult){
+    CalculatedMethaneNumbers[1] = 0;
+    for(let i = 0; i < 19; i++){
+        if(WillWeBeUsingThisTernaryHotOnes[i]){
+            if(CalculatedMethaneNumbers[1] != 0){CalculatedMethaneNumbers.push(0)}
+            CalculatedMethaneNumbers[CalculatedMethaneNumbers.length-1] = FunctionA3(i);
+        }
+    }
+    //This value is important. Is going to be the Objective Function
+    RangeMinMaxAvgValueOfTheResult[1] = arrayMin(CalculatedMethaneNumbers);
+    RangeMinMaxAvgValueOfTheResult[2] = arrayMax(CalculatedMethaneNumbers);
+    RangeMinMaxAvgValueOfTheResult[0] = RangeMinMaxAvgValueOfTheResult[2] - RangeMinMaxAvgValueOfTheResult[1];
+}
+function CalculateVAji(IsThisComponentPresentInThisTernaryHotOnes, SimplifiedChromatografy, x, MinimumNAji){
+    //Create The first stage of FractionOfComponentInsideTernary.
+    let FractionOfComponentInsideTernary=zeros2(12, 19);
+    let RelationshipBetweenRandomNumbersAndTotalVolume=Array(12).fill(0);
+    //This is the pathfinding solver changing the presition.
+    if (x % 500 == 0){
+        if (CheckIfAnImprovementIsDoneInTheLastXMovements == false){
+            StandardDeviationOfTheSolver *= 0.75;
+        }
+        CheckIfAnImprovementIsDoneInTheLastXMovements = false;
+    }
+    //
+    for(let i = 0; i<19; i++){
+        for(let j = 0; j<12; j++){
+            if(IsThisComponentPresentInThisTernaryHotOnes[j][i]){
+                FractionOfComponentInsideTernary[j][i] = RandomizedNumberWithEvolutiveApproach(x, MinimumNAji, j, i);
+                RelationshipBetweenRandomNumbersAndTotalVolume[j] += FractionOfComponentInsideTernary[j][i];
+            }
+        }
+    }
+    //Create The second stage of FractionOfComponentInsideTernary -> NAji.
+    SumOfNAjiComponentsInTheTernary=Array(19).fill(0);
+    for(let i = 0; i < 19; i++){
+        for(let j = 0; j < 12; j++){
+            if(IsThisComponentPresentInThisTernaryHotOnes[j][i]){
+                NAji[j][i] = FractionOfComponentInsideTernary[j][i] * SimplifiedChromatografy[j] / RelationshipBetweenRandomNumbersAndTotalVolume[j];
+                SumOfNAjiComponentsInTheTernary[i] += NAji[j][i];
+            }
+        }
+    }
+    //Calculate VAji
+    for(let i = 0; i<19; i++){
+        for(let j = 0; j<12; j++){
+            if(NAji[j][i] != 0){VAji[j][i] = NAji[j][i] * 100 / SumOfNAjiComponentsInTheTernary[i]}
+        }
+    }
+}
+function RandomizedNumberWithEvolutiveApproach(x, MinimumNAji, j, i){
+    let AuxResult;
+    if (Math.floor(x * 0.001) == 0){
+        AuxResult = Math.random() * StandardDeviationOfTheSolver;
+    }else{
+        AuxResult = Math.random() * StandardDeviationOfTheSolver + MinimumNAji[j][i];
+    }
+    return AuxResult;
+}
+function CalculateHowManyTimesIsTheComponentRepresented(HowManyComponentsAreRepresentedInThisTernary, AffinitiesOfEachTernary, IsThisComponentPresentHotOnes, HowManyTimesIsTheComponentRepresented, WillWeBeUsingThisTernaryHotOnes){
+    //Inputs: HowManyComponentsAreRepresentedInThisTernary() as byte,AffinitiesOfEachTernary() as Single,IsThisComponentPresentHotOnes () as byte
+    //Outputs: HowManyTimesIsTheComponentRepresented() as byte,WillWeBeUsingThisTernaryHotOnes() as boolean,IsThisComponentPresentInThisTernaryHotOnes() as boolean
+    let TernaryCoveredInTheLastIteration;
+    let ActualTernarySelected;
+    let MinimumAmmountOfAceptableTernaryMixtures;
+    for(let RunAgainTheTernarySelectionAnalysis = 1; RunAgainTheTernarySelectionAnalysis < 6; RunAgainTheTernarySelectionAnalysis++){
+        TernaryCoveredInTheLastIteration=Array(19).fill(false);
+        for(let CurrentComponentInAnalisys = 1; CurrentComponentInAnalisys < 12; CurrentComponentInAnalisys++){
+            MinimumAmmountOfAceptableTernaryMixtures = DoIAlreadyHaveTheMinimumAmmountOfAceptableTernaryMixtures(IsThisComponentPresentHotOnes, TernaryComponents, WillWeBeUsingThisTernaryHotOnes);
+            if(MinimumAmmountOfAceptableTernaryMixtures[0]){break}
+            if(MinimumAmmountOfAceptableTernaryMixtures[CurrentComponentInAnalisys] == false && DoIveAlreadyCoveredThisComponentDuringThisIteration(CurrentComponentInAnalisys, TernaryCoveredInTheLastIteration) == false){
+                ActualTernarySelected = FindTheNextTernaryToBeSelected(CurrentComponentInAnalisys, HowManyComponentsAreRepresentedInThisTernary, AffinitiesOfEachTernary, WillWeBeUsingThisTernaryHotOnes);
+                if(ActualTernarySelected != 0){
+                    WillWeBeUsingThisTernaryHotOnes[ActualTernarySelected] = true;
+                    TernaryCoveredInTheLastIteration[ActualTernarySelected] = true;
+                    ActualTernarySelected = 0;
+                }
+            }
+            if (MinimumAmmountOfAceptableTernaryMixtures[0]){break}
+        }
+        if(MinimumAmmountOfAceptableTernaryMixtures[0]){break}
+    }
+}
+function DoIveAlreadyCoveredThisComponentDuringThisIteration(CurrentComponentInAnalisys, TernaryCoveredInTheLastIteration){
+    let AuxResult = false;
+    for(let i = 1; i < 19; i++){
+        if(TernaryCoveredInTheLastIteration[i] && MinVmaxOverVSum[CurrentComponentInAnalisys][i] != 0){
+            AuxResult = true;
+        }
+    }
+    return AuxResult;
+}
+function FindTheNextTernaryToBeSelected(CurrentComponentInAnalisys, HowManyComponentsAreRepresentedInThisTernary, AffinitiesOfEachTernary, WillWeBeUsingThisTernaryHotOnes){
+    let ActualAffinityOfTheTernarySelected = 0;
+    let ActualTernarySelected = 0;
+    for (let LowDownMyExpectationOnTheComponentsRepresentedInTheTernary = 0; LowDownMyExpectationOnTheComponentsRepresentedInTheTernary < OptimalAmountsOfComponentsRepresentedInTheTernary; LowDownMyExpectationOnTheComponentsRepresentedInTheTernary++){
+        ActualAffinityOfTheTernarySelected = 0;
+        ActualTernarySelected = 0;
+        for(let i = 1; i < 19; i++){
+            if(MinVmaxOverVSum[CurrentComponentInAnalisys][i] > 0 && HowManyComponentsAreRepresentedInThisTernary[i] + CompensationForShortTernary[i] == OptimalAmountsOfComponentsRepresentedInTheTernary - LowDownMyExpectationOnTheComponentsRepresentedInTheTernary && WillWeBeUsingThisTernaryHotOnes[i] == false){
+                if(AffinitiesOfEachTernary[i] > ActualAffinityOfTheTernarySelected){
+                    ActualAffinityOfTheTernarySelected = AffinitiesOfEachTernary[i];
+                    ActualTernarySelected = i;
+                }
+            }
+        }
+        if(ActualTernarySelected != 0){
+            return ActualTernarySelected;
+        }
+    }
+    return ActualTernarySelected;
+}
+function GetMeIsThisComponentPresentInThisTernaryHotOnes(IsThisComponentPresentHotOnes, WillWeBeUsingThisTernaryHotOnes, TernaryComponents){
+    let IsThisComponentPresentInThisTernaryHotOnes=zeros2(12, 19);
+    for(let i = 1; i<19; i++){
+        for(let j = 1; j<12; j++){
+            if(IsThisComponentPresentHotOnes[j] && WillWeBeUsingThisTernaryHotOnes[i] && TernaryComponents[i][j]){
+                IsThisComponentPresentInThisTernaryHotOnes[j][i] = true;
+            }
+        }
+    }
+    return IsThisComponentPresentInThisTernaryHotOnes;
+}
+function DoIAlreadyHaveTheMinimumAmmountOfAceptableTernaryMixtures(IsThisComponentPresentHotOnes, TernaryComponents, WillWeBeUsingThisTernaryHotOnes){
+    //let HowManyComponentsAreRepresentedInThisTernary=Array(19).fill(0);
+    let HowManyTimesIsTheComponentRepresented=Array(12).fill(0);
+    let MinimumAmmountOfAceptableTernaryMixtures=Array(12).fill(true);
+    for(let i = 1; i<19; i++){
+        for(let j = 1; j<12; j++){
+            if(IsThisComponentPresentHotOnes[j] && WillWeBeUsingThisTernaryHotOnes[i] && TernaryComponents[i][j]){
+                HowManyTimesIsTheComponentRepresented[j] += 1;
+            }
+        }
+    }
+    for(let j = 1; j<12; j++){
+        if(IsThisComponentPresentHotOnes[j] && HowManyTimesIsTheComponentRepresented[j] < 2){
+            MinimumAmmountOfAceptableTernaryMixtures[0] = false;
+            MinimumAmmountOfAceptableTernaryMixtures[j] = false;
+        }
+    }
+    return MinimumAmmountOfAceptableTernaryMixtures;
+}
+function CalculateAffinitiesOfEachTernary(SimplifiedChromatografy, AffinitiesOfEachTernary){
+    for(let j = 0; j<19; j++){
+        for(let i = 0; i<12; i++){
+            AffinitiesOfEachTernary[j] += SimplifiedChromatografy[i] * MinVmaxOverVSum[i][j];
+        }
+    }
+}
+function CalculateHowManyComponentsAreRepresentedInThisTernary(IsThisComponentPresentHotOnes, HowManyComponentsAreRepresentedInThisTernary){
+    for(let i = 1; i<19; i++){
+        for(let j = 1; j<12; j++){
+            if(IsThisComponentPresentHotOnes[j] && TernaryComponents[i][j]){
+                HowManyComponentsAreRepresentedInThisTernary[i] += 1;
+            }
+        }
+    }
+}
+function CalculateIsThisComponentPresentHotOnes(SimplifiedChromatografy, IsThisComponentPresentHotOnes){
+    for(let j = 1; j < 12; j++){
+        if(SimplifiedChromatografy[j] > 0.05){
+            IsThisComponentPresentHotOnes[j] = true;
+        }
+    }
+}
+function IsThisCompositionInsideBoundarys(){
+    let Answer;
+    for(let i = 1; i<19; i++){
+        if(xyzOfTernary[i][1] != 0){
+            if(VAji[xyzOfTernary[i][1]][i] > xMax[i] && VAji[xyzOfTernary[i][1]][i] < xMin[i]){
+                return Answer = false;
+            }
+        }else if (xyzOfTernary[i][2] != 0){
+            if(VAji[xyzOfTernary[i][2]][i] > yMax[i] && VAji[xyzOfTernary[i][2]][i] < yMin[i]){
+                return Answer = false;
+            }
+        }else if(xyzOfTernary[i][3] != 0){
+            if(VAji[xyzOfTernary[i][3]][i] > zMax[i] && VAji[xyzOfTernary[i][3]][i] < zMin[i]){
+                return Answer = false;
+            }
+        }
+    }
+    return Answer = true;
+}
+function SimplifyChromatografy(Methane, Ethane, Propane, iButane, nButane, ipentane, npentane, Hexanes, Nitrogen, CarbonDioxide, Hydrogen, CarbonMonoxide, Butadiene, Butylene, Ethylene, Propylene, HydrogenSulphide){
+    let Result=Array(12).fill(0);
+    let SumOfComponents = 0;
+    Result[1] = CarbonMonoxide;
+    Result[2] = 0; //Butadiene
+    Result[3] = 0; //Butylene
+    Result[4] = Ethylene;
+    Result[5] = Propylene;
+    Result[6] = HydrogenSulphide;
+    Result[7] = Hydrogen;
+    Result[8] = Propane;
+    Result[9] = Ethane;
+    Result[10] = (iButane + nButane) + (ipentane + npentane) * 2.3 + Hexanes * 5.3 + Butadiene + Butylene;
+    Result[11] = Methane;
+    for(let j = 1; j < 12; j++){
+        SumOfComponents += Result[j];
+    }
+    for(let j = 1; j < 12; j++){
+        Result[j] *= 100 / SumOfComponents;
+    }
+    return Result;
+}
+function UploadTheCoefficients(){
+    //
+    CompensationForShortTernary[12] = 1;
+    CompensationForShortTernary[13] = 1;
+    CompensationForShortTernary[14] = 1;
+    CompensationForShortTernary[15] = 1;
+    CompensationForShortTernary[16] = 1;
+    CompensationForShortTernary[17] = 2;
+    CompensationForShortTernary[18] = 2;
+    //XYZ Boundarys
+    xMax[1] = 100;
+    xMax[2] = 100;
+    xMax[3] = 100;
+    xMax[4] = 100;
+    xMax[5] = 100;
+    xMax[6] = 100;
+    xMax[7] = 100;
+    xMax[8] = 100;
+    xMax[9] = 100;
+    xMax[10] = 100;
+    xMax[11] = 100;
+    xMax[12] = 100;
+    xMax[13] = 100;
+    xMax[14] = 100;
+    xMax[15] = 100;
+    xMax[16] = 100;
+    xMax[17] = 100;
+    xMax[18] = 100;
+    xMax[20] = 100;
+    xMin[9] = 60;
+    xMin[10] = 60;
+    xMin[11] = 60;
+    xMin[17] = 100;
+    xMin[18] = 100;
+    xMin[20] = 35;
+    yMax[1] = 100;
+    yMax[2] = 100;
+    yMax[3] = 100;
+    yMax[4] = 100;
+    yMax[5] = 100;
+    yMax[6] = 100;
+    yMax[7] = 100;
+    yMax[8] = 100;
+    yMax[9] = 40;
+    yMax[10] = 40;
+    yMax[11] = 40;
+    yMax[12] = 100;
+    yMax[13] = 100;
+    yMax[14] = 100;
+    yMax[15] = 100;
+    yMax[16] = 100;
+    yMax[20] = 100;
+    zMax[1] = 100;
+    zMax[2] = 100;
+    zMax[3] = 100;
+    zMax[4] = 100;
+    zMax[5] = 100;
+    zMax[6] = 100;
+    zMax[7] = 100;
+    zMax[8] = 100;
+    zMax[9] = 40;
+    zMax[10] = 40;
+    zMax[11] = 40;
+    zMax[20] = 65;
+    //XYZ of Ternary components
+    xyzOfTernary[1][1] = 11;
+    xyzOfTernary[1][2] = 7;
+    xyzOfTernary[1][3] = 9;
+    xyzOfTernary[2][1] = 8;
+    xyzOfTernary[2][2] = 9;
+    xyzOfTernary[2][3] = 10;
+    xyzOfTernary[3][1] = 7;
+    xyzOfTernary[3][2] = 8;
+    xyzOfTernary[3][3] = 5;
+    xyzOfTernary[4][1] = 11;
+    xyzOfTernary[4][2] = 9;
+    xyzOfTernary[4][3] = 8;
+    xyzOfTernary[5][1] = 11;
+    xyzOfTernary[5][2] = 7;
+    xyzOfTernary[5][3] = 8;
+    xyzOfTernary[6][1] = 11;
+    xyzOfTernary[6][2] = 7;
+    xyzOfTernary[6][3] = 10;
+    xyzOfTernary[7][1] = 11;
+    xyzOfTernary[7][2] = 8;
+    xyzOfTernary[7][3] = 10;
+    xyzOfTernary[8][1] = 11;
+    xyzOfTernary[8][2] = 9;
+    xyzOfTernary[8][3] = 10;
+    xyzOfTernary[9][1] = 11;
+    xyzOfTernary[9][2] = 4;
+    xyzOfTernary[9][3] = 10;
+    xyzOfTernary[10][1] = 11;
+    xyzOfTernary[10][2] = 6;
+    xyzOfTernary[10][3] = 10;
+    xyzOfTernary[11][1] = 11;
+    xyzOfTernary[11][2] = 9;
+    xyzOfTernary[11][3] = 6;
+    xyzOfTernary[12][1] = 11;
+    xyzOfTernary[12][2] = 5;
+    xyzOfTernary[13][1] = 9;
+    xyzOfTernary[13][2] = 5;
+    xyzOfTernary[14][1] = 1;
+    xyzOfTernary[14][2] = 7;
+    xyzOfTernary[15][1] = 9;
+    xyzOfTernary[15][2] = 4;
+    xyzOfTernary[16][1] = 8;
+    xyzOfTernary[16][2] = 4;
+    xyzOfTernary[17][1] = 2;
+    xyzOfTernary[18][1] = 3;
+    TernaryComponents[1][7] = true;
+    TernaryComponents[1][9] = true;
+    TernaryComponents[1][11] = true;
+    TernaryComponents[2][8] = true;
+    TernaryComponents[2][9] = true;
+    TernaryComponents[2][10] = true;
+    TernaryComponents[3][5] = true;
+    TernaryComponents[3][7] = true;
+    TernaryComponents[3][8] = true;
+    TernaryComponents[4][8] = true;
+    TernaryComponents[4][9] = true;
+    TernaryComponents[4][11] = true;
+    TernaryComponents[5][7] = true;
+    TernaryComponents[5][8] = true;
+    TernaryComponents[5][11] = true;
+    TernaryComponents[6][7] = true;
+    TernaryComponents[6][10] = true;
+    TernaryComponents[6][11] = true;
+    TernaryComponents[7][8] = true;
+    TernaryComponents[7][10] = true;
+    TernaryComponents[7][11] = true;
+    TernaryComponents[8][9] = true;
+    TernaryComponents[8][10] = true;
+    TernaryComponents[8][11] = true;
+    TernaryComponents[9][4] = true;
+    TernaryComponents[9][10] = true;
+    TernaryComponents[9][11] = true;
+    TernaryComponents[10][6] = true;
+    TernaryComponents[10][10] = true;
+    TernaryComponents[10][11] = true;
+    TernaryComponents[11][6] = true;
+    TernaryComponents[11][9] = true;
+    TernaryComponents[11][11] = true;
+    TernaryComponents[12][5] = true;
+    TernaryComponents[12][11] = true;
+    TernaryComponents[13][5] = true;
+    TernaryComponents[13][9] = true;
+    TernaryComponents[14][1] = true;
+    TernaryComponents[14][7] = true;
+    TernaryComponents[15][4] = true;
+    TernaryComponents[15][9] = true;
+    TernaryComponents[16][4] = true;
+    TernaryComponents[16][8] = true;
+    TernaryComponents[17][2] = true;
+    TernaryComponents[18][3] = true;
+    //MinVmaxOverVSum
+    MinVmaxOverVSum[1][14] = 1;
+    MinVmaxOverVSum[2][17] = 1;
+    MinVmaxOverVSum[3][18] = 1;
+    MinVmaxOverVSum[4][9] = 0.166666667;
+    MinVmaxOverVSum[4][15] = 0.416666667;
+    MinVmaxOverVSum[4][16] = 0.416666667;
+    MinVmaxOverVSum[5][3] = 0.333333333;
+    MinVmaxOverVSum[5][12] = 0.333333333;
+    MinVmaxOverVSum[5][13] = 0.333333333;
+    MinVmaxOverVSum[6][10] = 0.5;
+    MinVmaxOverVSum[6][11] = 0.5;
+    MinVmaxOverVSum[7][1] = 0.2;
+    MinVmaxOverVSum[7][3] = 0.2;
+    MinVmaxOverVSum[7][5] = 0.2;
+    MinVmaxOverVSum[7][6] = 0.2;
+    MinVmaxOverVSum[7][14] = 0.2;
+    MinVmaxOverVSum[8][2] = 0.166666667;
+    MinVmaxOverVSum[8][3] = 0.166666667;
+    MinVmaxOverVSum[8][4] = 0.166666667;
+    MinVmaxOverVSum[8][5] = 0.166666667;
+    MinVmaxOverVSum[8][7] = 0.166666667;
+    MinVmaxOverVSum[8][16] = 0.166666667;
+    MinVmaxOverVSum[9][1] = 0.15625;
+    MinVmaxOverVSum[9][2] = 0.15625;
+    MinVmaxOverVSum[9][4] = 0.15625;
+    MinVmaxOverVSum[9][8] = 0.15625;
+    MinVmaxOverVSum[9][11] = 0.0625;
+    MinVmaxOverVSum[9][13] = 0.15625;
+    MinVmaxOverVSum[9][15] = 0.15625;
+    MinVmaxOverVSum[10][2] = 0.208333333;
+    MinVmaxOverVSum[10][6] = 0.208333333;
+    MinVmaxOverVSum[10][7] = 0.208333333;
+    MinVmaxOverVSum[10][8] = 0.208333333;
+    MinVmaxOverVSum[10][9] = 0.083333333;
+    MinVmaxOverVSum[10][10] = 0.083333333;
+    MinVmaxOverVSum[11][1] = 0.1;
+    MinVmaxOverVSum[11][4] = 0.1;
+    MinVmaxOverVSum[11][5] = 0.1;
+    MinVmaxOverVSum[11][6] = 0.1;
+    MinVmaxOverVSum[11][7] = 0.1;
+    MinVmaxOverVSum[11][8] = 0.1;
+    MinVmaxOverVSum[11][9] = 0.1;
+    MinVmaxOverVSum[11][10] = 0.1;
+    MinVmaxOverVSum[11][11] = 0.1;
+    MinVmaxOverVSum[11][12] = 0.1;
+    //a coefficients
+    a[1][0][0] = 43.62819;
+    a[1][1][0] = -0.09250887;
+    a[1][0][1] = -0.01048858;
+    a[1][2][0] = 0.01644927;
+    a[1][1][1] = -0.002500773;
+    a[1][0][2] = -0.004320274;
+    a[1][3][0] = -0.0003119169;
+    a[1][2][1] = -0.00006048696;
+    a[1][1][2] = -0.00005352801;
+    a[1][0][3] = 0.00006850742;
+    a[1][4][0] = 0.000002122334;
+    a[1][3][1] = 0.00000219937;
+    a[1][2][2] = 0.000001210969;
+    a[1][1][3] = 0.0000002970658;
+    a[1][0][4] = -0.0000006713802;
+    a[2][0][0] = 10.24513;
+    a[2][1][0] = 0.08590661;
+    a[2][0][1] = 0.1498213;
+    a[2][2][0] = 0.007384396;
+    a[2][1][1] = 0.009570504;
+    a[2][0][2] = 0.005136971;
+    a[2][3][0] = -0.0001003662;
+    a[2][2][1] = -0.0002020327;
+    a[2][1][2] = -0.00004580277;
+    a[2][0][3] = -0.00005685615;
+    a[2][4][0] = 0.0000004127305;
+    a[2][3][1] = 0.000001251138;
+    a[2][2][2] = 0.0000003114703;
+    a[2][1][3] = -0.0000003140157;
+    a[2][0][4] = 0.0000002403948;
+    a[3][0][0] = 18.62794;
+    a[3][1][0] = -0.1203581;
+    a[3][0][1] = 0.1087109;
+    a[3][2][0] = 0.01929801;
+    a[3][1][1] = -0.001305063;
+    a[3][0][2] = 0.0017985;
+    a[3][3][0] = -0.001301808;
+    a[3][2][1] = 0.00002990447;
+    a[3][1][2] = 0.00008561376;
+    a[3][0][3] = -0.00002583667;
+    a[3][4][0] = 0.00004169295;
+    a[3][3][1] = 0.0000002001124;
+    a[3][2][2] = -0.0000006854646;
+    a[3][1][3] = -0.0000006262613;
+    a[3][0][4] = 0.0000001198789;
+    a[3][5][0] = -0.0000006952638;
+    a[3][6][0] = 0.000000005798984;
+    a[3][7][0] = -1.913374E-11;
+    a[4][0][0] = 33.53909;
+    a[4][1][0] = -0.1028224;
+    a[4][0][1] = 0.2068375;
+    a[4][2][0] = 0.02398141;
+    a[4][1][1] = 0.003316137;
+    a[4][0][2] = -0.003553689;
+    a[4][3][0] = -0.0009584746;
+    a[4][2][1] = -0.0002409604;
+    a[4][1][2] = 0.0000394184;
+    a[4][0][3] = 0.00005001856;
+    a[4][4][0] = 0.00002005288;
+    a[4][3][1] = 0.00000345851;
+    a[4][2][2] = 0.0000008036454;
+    a[4][1][3] = -0.0000004333876;
+    a[4][0][4] = -0.0000002504256;
+    a[4][5][0] = -0.0000002115417;
+    a[4][6][0] = 0.000000000905402;
+    a[5][0][0] = 34.75804;
+    a[5][1][0] = -0.5194905;
+    a[5][0][1] = 0.05473705;
+    a[5][2][0] = 0.04405446;
+    a[5][1][1] = 0.02642531;
+    a[5][0][2] = -0.01056781;
+    a[5][3][0] = -0.0008743329;
+    a[5][2][1] = -0.001084645;
+    a[5][1][2] = -0.0003555327;
+    a[5][0][3] = 0.0002289769;
+    a[5][4][0] = 0.000005476742;
+    a[5][3][1] = 0.0000113098;
+    a[5][2][2] = 0.000007987488;
+    a[5][1][3] = 0.0000007486085;
+    a[5][0][4] = -0.000001634024;
+    a[6][0][0] = 12.29902;
+    a[6][1][0] = -0.7518207;
+    a[6][0][1] = -0.451037;
+    a[6][2][0] = 0.05143333;
+    a[6][1][1] = 0.05126147;
+    a[6][0][2] = 0.0178663;
+    a[6][3][0] = -0.001024159;
+    a[6][2][1] = -0.001640652;
+    a[6][1][2] = -0.00100224;
+    a[6][0][3] = -0.0001427912;
+    a[6][4][0] = 0.000006699563;
+    a[6][3][1] = 0.00001566121;
+    a[6][2][2] = 0.00001576306;
+    a[6][1][3] = 0.000005249888;
+    a[7][0][0] = 10.16914;
+    a[7][1][0] = 0.4366612;
+    a[7][0][1] = 0.03817096;
+    a[7][2][0] = -0.08726454;
+    a[7][1][1] = -0.007947864;
+    a[7][0][2] = 0.01036501;
+    a[7][3][0] = 0.005939795;
+    a[7][2][1] = 0.0003267886;
+    a[7][1][2] = 0.0002371491;
+    a[7][0][3] = -0.0001615215;
+    a[7][4][0] = -0.0001854127;
+    a[7][3][1] = -0.0000003308586;
+    a[7][2][2] = -0.000004975863;
+    a[7][1][3] = -0.0000008782291;
+    a[7][0][4] = 0.000000774084;
+    a[7][5][0] = 0.000002956598;
+    a[7][6][0] = -0.00000002337074;
+    a[7][7][0] = 7.322348E-11;
+    a[8][0][0] = 10.77761;
+    a[8][1][0] = 0.164749;
+    a[8][0][1] = -0.1405007;
+    a[8][2][0] = -0.0519873;
+    a[8][1][1] = -0.007044869;
+    a[8][0][2] = 0.01615437;
+    a[8][3][0] = 0.003991315;
+    a[8][2][1] = 0.0001479482;
+    a[8][1][2] = 0.0003384803;
+    a[8][0][3] = -0.000175467;
+    a[8][4][0] = -0.0001277487;
+    a[8][3][1] = 0.000002756444;
+    a[8][2][2] = -0.000004041667;
+    a[8][1][3] = -0.000001971021;
+    a[8][0][4] = 0.0000006075213;
+    a[8][5][0] = 0.000002015703;
+    a[8][6][0] = -0.00000001558017;
+    a[8][7][0] = 4.797693E-11;
+    a[9][0][0] = -124085.7;
+    a[9][1][0] = 11938.458;
+    a[9][0][1] = -199.62282;
+    a[9][2][0] = -485.74811;
+    a[9][1][1] = 7.8748002;
+    a[9][0][2] = 2.5929804;
+    a[9][3][0] = 10.855881;
+    a[9][2][1] = -0.10266703;
+    a[9][1][2] = -0.069109752;
+    a[9][0][3] = -0.0145046;
+    a[9][4][0] = -0.1441712;
+    a[9][3][1] = 0.00044431373;
+    a[9][2][2] = 0.00045679208;
+    a[9][1][3] = 0.0001987161;
+    a[9][0][4] = 0.000026937182;
+    a[9][5][0] = 0.001139533;
+    a[9][6][0] = -0.0000049703336;
+    a[9][7][0] = 9.2406348E-09;
+    a[10][0][0] = 183885.06;
+    a[10][1][0] = -15396.773;
+    a[10][0][1] = -14.160386;
+    a[10][2][0] = 541.58924;
+    a[10][1][1] = 0.56775484;
+    a[10][0][2] = 1.1942148;
+    a[10][3][0] = -10.358971;
+    a[10][2][1] = -0.0077071033;
+    a[10][1][2] = -0.024873835;
+    a[10][0][3] = -0.031209902;
+    a[10][4][0] = 0.11603083;
+    a[10][3][1] = 0.000033083382;
+    a[10][2][2] = 0.00017311782;
+    a[10][1][3] = 0.000004175449;
+    a[10][0][4] = 0.0015364226;
+    a[10][5][0] = -0.00075743018;
+    a[10][6][0] = 0.0000026462473;
+    a[10][7][0] = -3.7606039E-09;
+    a[10][0][5] = -0.00003565003;
+    a[10][0][6] = 0.00000030668448;
+    a[11][0][0] = -117884.66;
+    a[11][1][0] = 11251.043;
+    a[11][0][1] = -267.12519;
+    a[11][2][0] = -454.92745;
+    a[11][1][1] = 10.645736;
+    a[11][0][2] = 3.6669421;
+    a[11][3][0] = 10.120505;
+    a[11][2][1] = -0.13986048;
+    a[11][1][2] = -0.097497566;
+    a[11][0][3] = -0.024662769;
+    a[11][4][0] = -0.13401172;
+    a[11][3][1] = 0.00060764355;
+    a[11][2][2] = 0.00064613035;
+    a[11][1][3] = 0.00031927693;
+    a[11][0][4] = 0.000076292913;
+    a[11][5][0] = 0.001057975;
+    a[11][6][0] = -0.0000046175613;
+    a[11][7][0] = 8.6063163E-09;
+    a[12][0][0] = 59.095515;
+    a[12][1][0] = 0.10602705;
+    a[12][0][1] = -3.406924;
+    a[12][2][0] = -0.003188483;
+    a[12][0][2] = 0.15370325;
+    a[12][3][0] = -0.0001080121;
+    a[12][0][3] = -0.00367487;
+    a[12][4][0] = 0.00000845993;
+    a[12][0][4] = 0.000046273625;
+    a[12][5][0] = -0.00000013928745;
+    a[12][6][0] = 0.000000000716383;
+    a[12][0][5] = -0.0000002905423;
+    a[12][0][6] = 0.000000000716383;
+    a[13][0][0] = 31.5507;
+    a[13][1][0] = 0.0797494;
+    a[13][0][1] = -0.17706875;
+    a[13][2][0] = 0.00048659675;
+    a[13][0][2] = 0.00048659675;
+    a[14][1][0] = 1.5;
+    a[14][2][0] = -0.0075;
+    a[14][1][1] = -0.0075;
+    a[15][0][0] = 29.655595;
+    a[15][1][0] = 0.17064685;
+    a[15][0][1] = -0.12344405;
+    a[15][2][0] = -0.000236014;
+    a[15][0][2] = -0.000236014;
+    a[16][0][0] = 24.494755;
+    a[16][1][0] = 0.13676575;
+    a[16][0][1] = -0.0545979;
+    a[16][2][0] = -0.00041083915;
+    a[16][0][2] = -0.00041083915;
+    a[17][0][0] = 12;
+    a[18][0][0] = 20;
+    a[20][0][0] = 299.1743;
+    a[20][1][0] = -15.11958;
+    a[20][0][1] = -0.3115636;
+    a[20][2][0] = 0.7635948;
+    a[20][1][1] = 0.04548069;
+    a[20][0][2] = 0.01123041;
+    a[20][3][0] = -0.02376263;
+    a[20][2][1] = -0.0007856294;
+    a[20][1][2] = 0.0006555709;
+    a[20][0][3] = -0.002146855;
+    a[20][4][0] = 0.0004355494;
+    a[20][3][1] = 0.000003860668;
+    a[20][2][2] = -0.000001381699;   //Typo found by the readme of MWM
+    a[20][1][3] = -0.000007933902;
+    a[20][0][4] = 0.00006699364;
+    a[20][5][0] = -0.000004607726;
+    a[20][6][0] = 0.0000000261057;
+    a[20][7][0] = -6.143914E-11;
+    a[20][0][5] = -0.0000008369387;
+    a[20][0][6] = 0.000000003928073;
+}
+function FunctionA3(t){
+    let Aux = 0;
+    for(let i = 0; i<8; i++){
+        for(let j = 0; j<7; j++){
+            Aux += a[t][i][j] * Math.pow(VAji[xyzOfTernary[t][1]][t], i) * Math.pow(VAji[xyzOfTernary[t][2]][t], j);
+        }
+    }
+    return Aux;
+}
+function arrayMin(arr){
+    let len = arr.length;
+    let min = Infinity;
+    for(let i = 1; i < len; i++) {
+        if (arr[i] < min) {
+            min = arr[i];
+        }
+    }
+    return min;
+};
+function arrayMax(arr) {
+    let len = arr.length;
+    let max = -Infinity;
+    for(let i = 1; i < len; i++) {
+        if (arr[i] > max) {
+            max = arr[i];
+        }
+    }
+    return max;
+};
+
+return MethaneNumberMWM;
+})();
 
 var COMP=[
 {id:"CH4",label:"Methane",formula:"CH\u2084",M:16.04246,def:95.392},
@@ -779,6 +1704,10 @@ function calc(temp,vol,pct,ck,mk,std){
   var MMBTU_per_tonne=(mass>0)?EM/(mass/1000):0;
   var MJ_per_tonne=Hm*1000;
   var det=COMP.map(function(c){return{id:c.id,formula:c.formula,M:c.M,xi:x[c.id],vi:Vi[c.id],hvi:useGPA?GHV_GPA[c.id]:GHV[c.id][ci],xiMi:x[c.id]*c.M,xiVi:x[c.id]*Vi[c.id],xiHvi:x[c.id]*(useGPA?GHV_GPA[c.id]:GHV[c.id][ci]),mf:Mm>0?(x[c.id]*c.M)/Mm:0,psi:psat(c.id,temp),sfi:SF_GPA[c.id],ghvBtuFt3:GHV_GPA_BTUFT3[c.id]}});
+  /* Methane Number is computed separately and asynchronously by computeMNDebounced
+     to keep the main calc() fast. The MN value is initially undefined; the MN
+     panel renders a "calculating..." placeholder until the debounced computation
+     completes (typically 250 ms after the user stops typing). */
   return{rho:rho,mass:mass,Hm:Hm,HkW:HkW,Hc:Hc,E:E,EMW:EMW,EM:EM,conv:vol>0?EM/vol:0,Mm:Mm,Vc:Vc,Cc:Cc,k1:k1,k2:k2,sXV:sXV,sumX:sumX,tOK:temp>=TV[TV.length-1]&&temp<=TV[0],evp:evp,evp_mbar:evp_mbar,bp:bp,G:G_real,Gi:G_ideal,Hv_kWh:Hv_kWh,Hv_ideal_kWh:Hv_ideal_kWh,Hv_real:Hv_real,Hv_ideal:Hv_ideal,W:W,W_MJ:W_MJ,Wi:Wi,Wi_MJ:Wi_MJ,Hv_real_BtuSCF:Hv_real_BtuSCF,Hv_ideal_BtuSCF:Hv_ideal_BtuSCF,W_BtuSCF:W_BtuSCF,Wi_BtuSCF:Wi_BtuSCF,Zmix:Zmix,sumXS:sumXS,wUnit:wUnit,useGPA:useGPA,Vm_m:Vm_m,gasVol_m3:gasVol_m3,gasVol_SCF:gasVol_SCF,expRatio:expRatio,MMBTU_per_tonne:MMBTU_per_tonne,MJ_per_tonne:MJ_per_tonne,vol:vol,temp:temp,x:x,det:det};
 }
 
@@ -853,11 +1782,11 @@ function render(){
   var r=calc(inp.t,inp.v,inp.p,inp.cr,inp.mr,inp.std);
   if(r&&r.error){
     $("results-area").innerHTML='<div class="err-box"><h3>\u26D4 Error \u2014 Calculation Engine Modified</h3><p>Integrity verification failed. The calculation engine has been modified and cannot produce reliable results.</p><p style="margin-top:12px;font-size:0.72rem;opacity:0.6">All calibration constants, attribution, and engine code must remain unmodified.</p></div>';
-    $("detail-section").classList.add("hidden");var ep=$("evp-curve-panel");if(ep)ep.classList.add("hidden");var ft=$("app-footer");if(ft)ft.style.display="none";var fb=$("f-brand");if(fb)fb.style.display="none";return;
+    $("detail-section").classList.add("hidden");var ep=$("evp-curve-panel");if(ep)ep.classList.add("hidden");var mp=$("mn-panel");if(mp)mp.classList.add("hidden");var ft=$("app-footer");if(ft)ft.style.display="none";var fb=$("f-brand");if(fb)fb.style.display="none";return;
   }
   var ft=$("app-footer");if(ft)ft.style.display="";var fb=$("f-brand");if(fb)fb.style.display="";
-  $("detail-section").classList.remove("hidden");var ep=$("evp-curve-panel");if(ep)ep.classList.remove("hidden");
-  if(!r){$("results-area").innerHTML='<div class="r-grid"></div>';$("detail-body").innerHTML="";var ec=$("evp-chart-wrap");if(ec)ec.innerHTML="";return}
+  $("detail-section").classList.remove("hidden");var ep=$("evp-curve-panel");if(ep)ep.classList.remove("hidden");var mp=$("mn-panel");if(mp)mp.classList.remove("hidden");
+  if(!r){$("results-area").innerHTML='<div class="r-grid"></div>';$("detail-body").innerHTML="";var ec=$("evp-chart-wrap");if(ec)ec.innerHTML="";var mb=$("mn-body");if(mb)mb.innerHTML="";if(_mnTimer){clearTimeout(_mnTimer);_mnTimer=null}_mnLastR=null;return}
   r.tOK?$("warn-temp").classList.add("hidden"):$("warn-temp").classList.remove("hidden");
   /* Unified 12-card set for both standards. Unit labels and subtitles
      adapt to the selected standard so the cards remain informative in both. */
@@ -889,6 +1818,7 @@ function render(){
   $("results-area").innerHTML='<div class="r-grid">'+cards.join("")+'</div>';
   renderDetail(r);
   renderEvpChart(r);
+  scheduleMN(r);
 }
 
 function renderDetail(r){
@@ -1040,6 +1970,98 @@ function renderEvpChart(r){
 
   svg+='</svg>';
   wrap.innerHTML=svg;
+}
+
+/* Debounced MN computation. The MWM solver runs ~7,500 iterations per render
+   (3 runs × 2,500 stochastic iterations), which made the app sluggish during
+   active typing. We now schedule MN computation 250 ms after the last input
+   change — fast enough to feel responsive, slow enough to skip intermediate
+   keystrokes. While the debounce is pending, the panel shows a calculating
+   placeholder and the previous value (if any) remains on screen until the
+   new computation lands. */
+var _mnTimer=null, _mnLastR=null;
+function scheduleMN(r){
+  _mnLastR=r;
+  /* Show "calculating" placeholder immediately (only on first compute or
+     when there's no prior value to display). For subsequent computes the
+     stale value remains visible until the new one lands — feels snappier. */
+  var wrap=$("mn-body");
+  if(wrap && !wrap.querySelector(".mn-hero-value") && !wrap.querySelector(".mn-error-box")){
+    wrap.innerHTML='<div class="mn-hero"><div class="mn-hero-value" style="opacity:0.4;font-size:1.2rem">calculating&hellip;</div></div>';
+  }
+  if(_mnTimer)clearTimeout(_mnTimer);
+  _mnTimer=setTimeout(function(){
+    _mnTimer=null;
+    var rr=_mnLastR;if(!rr)return;
+    /* Compute MN — three runs of stochastic solver, take mean for stability. */
+    var mn=null,mn_error=null;
+    try{
+      var x=rr.x;
+      var mnX=new Array(22);for(var mi=0;mi<22;mi++)mnX[mi]=0;
+      mnX[1]=x.CH4||0; mnX[2]=x.N2||0; mnX[3]=x.CO2||0;
+      mnX[4]=x.C2H6||0; mnX[5]=x.C3H8||0; mnX[6]=x.iC4H10||0;
+      mnX[7]=x.nC4H10||0; mnX[8]=x.iC5H12||0; mnX[9]=x.nC5H12||0;
+      mnX[10]=x.C6p||0; mnX[20]=x.O2||0;
+      var mn1=MethaneNumberMWM(mnX), mn2=MethaneNumberMWM(mnX), mn3=MethaneNumberMWM(mnX);
+      var mnAvg=(mn1+mn2+mn3)/3;
+      if(isFinite(mnAvg)&&mnAvg>0&&mnAvg<=110){mn=mnAvg}else{mn_error="non_convergent"}
+    }catch(e){mn_error="exception"}
+    rr.mn=mn; rr.mn_error=mn_error;
+    renderMN(rr);
+  }, 250);
+}
+
+/* Render the Methane Number panel.
+   Simplified panel: hero MN value with zone badge, two-row method note, Engine Impact
+   reference table, Marine Dual-Fuel Engine Requirements table.
+   Theory, calculation method, and attribution all live in the dedicated Theory panel
+   (Step 11). The hero value has a "?" help icon that scrolls to Step 11.
+   Color zones: red < 65 (below typical engine requirements), amber 65-80 (between
+   minimum and typical full-power requirements), green > 80 (above most engine minimums). */
+function renderMN(r){
+  var wrap=$("mn-body");if(!wrap)return;
+  if(!r){wrap.innerHTML="";return}
+
+  var html="";
+
+  if(r.mn_error||r.mn===null||r.mn===undefined){
+    html+='<div class="mn-error-box"><strong>Methane Number cannot be determined with confidence for this composition.</strong> The MWM ternary search did not converge — this typically occurs for compositions outside the calibrated envelope of the EN 16726 method. The cargo properties on previous panels remain valid; only the Methane Number is affected.</div>';
+  }else{
+    var mnVal=r.mn;
+    var zoneClass="mn-zone-red",zoneText="Below minimum requirements";
+    if(mnVal>80){zoneClass="mn-zone-green";zoneText="Above typical engine minimums"}
+    else if(mnVal>=65){zoneClass="mn-zone-amber";zoneText="Approaching engine minimums"}
+    html+='<div class="mn-hero">';
+    html+='<button class="mn-help" onclick="scrollToRef(\'sec-step-11\')" aria-label="Open Methane Number theory">?</button>';
+    html+='<div class="mn-hero-value">'+mnVal.toFixed(1)+'</div>';
+    html+='<div class="mn-hero-zone '+zoneClass+'">'+zoneText.toUpperCase()+'</div>';
+    html+='<div class="mn-method-note"><span>Calculation Method: EN 16726:2025 (MNc)</span><span>Variance: \u00B12&ndash;3 units vs. AVL</span></div>';
+    html+='</div>';
+  }
+
+  /* Engine Impact reference table — operational interpretation by MN range */
+  html+='<h4>Methane Number Performance Impact</h4>';
+  html+='<p>The table below provides a generic operational interpretation of Methane Number values for marine dual-fuel engines. Actual engine response depends on the specific OEM and model.</p>';
+  html+='<div class="mn-table-wrap"><table class="mn-impact-table"><thead><tr><th>Methane Number (MN)</th><th>Engine Impact</th></tr></thead><tbody>';
+  html+='<tr><td>80&ndash;100</td><td>Full power available; optimal efficiency.</td></tr>';
+  html+='<tr><td>70&ndash;79</td><td>Slight power derating likely; internal timings adjusted.</td></tr>';
+  html+='<tr><td>65&ndash;69</td><td>Significant derating; high risk of knock alarms.</td></tr>';
+  html+='<tr><td>Below 65</td><td>Automatic transfer to diesel mode (fuel sharing or liquid mode).</td></tr>';
+  html+='</tbody></table></div>';
+
+  /* OEM minimums table */
+  html+='<h4>Marine Dual-Fuel Engine Requirements</h4>';
+  html+='<p>Marine dual-fuel engines require a minimum Methane Number to operate at full power without knock-induced derating or fuel-mode switching. The values below are indicative minimums collected from publicly available manufacturer technical literature — actual requirements vary by engine model, vintage, derating, ambient conditions, and OEM revisions. <strong>Always consult the engine\u2019s technical manual for the authoritative limits applicable to your specific installation.</strong></p>';
+  html+='<div class="mn-table-wrap"><table class="mn-oem-table"><thead><tr><th>Manufacturer / Family</th><th>Indicative MN minimum</th></tr></thead><tbody>';
+  html+='<tr><td>MAN, ME-GI series (high-pressure direct injection)</td><td>~70</td></tr>';
+  html+='<tr><td>MAN, ME-GA series (low-pressure dual-fuel)</td><td>~75</td></tr>';
+  html+='<tr><td>W&auml;rtsil&auml;, low-pressure premixed dual-fuel (31DF / 50DF)</td><td>~80</td></tr>';
+  html+='<tr><td>WinGD, X-DF series (original, Otto cycle, low-pressure)</td><td>~80</td></tr>';
+  html+='<tr><td>WinGD, X-DF with DCC, or X-DF 2.0 with iCER</td><td>~65</td></tr>';
+  html+='<tr><td>Rolls-Royce / Bergen, B and C series</td><td>~70&ndash;75</td></tr>';
+  html+='</tbody></table></div>';
+
+  wrap.innerHTML=html;
 }
 
 function scrollToRef(id){var el=document.getElementById(id);if(!el)return;var d=el.closest("details");if(d)d.open=true;setTimeout(function(){el.scrollIntoView({behavior:"smooth",block:"start"})},150)}
