@@ -44,7 +44,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, viewport-fit=cover">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="theme-color" content="#070d1a">
@@ -77,8 +77,8 @@
 --fs-xs:clamp(0.65rem,1.5vw,0.7rem);--fs-sm:clamp(0.72rem,1.8vw,0.82rem);--fs-base:clamp(0.82rem,2vw,0.95rem);
 --fs-lg:clamp(1.1rem,2.5vw,1.4rem);--fs-xl:clamp(1.3rem,3vw,1.5rem);--pad:clamp(12px,3vw,24px)
 }
-html{font-size:15px;-webkit-text-size-adjust:100%;color-scheme:dark}
-body{font-family:var(--font);background:var(--bg);color:var(--tx);min-height:100vh;line-height:1.5;position:relative;overflow-x:hidden}
+html{font-size:15px;-webkit-text-size-adjust:100%;color-scheme:dark;background:#070d1a}
+body{font-family:var(--font);background:var(--bg);color:var(--tx);min-height:100vh;line-height:1.5;position:relative;overflow-x:hidden;padding-bottom:env(safe-area-inset-bottom)}
 header,main,footer{position:relative;z-index:1}
 input,select,button{font-family:var(--font);outline:none}
 input[type=number]{-moz-appearance:textfield}input::-webkit-outer-spin-button,input::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
@@ -130,6 +130,7 @@ details.panel[open] summary::before{transform:rotate(90deg)}
 details.panel .pb{padding:0 clamp(14px,3vw,20px) clamp(14px,2vw,20px)}
 /* EVP Sensitivity Curve panel */
 .evp-curve-intro{font-size:var(--fs-sm);color:var(--tm);line-height:1.55;margin:0 0 14px 0}
+.evp-controls{display:flex;justify-content:flex-start;align-items:center;margin-bottom:12px}
 #evp-chart-wrap{width:100%;max-width:900px;margin:0 auto;background:rgba(3,7,18,0.35);border:1px solid var(--bd);border-radius:10px;padding:clamp(10px,2vw,18px)}
 #evp-chart-wrap svg{display:block;width:100%;height:auto;font-family:var(--font);font-variant-numeric:tabular-nums}
 #evp-chart-wrap .evp-grid{stroke:rgba(148,163,184,0.15);stroke-width:1}
@@ -202,18 +203,65 @@ footer{text-align:center;padding:clamp(16px,3vw,24px) var(--pad);font-size:var(-
 .hidden{display:none}
 .help-icon{display:inline-flex;align-items:center;justify-content:center;width:16px;height:16px;border-radius:50%;background:rgba(51,65,85,0.6);color:var(--tm);font-size:10px;font-weight:700;cursor:pointer;text-decoration:none;margin-left:6px;vertical-align:middle;border:1px solid var(--bd);flex-shrink:0}
 .help-icon:hover{background:var(--ac);color:var(--tx);border-color:var(--ac)}
+/* Cargo Conditioning panel (Step 12) */
+.cond-intro{font-size:var(--fs-sm);color:var(--tm);line-height:1.55;margin:0 0 14px 0}
+/* Conditioning legend row: legend on the left (matching its original position
+   pre-button), help button on the right edge of the row, vertically centered
+   with the legend stack. Symmetric left/right margins on the row keep the
+   button from sitting flush against the panel edge. */
+.cond-legend-row{display:flex;justify-content:space-between;align-items:center;gap:12px;margin:12px 20px 16px 20px}
+.cond-chart-help{flex-shrink:0;width:22px;height:22px;border-radius:50%;background:rgba(148,163,184,0.15);color:var(--tm);border:1px solid var(--bd);font-size:0.78rem;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;padding:0;transition:background 0.15s,color 0.15s,border-color 0.15s;font-family:inherit}
+.cond-chart-help:hover{background:rgba(59,130,246,0.2);color:var(--ac);border-color:var(--ac)}
+.cond-controls{display:flex;justify-content:space-between;align-items:stretch;margin-bottom:12px;gap:12px;flex-wrap:wrap}
+@media(max-width:540px){
+  /* On phone-sized screens, tighten the toggle buttons so both groups fit on
+     one row instead of wrapping. The full label text is preserved — only the
+     horizontal padding is trimmed. Below ~360px viewport (very narrow), the
+     wrap fallback still applies. */
+  .cond-controls{gap:8px;flex-wrap:nowrap}
+  .cond-toggle-set button{padding:6px 8px;font-size:11px}
+}
+.cond-toggle-set{display:inline-flex;background:rgba(3,7,18,0.5);border:1px solid var(--bd);border-radius:8px;padding:3px}
+.cond-toggle-set button{background:transparent;border:none;color:var(--tm);padding:6px 14px;border-radius:5px;cursor:pointer;font-size:var(--fs-xs);font-family:inherit;font-weight:600;letter-spacing:0.02em;transition:all 0.15s;white-space:nowrap}
+.cond-toggle-set button:hover{color:var(--tx)}
+.cond-toggle-set.cond-left button.active{background:var(--ac);color:#fff}
+.cond-toggle-set.cond-right button.active{background:#4ade80;color:#002a1a}
+#cond-chart-wrap{width:100%;max-width:900px;margin:0 auto 16px;background:rgba(3,7,18,0.35);border:1px solid var(--bd);border-radius:10px;padding:clamp(10px,2vw,18px)}
+#cond-chart-wrap svg{display:block;width:100%;height:auto;font-family:var(--font);font-variant-numeric:tabular-nums}
+#cond-chart-wrap .cond-grid{stroke:rgba(148,163,184,0.15);stroke-width:1}
+#cond-chart-wrap .cond-axis{stroke:rgba(148,163,184,0.45);stroke-width:1.25}
+#cond-chart-wrap .cond-tick-label-l{fill:var(--ac);font-size:11px}
+#cond-chart-wrap .cond-tick-label-r{fill:#4ade80;font-size:11px}
+#cond-chart-wrap .cond-tick-label-x{fill:var(--tm);font-size:11px}
+#cond-chart-wrap .cond-axis-title{fill:var(--tm);font-size:11px;font-weight:600;letter-spacing:0.04em;text-transform:uppercase}
+#cond-chart-wrap .cond-line-l{fill:none;stroke:var(--ac);stroke-width:2.2;stroke-linejoin:round;stroke-linecap:round}
+#cond-chart-wrap .cond-line-r{fill:none;stroke:#4ade80;stroke-width:2.2;stroke-linejoin:round;stroke-linecap:round;stroke-dasharray:6,3}
+#cond-chart-wrap .cond-pt-l{fill:var(--ac);stroke:var(--bg);stroke-width:1.5}
+#cond-chart-wrap .cond-pt-r{fill:#4ade80;stroke:var(--bg);stroke-width:1.5}
+.cond-legend{display:flex;flex-direction:column;gap:6px;font-size:var(--fs-xs);color:var(--tm)}
+.cond-legend-item{display:flex;align-items:center;gap:10px}
+.cond-legend-swatch{width:22px;height:3px;border-radius:2px;flex-shrink:0}
+.cond-table{width:100%;border-collapse:collapse;font-size:var(--fs-xs);min-width:520px}
+.cond-table th{text-align:left;padding:8px 12px;background:rgba(3,7,18,0.4);color:var(--tx);font-weight:600;font-size:var(--fs-xs);text-transform:uppercase;letter-spacing:0.04em;border-bottom:1px solid var(--bd);white-space:nowrap}
+.cond-table td{padding:7px 12px;color:var(--tm);border-bottom:1px solid rgba(148,163,184,0.08);white-space:nowrap;font-variant-numeric:tabular-nums}
+.cond-table tr:last-child td{border-bottom:none}
+.cond-table td:first-child{color:var(--tx);font-weight:600}
+.cond-error-box{background:rgba(127,29,29,0.25);border:1px solid rgba(220,38,38,0.4);border-radius:10px;padding:14px 16px;color:#fca5a5;font-size:var(--fs-sm);line-height:1.5}
 @media print{
   /* Define running footer on every printed page. The @bottom-center margin
      box is a CSS Paged Media feature supported by Chromium/Edge/Safari for
      print; non-supporting browsers silently ignore it without affecting
-     the printout. Page margins are set explicitly so the footer clears body content. */
+     the printout. Page margins are set explicitly so the footer clears body content.
+     Two-line footer: product/copyright on row 1, disclaimer on row 2. */
   @page{
-    margin:15mm 15mm 18mm 15mm;
+    margin:15mm 15mm 22mm 15mm;
     @bottom-center{
-      content:"Calculations provided for reference purposes only.";
+      content:"LNG Cargo Properties Calculator © 2026 Ivaylo Krastev\A Calculations provided for reference purposes only.";
+      white-space:pre-line;
       font-family:'JetBrains Mono','SF Mono','Consolas',monospace;
       font-size:8pt;
       color:#666;
+      line-height:1.4;
     }
   }
   /* Critical pagination fix: clear ALL overflow and height constraints that
@@ -225,9 +273,9 @@ footer{text-align:center;padding:clamp(16px,3vw,24px) var(--pad);font-size:var(-
     max-height:none !important;
     height:auto !important;
   }
-  html,body{height:auto !important;min-height:0 !important}
+  html,body{height:auto !important;min-height:0 !important;background:#fff !important}
   /* Clean paper output: strip all glass, gradient, border, and shadow styling. */
-  body{background:#fff !important;color:#000}
+  body{color:#000}
   header{background:#fff !important;border-bottom:1px solid #999;padding-bottom:12px;margin-bottom:16px}
   .h-sub,.h-iso,.h-brand{color:#000 !important;opacity:1 !important}
   main{padding:0 12px}
@@ -283,6 +331,7 @@ footer{text-align:center;padding:clamp(16px,3vw,24px) var(--pad);font-size:var(-
   #detail-section{page-break-before:always;break-before:page}
   #evp-curve-panel{page-break-before:always;break-before:page}
   #mn-panel{page-break-before:always;break-before:page}
+  #cond-panel{page-break-before:always;break-before:page}
   /* Print styling for the Methane Number panel — adapt dark UI to white paper. */
   #mn-panel .mn-hero{background:#fff !important;border:1px solid #888 !important;padding:8mm !important;-webkit-print-color-adjust:exact;print-color-adjust:exact}
   #mn-panel .mn-hero-value{color:#000 !important}
@@ -322,8 +371,30 @@ footer{text-align:center;padding:clamp(16px,3vw,24px) var(--pad);font-size:var(-
   #evp-chart-wrap .evp-current-line{stroke:#666 !important;stroke-width:0.8 !important;stroke-dasharray:2,2 !important}
   #evp-chart-wrap .evp-current-label{fill:#000 !important;font-weight:700 !important}
   .evp-curve-intro{color:#444 !important;font-size:9pt !important;margin-bottom:8pt !important}
+  /* Print styling for Cargo Conditioning panel — adapt dual-axis SVG and toggles to paper. */
+  #cond-panel .cond-chart-help,#cond-panel .cond-controls,#evp-curve-panel .evp-controls{display:none !important}
+  #cond-panel .cond-intro{color:#444 !important;font-size:9pt !important;margin-bottom:8pt !important}
+  #cond-chart-wrap{background:#fff !important;border:1px solid #999 !important;padding:8mm !important;max-width:100% !important;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  #cond-chart-wrap svg{font-family:inherit !important}
+  #cond-chart-wrap .cond-grid{stroke:#bbb !important;stroke-width:0.5 !important}
+  #cond-chart-wrap .cond-axis{stroke:#000 !important;stroke-width:1 !important}
+  #cond-chart-wrap .cond-tick-label-x{fill:#000 !important}
+  #cond-chart-wrap .cond-tick-label-l{fill:#1d4ed8 !important}
+  #cond-chart-wrap .cond-tick-label-r{fill:#15803d !important}
+  #cond-chart-wrap .cond-axis-title{fill:#000 !important;font-weight:700 !important}
+  #cond-chart-wrap .cond-line-l{stroke:#1d4ed8 !important;stroke-width:1.5 !important}
+  #cond-chart-wrap .cond-line-r{stroke:#15803d !important;stroke-width:1.5 !important;stroke-dasharray:5,3 !important}
+  #cond-chart-wrap .cond-pt-l{fill:#1d4ed8 !important;stroke:#fff !important;stroke-width:1 !important}
+  #cond-chart-wrap .cond-pt-r{fill:#15803d !important;stroke:#fff !important;stroke-width:1 !important}
+  .cond-legend-row{margin-left:6mm !important}
+  .cond-legend{color:#333 !important;font-size:9pt !important}
+  .cond-legend-swatch{border:1px solid #888 !important}
+  .cond-table{border:1px solid #888 !important;min-width:0 !important}
+  .cond-table th{background:#f0f0f0 !important;color:#000 !important;border-bottom:1px solid #888 !important}
+  .cond-table td{color:#333 !important;border-bottom:1px solid #ddd !important}
+  .cond-table td:first-child{color:#000 !important}
   /* Hide the Component Contributions table — it's wide with 12 columns and
-     always gets cut off horizontally on paper. The 30 intermediate values
+     always gets cut off horizontally on paper. The intermediate values
      above it carry all the derived quantities a cargo report needs. */
   #detail-body .d-sub,#detail-body .tbl-wrap{display:none !important}
   /* Heading orphan protection */
@@ -385,11 +456,22 @@ Combustion &amp; metering reference fixed at <strong style="color:var(--tx)">60 
 <section class="section"><div class="r-title">Calculation Results</div><div id="results-area"><div class="r-grid" id="results-grid"></div></div></section>
 <details class="panel" id="evp-curve-panel" open><summary>EVP Sensitivity Curve</summary><div class="pb">
 <p class="evp-curve-intro">Shows how the equilibrium vapor pressure changes if the cargo temperature shifts from the observed value. Useful for anticipating tank-pressure response to heat ingress or active cooling during a voyage.</p>
+<div class="evp-controls">
+<div class="cond-toggle-set cond-left" id="evp-tg-unit">
+<button data-unit="mbar" class="active">mbar gauge</button>
+<button data-unit="kpa">kPa abs</button>
+</div>
+</div>
 <div id="evp-chart-wrap"></div>
 </div></details>
 
 <details class="panel" id="mn-panel" open><summary>Methane Number</summary><div class="pb">
 <div id="mn-body"></div>
+</div></details>
+
+<details class="panel" id="cond-panel" open><summary>Cargo Conditioning</summary><div class="pb">
+<p class="cond-intro">Mass, volume, and energy of liquid that must evaporate to cool the cargo to lower target temperatures, alongside the equilibrium tank pressure at each target. Figures account for the cooling effect alone and do not include boil-off generated by heat ingress through the tank insulation, which depends on vessel-specific factors and is outside the scope of the calculator.</p>
+<div id="cond-body"></div>
 </div></details>
 
 <details class="panel" id="detail-section"><summary>Intermediate &amp; Additional Values</summary><div class="pb" id="detail-body"></div></details>
@@ -539,6 +621,22 @@ Combustion &amp; metering reference fixed at <strong style="color:var(--tx)">60 
 <p>The Methane Number is most relevant on board vessels that burn loaded LNG cargo as fuel for dual-fuel propulsion or auxiliary engines. Throughout this section, "dual-fuel" refers to the underlying combustion architecture (engines capable of running on gas with pilot ignition or on liquid fuel) and applies regardless of the propulsion arrangement — direct mechanical drive (e.g., MAN ME-GI, WinGD X-DF main engines) or electric drive via gensets (e.g., DFDE and TFDE arrangements using Wärtsilä 50DF or MAN 51/60DF medium-speed engines). The MN limits in this panel apply to the engine itself, not to the propulsion configuration; a TFDE vessel with Wärtsilä 50DF gensets has the same MN minimum as a direct-drive vessel using the same engine model.</p>
 <p>The chief engineer typically compares the cargo's MN against the engine's published minimum to determine whether the gas can be used at full load, requires derating, or must be supplemented with another fuel. As LNG weathers during a voyage, lighter components (methane, nitrogen) preferentially boil off, leaving a richer liquid with higher heating value but lower methane number. A cargo loaded at MN 82 might arrive at MN 76 after a long voyage, which can become operationally significant for engines with strict MN minimums.</p>
 
+<h4 id="sec-step-12">Step 12 — Cargo Conditioning</h4>
+<p>Cargo Conditioning is the cooling of the loaded LNG to a lower target liquid temperature by allowing a portion of the liquid to evaporate. The energy carried away as latent heat of vaporisation cools the remaining liquid, and the equilibrium tank pressure drops as the cargo bubble-point falls with temperature. Discharge terminals often specify a maximum LNG temperature for unloading, and the panel quantifies what evaporative loss is required to reach lower target temperatures.</p>
+
+<h4>Energy balance</h4>
+<p>An energy balance on the cargo, treated as a homogeneous liquid in adiabatic equilibrium with its own vapour, gives the mass that must evaporate to cool the remaining liquid by ΔT:</p>
+<p><code>m_evap = m · (Cp · ΔT) / (L_vap + Cp · ΔT)</code></p>
+<p>where <em>m</em> is the cargo mass, <em>Cp</em> is the specific heat of the saturated liquid (kJ/(kg·K)), and <em>L_vap</em> is the latent heat of vaporisation at the normal boiling point (kJ/kg). Both <em>Cp</em> and <em>L_vap</em> are mass-fraction weighted averages of per-component values from the NIST Chemistry WebBook: <code>Cp = Σ(mfᵢ · Cp,ᵢ)</code> and <code>L_vap = Σ(mfᵢ · L_vap,ᵢ)</code>, with mass fraction <code>mfᵢ = xᵢ · Mᵢ / M̄</code>.</p>
+<p>The volume of evaporated liquid is <code>V_evap = m_evap / ρ(T_target)</code>, with the density recomputed by Klosek-McKinley at each target temperature so the volume figure reflects the colder, denser liquid rather than a constant-density approximation. The composition shift over the small fraction that evaporates is taken as negligible at the 1 °C scale of the trajectory.</p>
+
+<h4>Equilibrium tank pressure at the target temperature</h4>
+<p>At any liquid temperature, the tank vapour space is in equilibrium with the liquid at the bubble-point pressure of the cargo composition: <code>P(T) = Σ xᵢ · Psat,ᵢ(T)</code>. The chart's right axis traces this pressure across the six target temperatures — the same EVP relationship used in Step 10, evaluated at each of the conditioning targets rather than at the observed cargo temperature.</p>
+<p>For active cooling to occur, the tank pressure must be held below the EVP at the target temperature: as long as <em>P_tank &lt; P_bubble(T)</em>, the liquid is above its bubble point for the prevailing pressure and continues to boil, drawing latent heat from the remaining liquid. Once tank pressure equals the new EVP, the cargo has reached the target and equilibrium is restored.</p>
+
+<h4>Scope of the figures shown</h4>
+<p>The mass, volume, and energy figures represent only the evaporation required to cool the cargo by ΔT — they do not include boil-off generated by heat ingress through the tank insulation during the time over which conditioning occurs. Operational planning for a conditioning operation has to combine this cooling-only figure with the expected heat-ingress contribution over the planned duration; the calculator does not attempt to model heat ingress itself, which depends on vessel-specific tank insulation performance, ambient and seawater temperatures, and voyage profile.</p>
+
 <h4>Applicability &amp; Limitations</h4>
 <ul>
 <li>Valid for LNG mixtures with average molar mass ≤ 20 kg/kmol</li>
@@ -551,7 +649,9 @@ Combustion &amp; metering reference fixed at <strong style="color:var(--tx)">60 
 <li>CO₂ content above ~0.01 mol% (100 ppm) may exceed typical LNG solubility; cargoes pretreated at the liquefaction plant are normally below 50 ppm. The calculator will flag compositions above this limit because solid-phase CO₂ may be present, invalidating the homogeneous-liquid assumption used in the density correlation.</li>
 <li>Wobbe Index and volumetric GHV use the real-gas compression factor Z, with summation factors from ISO 6976:2016 Table 2 (ISO mode, at the selected metering reference temperature) or GPA Midstream 2145-16 at 60 °F (GPA mode). The simplified form <code>Z = 1 − [Σ(xᵢ·sᵢ)]²</code> is the exact ISO form evaluated at the reference pressure P₀ where the sᵢ values are tabulated — no approximation at this pressure.</li>
 <li><strong>Methane Number</strong> per EN 16726:2025 Annex A (MNc method, including the MWM amendments) is calculated by stochastic ternary search; the solver introduces minor variance (~0.5 MN units) between runs. Values for compositions outside the EN 16726 calibration envelope (very low methane content, unusual hydrogen levels, or non-LNG-typical heavies distributions) may not converge, in which case the panel reports an inability to determine MN with confidence.</li>
+<li><strong>Cargo Conditioning</strong> assumes adiabatic equilibrium between the liquid and its vapour and uses the cargo's bulk composition for the Cp and L_vap averages. Over the chart's 1 °C trajectory, species-selective vaporisation effects (lighter components leaving preferentially, composition drift) are negligible relative to operational precision.</li>
 </ul>
+
 </div></details>
 
 <!-- ═══ UNITS ═══ -->
@@ -680,6 +780,7 @@ Combustion &amp; metering reference fixed at <strong style="color:var(--tx)">60 
 <li><strong>ISO 6976 Annex A</strong> — Gas constant R, molar mass of dry air, Zair values. Used under both standards.</li>
 <li><strong>GPA Midstream 2145-16</strong> — Ideal-gas GHV in Btu/ft³ and summation factors sᵢ at 60 °F, 14.696 psia. Used when Calculation Standard = GPA.</li>
 <li><strong>NIST / Yaws</strong> — Antoine equation constants for vapor pressure (standard-independent).</li>
+<li><strong>NIST Chemistry WebBook</strong> — Per-component liquid heat capacity Cp,ᵢ at saturated state and latent heat of vaporisation L_vap,ᵢ at the normal boiling point. Used by the Cargo Conditioning energy balance (Step 12) under both standards.</li>
 <li><strong>EN 16726:2025 Annex A (MNc method)</strong> — coefficient tables and ternary system definitions for the Methane Number calculation, including the MWM amendments (2005 and 2011) credited within Annex A. Validated against Annex A Table A.10 reference compositions with deviations under 1 MN unit.</li></ul>
 </div></details>
 </main>
@@ -687,9 +788,9 @@ Combustion &amp; metering reference fixed at <strong style="color:var(--tx)">60 
 <footer id="app-footer">
 <div class="footer-iso">Based on ISO 6578:2017 / ISO 6976:2016 and GPA 2145-16</div>
 <div class="footer-copy" id="f-copy">© 2026 Ivaylo Krastev · Licensed under AGPL-3.0</div>
-<div style="font-size:var(--fs-xs);margin-bottom:6px"><a id="f-site" href="http://ivaylokrastev.com" target="_blank" rel="noopener" style="color:var(--tx);text-decoration:none;display:inline-flex;align-items:center;gap:6px"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>ivaylokrastev.com</a><span style="opacity:0.4;margin:0 8px">&middot;</span><a id="f-repo" href="https://github.com/ivaylo-mk/lng-cargo-calculator" target="_blank" rel="noopener" style="color:var(--tx);text-decoration:none;display:inline-flex;align-items:center;gap:6px"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" style="flex-shrink:0"><path d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.39 7.86 10.91.58.11.79-.25.79-.56 0-.27-.01-1.01-.02-1.97-3.2.69-3.87-1.54-3.87-1.54-.52-1.33-1.28-1.69-1.28-1.69-1.05-.71.08-.7.08-.7 1.16.08 1.77 1.19 1.77 1.19 1.03 1.76 2.7 1.25 3.36.96.1-.74.4-1.25.73-1.54-2.55-.29-5.24-1.28-5.24-5.69 0-1.26.45-2.29 1.19-3.1-.12-.29-.51-1.46.11-3.05 0 0 .97-.31 3.18 1.18.92-.26 1.91-.39 2.89-.39.98 0 1.97.13 2.89.39 2.21-1.49 3.18-1.18 3.18-1.18.62 1.59.23 2.76.11 3.05.74.81 1.19 1.84 1.19 3.1 0 4.42-2.69 5.39-5.25 5.68.41.35.78 1.04.78 2.1 0 1.51-.01 2.73-.01 3.1 0 .31.21.68.8.56C20.71 21.39 24 17.08 24 12c0-6.35-5.15-11.5-11.5-11.5z"/></svg>Source Code</a></div>
+<div style="font-size:var(--fs-xs);margin-bottom:6px"><a id="f-site" href="https://ivaylokrastev.com" target="_blank" rel="noopener" style="color:var(--tx);text-decoration:none;display:inline-flex;align-items:center;gap:6px"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>ivaylokrastev.com</a><span style="opacity:0.4;margin:0 8px">&middot;</span><a id="f-repo" href="https://github.com/ivaylo-mk/lng-cargo-calculator" target="_blank" rel="noopener" style="color:var(--tx);text-decoration:none;display:inline-flex;align-items:center;gap:6px"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" style="flex-shrink:0"><path d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.39 7.86 10.91.58.11.79-.25.79-.56 0-.27-.01-1.01-.02-1.97-3.2.69-3.87-1.54-3.87-1.54-.52-1.33-1.28-1.69-1.28-1.69-1.05-.71.08-.7.08-.7 1.16.08 1.77 1.19 1.77 1.19 1.03 1.76 2.7 1.25 3.36.96.1-.74.4-1.25.73-1.54-2.55-.29-5.24-1.28-5.24-5.69 0-1.26.45-2.29 1.19-3.1-.12-.29-.51-1.46.11-3.05 0 0 .97-.31 3.18 1.18.92-.26 1.91-.39 2.89-.39.98 0 1.97.13 2.89.39 2.21-1.49 3.18-1.18 3.18-1.18.62 1.59.23 2.76.11 3.05.74.81 1.19 1.84 1.19 3.1 0 4.42-2.69 5.39-5.25 5.68.41.35.78 1.04.78 2.1 0 1.51-.01 2.73-.01 3.1 0 .31.21.68.8.56C20.71 21.39 24 17.08 24 12c0-6.35-5.15-11.5-11.5-11.5z"/></svg>Source Code</a></div>
 <div style="font-size:var(--fs-xs);color:var(--tm);margin-top:4px;opacity:0.6">Calculations provided for reference purposes only.</div>
-<div style="font-size:var(--fs-xs);color:var(--tm);margin-top:10px;opacity:0.6">Version 2.3.0</div>
+<div style="font-size:var(--fs-xs);color:var(--tm);margin-top:10px;opacity:0.6">Version 2.4.0</div>
 </footer>
 
 <script>
@@ -1615,6 +1716,12 @@ nC5H12:[.092095,.091884,.091673,.091462,.091252,.091042,.090833],N2:[.050885,.04
 VT.C6p=VT.nC5H12.map(function(v,i){return 2*v-VT.nC4H10[i]});
 VT.CO2=TV.map(function(){return .0282});VT.O2=TV.map(function(){return .0305});
 
+/* Cp_liquid: liquid heat capacity at saturated state near LNG storage temp (kJ/(kg·K))
+   L_vap: latent heat of vaporization at normal boiling point (kJ/kg)
+   Sources: NIST Chemistry WebBook (saturated liquid properties).
+   Used for the Cargo Conditioning energy balance (Step 12). */
+var CP_L={CH4:3.481,N2:2.041,CO2:1.972,C2H6:2.461,C3H8:2.276,iC4H10:2.215,nC4H10:2.220,iC5H12:2.181,nC5H12:2.190,C6p:2.244,O2:1.696};
+var L_VAP={CH4:511.5,N2:198.8,CO2:570.0,C2H6:489.7,C3H8:425.9,iC4H10:367.7,nC4H10:385.6,iC5H12:340.5,nC5H12:357.8,C6p:335.6,O2:213.1};
 var TK=[-153.15,-158.15,-163.15,-168.15],MKA=[16,17,18,19,20];
 var K1T=[[-.010,.250,.500,.695,.920],[-.009,.220,.440,.610,.810],[-.008,.180,.375,.535,.725],[-.007,.165,.340,.475,.635]];
 var K2T=[[-.032,.600,.910,1.230,1.430],[-.024,.410,.720,.950,1.150],[-.015,.320,.590,.770,.920],[-.010,.240,.420,.610,.750]];
@@ -1629,6 +1736,66 @@ var R=8.3144621;
 function psat(id,tC){var a=ANT[id];if(!a||a.A===0)return 0;var d=a.C+tC;if(d<=0)return 0;return Math.max(0,Math.pow(10,a.A-a.B/d)*0.1333224)}
 function bubbleP(x,tC){var p=0;COMP.forEach(function(c){p+=x[c.id]*psat(c.id,tC)});return p}
 function boilPt(x){var lo=-200,hi=-100,mid,pb;for(var i=0;i<80;i++){mid=(lo+hi)/2;pb=bubbleP(x,mid);if(pb<101.325)lo=mid;else hi=mid;if(Math.abs(pb-101.325)<.0001)break}return mid}
+
+/* Compute the Cargo Conditioning trajectory: at six target temperatures
+   (current, current-0.2, ..., current-1.0 °C) compute the mass/volume/energy
+   of liquid that must evaporate to cool the remaining liquid from the current
+   state to that target, plus the equilibrium tank pressure at the target.
+
+   Energy balance (single-step adiabatic flash, per Theory Step 12):
+       m_evap * L_vap = (m_total - m_evap) * Cp * ΔT
+   ⇒  m_evap = m_total * (Cp * ΔT) / (L_vap + Cp * ΔT)
+
+   Cp and L_vap are composition-weighted averages computed once from the cargo.
+   Density at each target temperature is recomputed via Klosek-McKinley using
+   the same composition (composition shift during conditioning is approximated
+   as negligible for ΔT ≤ 1 °C — this affects only the volume figure and is
+   well below operational precision).
+
+   r must contain: temp (°C), mass (kg), x (mole fractions), Mm (kg/kmol).
+   Returns an array of 6 points: [{T, dT, mass_evap, vol_evap, energy, pAbs, pGauge}, ...]. */
+function computeConditioning(r){
+  if(!r||!r.x||!isFinite(r.mass)||r.mass<=0||!isFinite(r.temp))return null;
+  /* Composition-weighted Cp (kJ/(kg·K)) and L_vap (kJ/kg) on a mass basis.
+     mass_fraction_i = x_i * M_i / Mm; weighted Cp = Σ(mf_i * Cp_i). */
+  var Cp_avg=0,L_avg=0,mfSum=0;
+  COMP.forEach(function(c){
+    var mf=(r.x[c.id]||0)*c.M/r.Mm;
+    Cp_avg+=mf*(CP_L[c.id]||0);
+    L_avg+=mf*(L_VAP[c.id]||0);
+    mfSum+=mf;
+  });
+  if(mfSum<=0||L_avg<=0)return null;
+  var pts=[];
+  var T0=r.temp;
+  /* 6 target temperatures: T0, T0-0.2, ..., T0-1.0 (0.2°C steps) */
+  for(var i=0;i<=5;i++){
+    var T=T0-i*0.2;
+    var dT=T0-T;
+    /* Energy balance: m_evap (kg) */
+    var m_evap=r.mass*(Cp_avg*dT)/(L_avg+Cp_avg*dT);
+    /* Equilibrium tank pressure at target T (bubble point of current composition) */
+    var pAbs=bubbleP(r.x,T);
+    /* Density at target T via K-M, assuming composition unchanged.
+       Skip if T outside calibrated KM range — fall back to current density
+       so we don't fabricate values for unsupported temperatures. */
+    var rho_t=r.rho;
+    if(T>=TV[TV.length-1]&&T<=TV[0]){
+      var Vi_t={};COMP.forEach(function(c){Vi_t[c.id]=interp1(TV,VT[c.id],T)});
+      var sXV_t=0;COMP.forEach(function(c){sXV_t+=r.x[c.id]*Vi_t[c.id]});
+      var k1_t=interp2(TK,MKA,K1T,T,r.Mm)*1e-3,k2_t=interp2(TK,MKA,K2T,T,r.Mm)*1e-3;
+      var Cc_t=k1_t+(k2_t-k1_t)*((r.x.N2||0)/.0425),Vc_t=Cc_t*(r.x.CH4||0);
+      var den_t=sXV_t-Vc_t;
+      if(den_t>0)rho_t=r.Mm/den_t;
+    }
+    /* Volume of liquid that evaporates: m_evap (kg) / rho (kg/m³) → m³ */
+    var vol_evap=(rho_t>0)?m_evap/rho_t:0;
+    /* Energy released as vapor (kJ → MJ for display) */
+    var energy_MJ=m_evap*L_avg/1000;
+    pts.push({T:T,dT:dT,mass_evap:m_evap,vol_evap:vol_evap,energy_MJ:energy_MJ,pAbs:pAbs,pGauge:(pAbs-101.325)*10,rho:rho_t});
+  }
+  return{points:pts,Cp_avg:Cp_avg,L_avg:L_avg};
+}
 
 function lerp(x,x0,x1,y0,y1){return x1===x0?y0:y0+(x-x0)*(y1-y0)/(x1-x0)}
 function bracket(a,v){if(v<=a[0])return[0,1];if(v>=a[a.length-1])return[a.length-2,a.length-1];for(var i=0;i<a.length-1;i++)if(v>=a[i]&&v<=a[i+1])return[i,i+1];return[a.length-2,a.length-1]}
@@ -1704,7 +1871,7 @@ function calc(temp,vol,pct,ck,mk,std){
   var MMBTU_per_tonne=(mass>0)?EM/(mass/1000):0;
   var MJ_per_tonne=Hm*1000;
   var det=COMP.map(function(c){return{id:c.id,formula:c.formula,M:c.M,xi:x[c.id],vi:Vi[c.id],hvi:useGPA?GHV_GPA[c.id]:GHV[c.id][ci],xiMi:x[c.id]*c.M,xiVi:x[c.id]*Vi[c.id],xiHvi:x[c.id]*(useGPA?GHV_GPA[c.id]:GHV[c.id][ci]),mf:Mm>0?(x[c.id]*c.M)/Mm:0,psi:psat(c.id,temp),sfi:SF_GPA[c.id],ghvBtuFt3:GHV_GPA_BTUFT3[c.id]}});
-  /* Methane Number is computed separately and asynchronously by computeMNDebounced
+  /* Methane Number is computed separately and asynchronously by scheduleMN
      to keep the main calc() fast. The MN value is initially undefined; the MN
      panel renders a "calculating..." placeholder until the debounced computation
      completes (typically 250 ms after the user stops typing). */
@@ -1786,7 +1953,7 @@ function render(){
   }
   var ft=$("app-footer");if(ft)ft.style.display="";var fb=$("f-brand");if(fb)fb.style.display="";
   $("detail-section").classList.remove("hidden");var ep=$("evp-curve-panel");if(ep)ep.classList.remove("hidden");var mp=$("mn-panel");if(mp)mp.classList.remove("hidden");
-  if(!r){$("results-area").innerHTML='<div class="r-grid"></div>';$("detail-body").innerHTML="";var ec=$("evp-chart-wrap");if(ec)ec.innerHTML="";var mb=$("mn-body");if(mb)mb.innerHTML="";if(_mnTimer){clearTimeout(_mnTimer);_mnTimer=null}_mnLastR=null;return}
+  if(!r){$("results-area").innerHTML='<div class="r-grid"></div>';$("detail-body").innerHTML="";var ec=$("evp-chart-wrap");if(ec)ec.innerHTML="";var mb=$("mn-body");if(mb)mb.innerHTML="";var cb=$("cond-body");if(cb)cb.innerHTML="";if(_mnTimer){clearTimeout(_mnTimer);_mnTimer=null}_mnLastR=null;return}
   r.tOK?$("warn-temp").classList.add("hidden"):$("warn-temp").classList.remove("hidden");
   /* Unified 12-card set for both standards. Unit labels and subtitles
      adapt to the selected standard so the cards remain informative in both. */
@@ -1819,6 +1986,7 @@ function render(){
   renderDetail(r);
   renderEvpChart(r);
   scheduleMN(r);
+  renderConditioning(r);
 }
 
 function renderDetail(r){
@@ -1828,7 +1996,7 @@ function renderDetail(r){
      are populated from the GPA constants too, purely for reference. */
   var gpaRows=r.det.filter(function(d){return d.xi>0}).map(function(d){
     return'<tr><td>'+d.formula+'</td><td class="tn">'+d.xi.toFixed(6)+'</td><td class="tn">'+d.M.toFixed(5)+'</td><td class="tn">'+d.xiMi.toFixed(6)+'</td><td class="tn">'+d.vi.toFixed(6)+'</td><td class="tn">'+d.xiVi.toFixed(6)+'</td><td class="tn">'+(d.ghvBtuFt3!=null?d.ghvBtuFt3.toFixed(1):"-")+'</td><td class="tn">'+d.hvi.toFixed(2)+'</td><td class="tn">'+d.xiHvi.toFixed(4)+'</td><td class="tn">'+d.mf.toFixed(6)+'</td><td class="tn">'+(d.sfi!=null?d.sfi.toFixed(5):"-")+'</td><td class="tn">'+d.psi.toFixed(3)+'</td></tr>'}).join("");
-  /* 30 unified intermediate values, identical in both modes. Units that
+  /* Unified intermediate values, identical in both standards. Units that
      differ between ISO and GPA (metering-temperature-dependent) adapt via r.wUnit. */
   var volLabel=r.useGPA?"Sm\u00B3(60\u00B0F)":"m\u00B3 @ metering ref";
   var kwhVolUnit=r.useGPA?"kWh/Sm\u00B3(60\u00B0F)":r.wUnit;
@@ -1878,44 +2046,85 @@ function renderEvpChart(r){
     var pMbarGauge=(pKpaAbs-101.325)*10;
     return{t:t,kpa:pKpaAbs,mbar:pMbarGauge};
   });
-  /* Compute Y-axis range with some padding. Round to nice values. */
-  var yMin=Math.min.apply(null,pts.map(function(p){return p.mbar}));
-  var yMax=Math.max.apply(null,pts.map(function(p){return p.mbar}));
+  /* yVal(p) → the value to plot on the y-axis under the current unit selection.
+     The two unit choices share the same data points but render at different
+     numeric scales: mbar gauge is the tank-instrumentation reading (pressure
+     above atmospheric), kPa absolute is the bubble-point pressure used in
+     thermodynamic correlations. */
+  var yVal=(_evpUnit==="kpa")?(function(p){return p.kpa}):(function(p){return p.mbar});
+  /* Tank-pressure operating-zone limits (in mbar gauge by definition for
+     membrane LNG carriers). When the chart switches to kPa abs, the same
+     physical bands are plotted at their kPa-abs equivalents (gauge + 101.325). */
+  var bands=(_evpUnit==="kpa")
+    ?[{lo:106.325,hi:111.325,kind:"caution"},{lo:111.325,hi:121.325,kind:"normal"},{lo:121.325,hi:126.325,kind:"caution"}]
+    :[{lo:50,hi:100,kind:"caution"},{lo:100,hi:200,kind:"normal"},{lo:200,hi:250,kind:"caution"}];
+
+  /* Compute Y-axis range with padding for breathing room. mbar values are
+     small (often 50-300) so a generous 15% pad reads cleanly. kPa values are
+     larger (~100-130) and 15% would force a noticeable empty band above the
+     curve — 5% is plenty for kPa to avoid the line touching the top of the
+     plot area while letting the curve fill the chart height. */
+  var yMin=Math.min.apply(null,pts.map(yVal));
+  var yMax=Math.max.apply(null,pts.map(yVal));
   var yRange=yMax-yMin;
-  var yPad=yRange*0.15||20;
+  var yPadFrac=(_evpUnit==="kpa")?0.05:0.15;
+  var yPad=yRange*yPadFrac||(_evpUnit==="kpa"?1:20);
   var yLo=yMin-yPad,yHi=yMax+yPad;
-  /* Round Y bounds to nearest 50 mbar for readable tick labels */
-  var yStep=yRange>400?100:yRange>200?50:yRange>80?25:10;
+  /* Round Y bounds to readable tick steps. The step thresholds aim for 5-7
+     visible ticks across the y-range — typical LNG cargoes give a padded
+     y-range of 22-37 kPa or 200-400 mbar over the ±1.4 °C window, so step=5
+     and step=50 respectively are the workhorses. */
+  var yStep;
+  if(_evpUnit==="kpa"){
+    yStep=yRange>150?50:yRange>50?10:yRange>15?5:yRange>5?2:yRange>2?1:0.5;
+  }else{
+    yStep=yRange>800?200:yRange>400?100:yRange>150?50:yRange>60?25:10;
+  }
+  /* Snap y-bounds to the tick step. Floor/ceil to the nearest tick produces
+     a clean grid. For kPa mode, also drop a redundant outer tick if the
+     padded bound left more than one full step of empty space beyond the
+     actual data — that's a tick line with no purpose, and trimming it lets
+     the curve fill the chart height better. mbar mode keeps the looser
+     padding because its values are smaller and the visual gap reads as
+     intentional headroom. */
   yLo=Math.floor(yLo/yStep)*yStep;
   yHi=Math.ceil(yHi/yStep)*yStep;
+  if(_evpUnit==="kpa"){
+    if(yHi-yMax >= yStep) yHi -= yStep;
+    if(yMin-yLo >= yStep) yLo += yStep;
+  }
 
-  /* SVG dimensions using viewBox so it scales fluidly to container width */
-  var W=820,H=340,padL=64,padR=24,padT=24,padB=46;
+  /* SVG dimensions using viewBox so it scales fluidly to container width.
+     padL widened slightly for kPa (3-decimal labels need more room). */
+  var W=820,H=340,padL=(_evpUnit==="kpa"?72:64),padR=24,padT=24,padB=46;
   var plotW=W-padL-padR,plotH=H-padT-padB;
   var xPos=function(t){return padL+(t-(tCenter-1.4))/2.8*plotW};
-  var yPos=function(m){return padT+(yHi-m)/(yHi-yLo)*plotH};
+  var yPos=function(v){return padT+(yHi-v)/(yHi-yLo)*plotH};
 
   var svg='<svg viewBox="0 0 '+W+' '+H+'" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Equilibrium vapor pressure vs cargo temperature chart">';
 
-  /* Tank-pressure operating zones for membrane LNG carriers:
-       Green (100-200 mbar gauge): normal operating range
-       Orange (50-100 and 200-250 mbar gauge): caution / approaching limits
-     Each band clipped to the visible Y range so it doesn't extend past the plot. */
+  /* Tank-pressure operating zones for membrane LNG carriers, drawn as
+     horizontal bands clipped to the visible Y range. The "normal" band
+     corresponds to 100-200 mbar gauge (the typical operating window); the
+     two adjacent "caution" bands flag approach to operational limits. */
   function drawBand(loVal, hiVal, fill, stroke){
     var lo=Math.max(yLo,loVal), hi=Math.min(yHi,hiVal);
     if(hi<=lo) return;
     var yH=yPos(hi), yL=yPos(lo);
     svg+='<rect x="'+padL+'" y="'+yH+'" width="'+plotW+'" height="'+(yL-yH)+'" fill="'+fill+'" stroke="'+stroke+'" stroke-width="0.5" stroke-dasharray="2,3"/>';
   }
-  drawBand(50, 100, "rgba(251,146,60,0.07)", "rgba(251,146,60,0.22)");   /* orange lower */
-  drawBand(100, 200, "rgba(74,222,128,0.08)", "rgba(74,222,128,0.25)");  /* green normal */
-  drawBand(200, 250, "rgba(251,146,60,0.07)", "rgba(251,146,60,0.22)");  /* orange upper */
+  bands.forEach(function(b){
+    if(b.kind==="normal")drawBand(b.lo,b.hi,"rgba(74,222,128,0.08)","rgba(74,222,128,0.25)");
+    else drawBand(b.lo,b.hi,"rgba(251,146,60,0.07)","rgba(251,146,60,0.22)");
+  });
 
-  /* Horizontal gridlines and Y-axis tick labels */
+  /* Horizontal gridlines and Y-axis tick labels. Use 1 decimal for kPa labels
+     where the step is < 1, otherwise integer. */
+  var yLabelDec=(_evpUnit==="kpa"&&yStep<1)?1:0;
   for(var y=yLo;y<=yHi+0.0001;y+=yStep){
     var yp=yPos(y);
     svg+='<line class="evp-grid" x1="'+padL+'" y1="'+yp+'" x2="'+(W-padR)+'" y2="'+yp+'"/>';
-    svg+='<text class="evp-tick-label" x="'+(padL-8)+'" y="'+(yp+4)+'" text-anchor="end">'+Math.round(y)+'</text>';
+    svg+='<text class="evp-tick-label" x="'+(padL-8)+'" y="'+(yp+4)+'" text-anchor="end">'+y.toFixed(yLabelDec)+'</text>';
   }
 
   /* Vertical gridlines at every 0.2°C data tick. X-axis labels at every 0.4°C from observed center. */
@@ -1944,9 +2153,10 @@ function renderEvpChart(r){
   svg+='<line class="evp-axis" x1="'+padL+'" y1="'+padT+'" x2="'+padL+'" y2="'+(H-padB)+'"/>';
   svg+='<line class="evp-axis" x1="'+padL+'" y1="'+(H-padB)+'" x2="'+(W-padR)+'" y2="'+(H-padB)+'"/>';
 
-  /* Axis titles */
+  /* Axis titles — y-axis label updates with the unit selection. */
   svg+='<text class="evp-axis-title" x="'+(padL+plotW/2)+'" y="'+(H-8)+'" text-anchor="middle">Cargo Temperature (\u00B0C)</text>';
-  svg+='<text class="evp-axis-title" transform="translate(16,'+(padT+plotH/2)+') rotate(-90)" text-anchor="middle">EVP (mbar gauge)</text>';
+  var yTitle=(_evpUnit==="kpa")?"EVP (kPa abs)":"EVP (mbar gauge)";
+  svg+='<text class="evp-axis-title" transform="translate(16,'+(padT+plotH/2)+') rotate(-90)" text-anchor="middle">'+yTitle+'</text>';
 
   /* Vertical dashed line at observed temperature (center) */
   var xCenter=xPos(tCenter);
@@ -1954,32 +2164,37 @@ function renderEvpChart(r){
   svg+='<text class="evp-current-label" x="'+xCenter+'" y="'+(padT-8)+'" text-anchor="middle">Observed</text>';
 
   /* Curve path */
-  var path=pts.map(function(p,i){return(i===0?"M":"L")+xPos(p.t)+","+yPos(p.mbar)}).join(" ");
+  var path=pts.map(function(p,i){return(i===0?"M":"L")+xPos(p.t)+","+yPos(yVal(p))}).join(" ");
   svg+='<path class="evp-line" d="'+path+'"/>';
 
   /* Data points; mark the observed-T point distinctly */
   pts.forEach(function(p){
     var isCurrent=Math.abs(p.t-tCenter)<0.01;
-    svg+='<circle class="'+(isCurrent?"evp-point-current":"evp-point")+'" cx="'+xPos(p.t)+'" cy="'+yPos(p.mbar)+'" r="'+(isCurrent?5:3.2)+'"/>';
+    svg+='<circle class="'+(isCurrent?"evp-point-current":"evp-point")+'" cx="'+xPos(p.t)+'" cy="'+yPos(yVal(p))+'" r="'+(isCurrent?5:3.2)+'"/>';
   });
 
-  /* Value label at observed point, offset above it */
   /* Value label at observed point, offset above it. The observed-T entry is the middle of the steps array. */
   var cur=pts[Math.floor(steps.length/2)];
-  svg+='<text class="evp-point-label" x="'+xPos(cur.t)+'" y="'+(yPos(cur.mbar)-12)+'" text-anchor="middle" font-weight="700">'+Math.round(cur.mbar)+' mbar</text>';
+  var curLabel=(_evpUnit==="kpa")?(cur.kpa.toFixed(2)+" kPa"):(Math.round(cur.mbar)+" mbar");
+  svg+='<text class="evp-point-label" x="'+xPos(cur.t)+'" y="'+(yPos(yVal(cur))-12)+'" text-anchor="middle" font-weight="700">'+curLabel+'</text>';
 
   svg+='</svg>';
   wrap.innerHTML=svg;
 }
 
 /* Debounced MN computation. The MWM solver runs ~7,500 iterations per render
-   (3 runs × 2,500 stochastic iterations), which made the app sluggish during
-   active typing. We now schedule MN computation 250 ms after the last input
-   change — fast enough to feel responsive, slow enough to skip intermediate
-   keystrokes. While the debounce is pending, the panel shows a calculating
-   placeholder and the previous value (if any) remains on screen until the
-   new computation lands. */
+   (3 runs × 2,500 stochastic iterations), which is too costly to run on every
+   keystroke. MN computation is scheduled 250 ms after the last input change —
+   fast enough to feel responsive, slow enough to skip intermediate keystrokes.
+   While the debounce is pending, the panel shows a calculating placeholder
+   and the previous value (if any) remains on screen until the new one lands. */
 var _mnTimer=null, _mnLastR=null;
+/* EVP Sensitivity Curve: y-axis unit selector (default mbar gauge — matches the
+   conditioning right-axis default). Persists across re-renders so unit choice
+   survives input changes. */
+var _evpUnit="mbar";
+/* Cargo Conditioning: current toggle selections (defaults: volume on the left axis, mbar gauge on the right). */
+var _condLeftUnit="volume",_condRightUnit="mbar";
 function scheduleMN(r){
   _mnLastR=r;
   /* Show "calculating" placeholder immediately (only on first compute or
@@ -2012,7 +2227,7 @@ function scheduleMN(r){
 }
 
 /* Render the Methane Number panel.
-   Simplified panel: hero MN value with zone badge, two-row method note, Engine Impact
+   Hero MN value with zone badge, two-row method note, Engine Impact
    reference table, Marine Dual-Fuel Engine Requirements table.
    Theory, calculation method, and attribution all live in the dedicated Theory panel
    (Step 11). The hero value has a "?" help icon that scrolls to Step 11.
@@ -2032,7 +2247,7 @@ function renderMN(r){
     if(mnVal>80){zoneClass="mn-zone-green";zoneText="Above typical engine minimums"}
     else if(mnVal>=65){zoneClass="mn-zone-amber";zoneText="Approaching engine minimums"}
     html+='<div class="mn-hero">';
-    html+='<button class="mn-help" onclick="scrollToRef(\'sec-step-11\')" aria-label="Open Methane Number theory">?</button>';
+    html+='<button class="mn-help" onclick="scrollToRef(\'sec-step-11\')" title="Learn more about this calculation" aria-label="Learn more about this calculation">?</button>';
     html+='<div class="mn-hero-value">'+mnVal.toFixed(1)+'</div>';
     html+='<div class="mn-hero-zone '+zoneClass+'">'+zoneText.toUpperCase()+'</div>';
     html+='<div class="mn-method-note"><span>Calculation Method: EN 16726:2025 (MNc)</span><span>Variance: \u00B12&ndash;3 units vs. AVL</span></div>';
@@ -2064,6 +2279,180 @@ function renderMN(r){
   wrap.innerHTML=html;
 }
 
+/* Render the Cargo Conditioning panel.
+   Dual-axis SVG chart: left axis (blue) shows mass-equivalent of evaporated
+   liquid in the unit selected by the left toggle (volume m³ / mass tonnes /
+   energy GJ). Right axis (green, dashed line) shows equilibrium tank pressure
+   at each target temperature in the unit selected by the right toggle (mbar
+   gauge / kPa absolute). Below the chart: a 6-row table giving every quantity
+   in every unit, independent of toggle state.
+   Re-rendered on every input change and on toggle clicks. */
+function renderConditioning(r){
+  var wrap=$("cond-body");if(!wrap)return;
+  if(!r){wrap.innerHTML="";return}
+
+  var c=computeConditioning(r);
+  if(!c||!c.points){
+    wrap.innerHTML='<div class="cond-error-box">Cargo Conditioning cannot be computed for this composition or temperature. The cargo properties on previous panels remain valid; only the conditioning trajectory is affected.</div>';
+    return;
+  }
+  var pts=c.points;
+
+  /* ---- Controls (toggles) ---- */
+  var html="";
+  html+='<div class="cond-controls">';
+  html+='<div class="cond-toggle-set cond-left" id="cond-tg-left">';
+  html+='<button data-unit="volume"'+(_condLeftUnit==="volume"?' class="active"':'')+'>Volume</button>';
+  html+='<button data-unit="mass"'+(_condLeftUnit==="mass"?' class="active"':'')+'>Mass</button>';
+  html+='<button data-unit="energy"'+(_condLeftUnit==="energy"?' class="active"':'')+'>Energy</button>';
+  html+='</div>';
+  html+='<div class="cond-toggle-set cond-right" id="cond-tg-right">';
+  html+='<button data-unit="mbar"'+(_condRightUnit==="mbar"?' class="active"':'')+'>mbar gauge</button>';
+  html+='<button data-unit="kpa"'+(_condRightUnit==="kpa"?' class="active"':'')+'>kPa abs</button>';
+  html+='</div>';
+  html+='</div>';
+
+  /* ---- Chart ---- */
+  /* Left-axis values according to selected unit. Volume: m³, Mass: tonnes, Energy: GJ. */
+  var leftVals=pts.map(function(p){
+    if(_condLeftUnit==="mass")return p.mass_evap/1000;             /* tonnes */
+    if(_condLeftUnit==="energy")return p.energy_MJ/1000;           /* GJ */
+    return p.vol_evap;                                             /* m³ */
+  });
+  var rightVals=pts.map(function(p){return _condRightUnit==="kpa"?p.pAbs:p.pGauge});
+
+  /* Y-axis ranges. Left always starts at 0 (the trajectory begins at zero
+     evaporation). Right axis is centered on the data range with padding. */
+  var leftMaxRaw=Math.max.apply(null,leftVals);
+  var leftStep=_condLeftUnit==="energy"?50:_condLeftUnit==="mass"?100:200;
+  if(leftMaxRaw<=0)leftMaxRaw=leftStep;
+  /* Round up to nearest leftStep for clean tick labels */
+  var leftMax=Math.ceil(leftMaxRaw/leftStep)*leftStep;
+  if(leftMax===leftMaxRaw)leftMax+=leftStep; /* always leave a tick of headroom */
+  var leftMin=0;
+
+  var rightHi=Math.max.apply(null,rightVals),rightLo=Math.min.apply(null,rightVals);
+  var rightStep=_condRightUnit==="kpa"?2:25;
+  /* Pad ~10% for breathing room, then snap to step */
+  var rightRange=rightHi-rightLo||rightStep;
+  rightHi=Math.ceil((rightHi+rightRange*0.1)/rightStep)*rightStep;
+  rightLo=Math.floor((rightLo-rightRange*0.1)/rightStep)*rightStep;
+
+  var W=820,H=340,padL=72,padR=82,padT=26,padB=46;
+  var plotW=W-padL-padR,plotH=H-padT-padB;
+  /* Temperature range = 1.0 °C from leftmost (current) to rightmost (current-1.0) */
+  var T0=pts[0].T,Tend=pts[pts.length-1].T;
+  var xPos=function(T){return padL+(T0-T)/(T0-Tend)*plotW};
+  var yPosL=function(v){return padT+(leftMax-v)/(leftMax-leftMin)*plotH};
+  var yPosR=function(v){return padT+(rightHi-v)/(rightHi-rightLo)*plotH};
+
+  var svg='<svg viewBox="0 0 '+W+' '+H+'" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Cargo Conditioning chart">';
+
+  /* Horizontal gridlines aligned to left-axis ticks. Right-axis tick labels
+     are placed at the same Y-positions but show the right-axis values
+     (whichever round numbers fall closest to those Y-positions). To keep both
+     axes legible, draw 5 evenly-spaced gridlines and label both axes at each. */
+  var nGrid=5;
+  for(var gi=0;gi<=nGrid;gi++){
+    var frac=gi/nGrid;
+    var yp=padT+frac*plotH;
+    svg+='<line class="cond-grid" x1="'+padL+'" y1="'+yp+'" x2="'+(W-padR)+'" y2="'+yp+'"/>';
+    /* Left-axis label (blue): from leftMax at top to leftMin at bottom */
+    var lVal=leftMax-frac*(leftMax-leftMin);
+    var lLabel=_condLeftUnit==="energy"?Math.round(lVal):_condLeftUnit==="mass"?Math.round(lVal):Math.round(lVal);
+    svg+='<text class="cond-tick-label-l" x="'+(padL-8)+'" y="'+(yp+4)+'" text-anchor="end">'+lLabel+'</text>';
+    /* Right-axis label (green): from rightHi at top to rightLo at bottom */
+    var rVal=rightHi-frac*(rightHi-rightLo);
+    var rLabel=_condRightUnit==="kpa"?rVal.toFixed(1):Math.round(rVal);
+    svg+='<text class="cond-tick-label-r" x="'+(W-padR+8)+'" y="'+(yp+4)+'" text-anchor="start">'+rLabel+'</text>';
+  }
+
+  /* Vertical gridlines + X-axis labels at every data point */
+  pts.forEach(function(p){
+    var xp=xPos(p.T);
+    svg+='<line class="cond-grid" x1="'+xp+'" y1="'+padT+'" x2="'+xp+'" y2="'+(H-padB)+'"/>';
+    svg+='<text class="cond-tick-label-x" x="'+xp+'" y="'+(H-padB+16)+'" text-anchor="middle">'+p.T.toFixed(1)+'</text>';
+  });
+
+  /* Axes (drawn on top of grid). Left and right axes both visible. */
+  svg+='<line class="cond-axis" x1="'+padL+'" y1="'+padT+'" x2="'+padL+'" y2="'+(H-padB)+'"/>';
+  svg+='<line class="cond-axis" x1="'+(W-padR)+'" y1="'+padT+'" x2="'+(W-padR)+'" y2="'+(H-padB)+'"/>';
+  svg+='<line class="cond-axis" x1="'+padL+'" y1="'+(H-padB)+'" x2="'+(W-padR)+'" y2="'+(H-padB)+'"/>';
+
+  /* Axis titles */
+  svg+='<text class="cond-axis-title" x="'+(padL+plotW/2)+'" y="'+(H-8)+'" text-anchor="middle">Target Temperature (\u00B0C)</text>';
+  var leftTitle=_condLeftUnit==="mass"?"Mass to evaporate (tonnes)":_condLeftUnit==="energy"?"Energy released (GJ)":"Volume to evaporate (m\u00B3)";
+  svg+='<text class="cond-axis-title" transform="translate(16,'+(padT+plotH/2)+') rotate(-90)" text-anchor="middle">'+leftTitle+'</text>';
+  var rightTitle=_condRightUnit==="kpa"?"EVP at new temperature (kPa abs)":"EVP at new temperature (mbar gauge)";
+  svg+='<text class="cond-axis-title" transform="translate('+(W-12)+','+(padT+plotH/2)+') rotate(90)" text-anchor="middle">'+rightTitle+'</text>';
+
+  /* Left line (solid, blue) — mass-equivalent trajectory */
+  var pathL=pts.map(function(p,i){return(i===0?"M":"L")+xPos(p.T)+","+yPosL(leftVals[i])}).join(" ");
+  svg+='<path class="cond-line-l" d="'+pathL+'"/>';
+  /* Right line (dashed, green) — EVP trajectory */
+  var pathR=pts.map(function(p,i){return(i===0?"M":"L")+xPos(p.T)+","+yPosR(rightVals[i])}).join(" ");
+  svg+='<path class="cond-line-r" d="'+pathR+'"/>';
+
+  /* Data points */
+  pts.forEach(function(p,i){
+    svg+='<circle class="cond-pt-l" cx="'+xPos(p.T)+'" cy="'+yPosL(leftVals[i])+'" r="3.4"/>';
+    svg+='<circle class="cond-pt-r" cx="'+xPos(p.T)+'" cy="'+yPosR(rightVals[i])+'" r="3.4"/>';
+  });
+
+  svg+='</svg>';
+
+  /* ---- Legend ---- */
+  /* Chart wrap contains just the dual-axis SVG. The help button is rendered
+     below the chart, in front of the legend, where it scales naturally with
+     screen size and never overlaps the right-axis tick labels. */
+  html+='<div id="cond-chart-wrap">'+svg+'</div>';
+  /* Legend row: stacked legend items on the left (original position from before
+     the help button was added), help button pushed to the right edge of the row.
+     justify-content:space-between separates them; align-items:center keeps the
+     button vertically aligned with the middle of the legend stack. */
+  html+='<div class="cond-legend-row">';
+  html+='<div class="cond-legend">';
+  html+='<div class="cond-legend-item"><div class="cond-legend-swatch" style="background:'+'#3b82f6'+'"></div><span>'+leftTitle+'</span></div>';
+  html+='<div class="cond-legend-item"><div class="cond-legend-swatch" style="background:#4ade80;background-image:repeating-linear-gradient(90deg,#4ade80 0,#4ade80 4px,transparent 4px,transparent 7px)"></div><span>'+rightTitle+'</span></div>';
+  html+='</div>';
+  html+='<button class="cond-chart-help" onclick="scrollToRef(\'sec-step-12\')" title="Learn more about this calculation" aria-label="Learn more about this calculation">?</button>';
+  html+='</div>';
+
+  /* ---- Table — always shows all units regardless of toggle state ---- */
+  html+='<div class="tbl-wrap"><table class="cond-table"><thead><tr>';
+  html+='<th>Target T (\u00B0C)</th>';
+  html+='<th>Volume (m\u00B3)</th>';
+  html+='<th>Mass (t)</th>';
+  html+='<th>Energy (GJ)</th>';
+  html+='<th>EVP (mbar g)</th>';
+  html+='<th>EVP (kPa abs)</th>';
+  html+='</tr></thead><tbody>';
+  pts.forEach(function(p){
+    html+='<tr>';
+    html+='<td>'+p.T.toFixed(1)+'</td>';
+    html+='<td>'+fmt(p.vol_evap,1)+'</td>';
+    html+='<td>'+fmt(p.mass_evap/1000,2)+'</td>';
+    html+='<td>'+fmt(p.energy_MJ/1000,1)+'</td>';
+    html+='<td>'+fmt(p.pGauge,0)+'</td>';
+    html+='<td>'+fmt(p.pAbs,2)+'</td>';
+    html+='</tr>';
+  });
+  html+='</tbody></table></div>';
+
+  wrap.innerHTML=html;
+
+  /* Wire toggle buttons. Clicking re-renders the chart with the new unit but
+     keeps the table unchanged (the table always shows every unit). */
+  var btnsL=document.querySelectorAll("#cond-tg-left button");
+  for(var i=0;i<btnsL.length;i++){
+    (function(b){b.addEventListener("click",function(){_condLeftUnit=b.getAttribute("data-unit");renderConditioning(r)})})(btnsL[i]);
+  }
+  var btnsR=document.querySelectorAll("#cond-tg-right button");
+  for(var j=0;j<btnsR.length;j++){
+    (function(b){b.addEventListener("click",function(){_condRightUnit=b.getAttribute("data-unit");renderConditioning(r)})})(btnsR[j]);
+  }
+}
+
 function scrollToRef(id){var el=document.getElementById(id);if(!el)return;var d=el.closest("details");if(d)d.open=true;setTimeout(function(){el.scrollIntoView({behavior:"smooth",block:"start"})},150)}
 
 function init(){
@@ -2083,6 +2472,41 @@ function init(){
     });
   });
   $("inp-vol").addEventListener("blur",function(){var v=fmtVol(this.value);if(v)this.value=v});
+  /* Temperature: re-format on blur to a minimum of 2 decimal places, preserving
+     additional precision if the user entered more (e.g. -159 → -159.00, -160.1
+     → -160.10, -159.123 → -159.123). Mirrors the composition-field pattern. */
+  $("inp-temp").addEventListener("blur",function(){
+    var v=parseFloat(this.value);
+    if(!isFinite(v))return;
+    var s=this.value.trim();
+    var dotIdx=s.indexOf(".");
+    var decimals=(dotIdx>=0)?(s.length-dotIdx-1):0;
+    this.value=v.toFixed(Math.max(2,decimals));
+  });
+  /* Wire the Cargo Conditioning help icon. The icon sits inside the panel's
+     <summary> element, so a click would normally toggle the <details> open or
+     closed and never reach the icon's own listener cleanly across browsers.
+     Listening on the parent summary catches the click first and lets us decide
+     whether to consume it (icon click → scroll to theory, suppress toggle) or
+     pass it through (anywhere else on the summary → default toggle). */
+  /* EVP unit toggle. The buttons live in the static panel header (rendered in
+     HTML, not by renderEvpChart), so attach once at init. On click, update the
+     unit state, swap the active class, and call render() so renderEvpChart
+     redraws with the new unit. */
+  var evpTg=$("evp-tg-unit");
+  if(evpTg){
+    var evpBtns=evpTg.querySelectorAll("button");
+    for(var ei=0;ei<evpBtns.length;ei++){
+      (function(btn){
+        btn.addEventListener("click",function(){
+          _evpUnit=btn.getAttribute("data-unit");
+          for(var k=0;k<evpBtns.length;k++)evpBtns[k].classList.remove("active");
+          btn.classList.add("active");
+          render();
+        });
+      })(evpBtns[ei]);
+    }
+  }
   /* Before printing:
      - Open all <details> panels so content is rendered.
      - Replace each <details> with a plain <div> for the print view, because the
@@ -2135,7 +2559,7 @@ function init(){
   }
   window.addEventListener("beforeprint",_beforePrint);
   window.addEventListener("afterprint",_afterPrint);
-  /* matchMedia fallback for browsers (Safari historically) where beforeprint/afterprint don't fire reliably */
+  /* matchMedia fallback for browsers where beforeprint/afterprint don't fire reliably (notably some Safari versions) */
   if(window.matchMedia){
     var mql=window.matchMedia("print");
     mql.addEventListener("change",function(e){e.matches?_beforePrint():_afterPrint()});

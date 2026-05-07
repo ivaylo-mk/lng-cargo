@@ -9,7 +9,7 @@
  * updated. Bumping the version name causes the old cache to be deleted and
  * the new files to be fetched and re-cached.
  */
-const CACHE_NAME = 'lng-cargo-v2.3.0';
+const CACHE_NAME = 'lng-cargo-v2.4.0';
 const ASSETS = [
   './',
   './index.html',
