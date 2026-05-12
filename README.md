@@ -7,14 +7,14 @@
 <p align="center">
   <a href="https://lng.ivaylokrastev.com"><img src="https://img.shields.io/badge/PWA-Ready-blue" alt="PWA" /></a>
   <a href="https://lng.ivaylokrastev.com"><img src="https://img.shields.io/badge/Offline-Ready-blue" alt="Offline" /></a>
-  <a href="https://lng.ivaylokrastev.com"><img src="https://img.shields.io/badge/Version-2.4.0-blue" alt="Version" /></a>
+  <a href="https://lng.ivaylokrastev.com"><img src="https://img.shields.io/badge/Version-2.5.0-blue" alt="Version" /></a>
   <a href="./LICENSE"><img src="https://img.shields.io/badge/License-AGPL--3.0-blue" alt="License" /></a>
 </p>
 
 Determines the physical, energy, and gas-phase properties of an LNG cargo from a measured composition, liquid volume, and temperature. Built for cargo surveyors, terminal operators, ship officers, and commercial analysts who require high-fidelity property estimates derived from a rigorous implementation of industry-standard methods.
 
 **🌐 Live App:** **[https://lng.ivaylokrastev.com](https://lng.ivaylokrastev.com)**
-> Once installed, the app works fully offline. For isolated offline workstations, you can download a [standalone HTML version](./LNG_Cargo_Properties_Calculator.html). On the next page, click the "Download raw file" icon in the top-right corner of the code box. Jump to the [Installation](#installation) section for additional information.
+> Once installed, the app works fully offline. For isolated offline workstations, you can download a standalone HTML version. Jump to the [Installation](#installation) section for additional information.
 
 ---
 
@@ -77,11 +77,12 @@ The calculation engine implements established industry-standard methods:
 - **ISO 6578:2017** — *Refrigerated hydrocarbon liquids — Static measurement — Calculation procedure.* Provides the Klosek-McKinley volume-correction method for LNG liquid density (Formula 9), and the mass and energy calculation chain (Formulas 1, 4, 12).
 - **ISO 6976:2016** — *Natural gas — Calculation of calorific values, density, relative density and Wobbe indices from composition.* Provides ideal-gas molar gross calorific values (Table 3), summation factors for the real-gas compression factor (Table 2), and dry-air compression factors (Annex A Table A.4).
 - **GPA Midstream 2145-16** — *Table of Physical Properties for Hydrocarbons and Other Compounds of Interest to the Natural Gas and Natural Gas Liquids Industries.* Provides BTU/SCF heating values at 60 °F / 14.696 psia, summation factors, and molar masses for US-convention custody transfer.
+- **EN 16726:2025 Annex A (MNc method)** — *Gas infrastructure — Quality of gas — Group H.* Defines the Methane Number calculation for gas-fuelled engines, used to estimate the engine knock-resistance of the regasified LNG. Implementation validated against the LNG-relevant reference compositions in Annex A Table A.10, agreeing to within 1 MN unit.
 - **Klosek-McKinley method** (NIST, 1970s) — the liquid-density correlation used under both standards, validated against experimental LNG data to ±0.1 %.
 - **Antoine vapor-pressure correlation** — with NIST Chemistry WebBook and Yaws' Handbook constants, used for the equilibrium vapor pressure and boiling-point inversion.
 - **IUPAC 2007 atomic weights** — for molar mass computation (C = 12.0107, H = 1.00794, N = 14.0067, O = 15.9994, S = 32.065).
 
-The dual-standard design means the calculator matches the way cargo Certificates of Quality are actually issued: select **GPA** when reconciling a US-terminal COQ (Sabine Pass, Corpus Christi, Cameron, Freeport, Plaquemines, Elba Island, Port Arthur); select **ISO** when reconciling a European, Asian, Middle Eastern, or Australian COQ.
+The dual-standard design means the calculator matches the way cargo Certificates of Quality are actually issued: select **GPA** when reconciling a US-terminal COQ (Sabine Pass, Corpus Christi, Cameron, Freeport, Plaquemines, Golden Pass, Elba Island, Port Arthur); select **ISO** when reconciling a European, Asian, Middle Eastern, or Australian COQ.
 
 ---
 
@@ -89,8 +90,9 @@ The dual-standard design means the calculator matches the way cargo Certificates
 
 - **Extensive in-app theory documentation.** Twelve step-by-step derivations of every calculation, with source formulas attributed to their originating standards and clauses. Every result card has a `?` icon that scrolls to the corresponding theory step.
 - **Methane Number panel.** Computes the gas-fuel methane number (EN 16726:2025 Annex A / MNc method) from the LNG composition, with a color-coded indicator (green / amber / red) against typical engine minimums. Includes an "Engine Impact" reference table explaining what each MN range means operationally (full power vs derating vs diesel-mode transfer) and a reference table of indicative MN minimums by manufacturer (MAN, Wärtsilä, WinGD, Rolls-Royce / Bergen) for quick comparison. Useful for ship engineers and dual-fuel engine operators making fuel-quality assessments alongside cargo accounting work — applies to both direct-drive arrangements (e.g., ME-GI, X-DF main engines) and electric arrangements (DFDE / TFDE with dual-fuel medium-speed gensets). The implementation has been validated against the LNG-relevant reference compositions in EN 16726 Annex A Table A.10, agreeing to within 1 MN unit.
-- **EVP Sensitivity Curve.** A graph panel showing the equilibrium vapor pressure across a ±1.4 °C window around the observed cargo temperature, with shaded zones indicating the typical membrane LNG carrier tank-pressure operating range. A toggle switches the y-axis between mbar gauge (tank-instrumentation reading) and kPa absolute (thermodynamic bubble-point pressure). Helps surveyors and officers anticipate tank pressure response to heat ingress or active cooling during the voyage.
+- **EVP Sensitivity Curve.** A graph panel showing the equilibrium vapor pressure across a ±1.4 °C window around the observed cargo temperature, with shaded zones indicating the typical membrane LNG carrier tank-pressure operating range. A toggle switches the y-axis between mbar gauge (tank-instrumentation reading) and kPa absolute (thermodynamic bubble-point pressure). Helps anticipate tank pressure response to heat ingress or active cooling during the voyage.
 - **Cargo Conditioning panel.** A dual-axis chart and reference table showing the cumulative mass / volume / energy of liquid that must evaporate to cool the cargo to lower target temperatures (six steps of 0.2 °C, down to 1.0 °C below the observed value), and the equilibrium tank pressure at each target. Toggles let the user view the left axis in volume (m³), mass (tonnes), or energy (GJ), and the right axis in mbar gauge or kPa absolute. The accompanying table always shows every quantity in every unit so that a discharge plan can be evaluated against any specification format. Density at each target temperature is independently recomputed via Klosek-McKinley, so the volume figure reflects the colder, denser liquid rather than a constant-density approximation.
+- **Cargo Library.** Save up to 10 named cargo configurations and load them with a single click via the floppy-disk button in the header. Each saved cargo retains the full state (composition, temperature, volume, standards, reference temperatures) and is timestamped with its last save date. Two pinned entries sit above the user slots: an "Example Cargo" with the calculator's default values (always available, cannot be deleted) and a "Last Session" entry that auto-updates as you work so closing and reopening the app keeps your current cargo intact. Overwrite confirmation and delete confirmation are required for any destructive action. The library can be exported to a JSON backup file and imported back into the calculator on another machine — useful for transferring a curated set of reference cargoes between devices or sharing a library with colleagues.
 - **Full unit-system coverage.** Every quantity where multiple conventions exist (MJ/kg, kWh/kg, MMBTU/tonne, Btu/lb; MJ/m³, kWh/Sm³, BTU/SCF; Sm³, Nm³, SCF) is computed and exposed.
 - **Real-gas correction** using the compression factor Z from ISO 6976:2016 Table 2 summation factors (or GPA 2145-16 equivalents).
 - **Sanity warnings.** Out-of-scope cargo temperature, composition summation deviation, and excess CO₂ content (solubility flag at 100 ppm) trigger visible warnings without blocking calculation.
@@ -115,7 +117,7 @@ Once installed, the app works fully offline and launches as a standalone window 
 
 ### As a standalone offline HTML file
 A single-file offline version (`LNG_Cargo_Properties_Calculator.html`) is included in this repository. This is suitable for isolated workstations that have no internet access — for example, shipboard Cargo Control Room computers on an isolated LAN.
-[Download the file](./LNG_Cargo_Properties_Calculator.html) once, copy it to any computer, and it runs in any browser with no network dependency, ever. No PWA install prompt appears in this mode, and no persistent state is saved (so multiple users can share one file without data contamination).
+[Download the file](./LNG_Cargo_Properties_Calculator.html) once, copy it to any computer, and it runs in any browser with no network dependency, ever. No PWA install prompt appears in this mode. Saved cargoes are stored in the browser's local storage and do not travel with the file: moving the file to a different system will not preserve them, while moving the file within the same system usually preserves them (this behavior depends on the browser's handling of local files).
 
 ---
 
@@ -143,9 +145,9 @@ The calculator is provided for reference and informational purposes only. Result
 ### Source standards
 This tool does not reproduce or distribute any copyrighted standards documents. It implements widely known calculation methods based on publicly available scientific principles, using numerical physical constants defined in the underlying standards — constants which are physical facts of nature (e.g., densities, heating values, molar masses, vapor pressures) and are generally not subject to copyright protection.
 
-Users requiring the full text, formal specifications, or authoritative interpretation of the underlying standards should obtain **ISO 6578:2017**, **ISO 6976:2016**, and **GPA Midstream 2145-16** directly from the respective publishers (ISO at iso.org, GPA Midstream at gpamidstream.org).
+Users requiring the full text, formal specifications, or authoritative interpretation of the underlying standards should obtain **ISO 6578:2017**, **ISO 6976:2016**, **GPA Midstream 2145-16**, and **EN 16726:2025** directly from the respective publishers (ISO at iso.org, GPA Midstream at gpamidstream.org, EN/CEN standards via national standardisation bodies).
 
-No affiliation, endorsement, or certification by ISO, GPA Midstream, NIST, IUPAC, JetBrains, or any LNG terminal operator is claimed or implied.
+No affiliation, endorsement, or certification by ISO, CEN, GPA Midstream, NIST, IUPAC, JetBrains, or any LNG terminal operator is claimed or implied.
 
 ### Font licensing
 The calculator embeds the JetBrains Mono font subset, distributed under the SIL Open Font License, Version 1.1. The license notice is preserved inline within the application's source.
@@ -181,6 +183,10 @@ The Methane Number calculation (introduced in v2.3.0) embeds a JavaScript implem
 ---
 
 ## Changelog
+
+### Version 2.5.0
+- **New: Cargo Library.** Save, load, rename, and delete up to 10 named cargo configurations via a floppy-disk button in the header. Each saved cargo stores the full input state (composition, temperature, volume, standards, reference temperatures) with a "last saved" timestamp. Two pinned entries — Example Cargo (calculator defaults) and Last Session (auto-updated continuously) — sit above the user slots and cannot be deleted. Overwrite confirmation and delete confirmation are required for destructive actions; toast notifications confirm successful save/load/delete operations. Last Session is restored automatically on app startup, so closing and reopening keeps the user's current cargo intact. Storage uses the browser's localStorage and works offline.
+- **Library import/export.** Two buttons at the bottom of the library modal export the saved cargoes to a JSON backup file or import a previously exported file back into the calculator. Useful for transferring a curated library between devices, sharing reference cargoes with colleagues, or backing up the library before maintenance. Import asks for confirmation before replacing existing cargoes and defensively validates the file structure.
 
 ### Version 2.4.0
 - **New: Cargo Conditioning panel.** Reference panel showing the cumulative mass / volume / energy of liquid that must evaporate to cool the cargo by up to 1 °C below the observed temperature (six target temperatures in 0.2 °C steps), alongside the equilibrium tank pressure at each target. Toggles select the left-axis quantity (volume m³ / mass tonnes / energy GJ) and the right-axis pressure unit (mbar gauge / kPa abs); the reference table beneath the chart always carries every quantity in every unit. Density is recomputed by Klosek-McKinley at each target temperature, so the volume figure reflects the colder, denser liquid rather than a constant-density approximation. Lives in a new collapsible panel between the Methane Number panel and Intermediate Values, open by default. Included in the printed cargo report (page 6 of 7).

@@ -93,7 +93,14 @@ header,main,footer{position:relative;z-index:1}
 input,select,button{font-family:var(--font);outline:none}
 input[type=number]{-moz-appearance:textfield}input::-webkit-outer-spin-button,input::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
 header{background:linear-gradient(135deg,rgba(20,35,60,0.92),rgba(10,16,30,0.92));border-bottom:1px solid var(--bd);padding:16px var(--pad)}
-.h-inner{max-width:1200px;margin:0 auto;display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:8px}
+.h-inner{max-width:1200px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;gap:12px}
+.h-text{flex:1 1 auto;min-width:0}
+.h-lib-btn{flex-shrink:0;width:36px;height:36px;padding:6px;background:transparent;border:1px solid rgba(74,222,128,0.3);border-radius:8px;color:#4ade80;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;transition:background 0.15s,border-color 0.15s,color 0.15s}
+.h-lib-btn:hover{background:rgba(74,222,128,0.12);border-color:rgba(74,222,128,0.55);color:#86efac}
+.h-lib-btn svg{width:100%;height:100%;display:block}
+@media(max-width:540px){
+  .h-lib-btn{width:30px;height:30px;padding:5px}
+}
 h1{font-size:var(--fs-lg);font-weight:700;letter-spacing:-0.02em}
 .h-sub{font-size:var(--fs-xs);color:var(--tm);margin-top:2px;letter-spacing:0.04em}
 .h-iso{font-size:var(--fs-xs);color:var(--ac);margin-top:2px;letter-spacing:0.04em;opacity:0.9}
@@ -257,6 +264,66 @@ footer{text-align:center;padding:clamp(16px,3vw,24px) var(--pad);font-size:var(-
 .cond-table tr:last-child td{border-bottom:none}
 .cond-table td:first-child{color:var(--tx);font-weight:600}
 .cond-error-box{background:rgba(127,29,29,0.25);border:1px solid rgba(220,38,38,0.4);border-radius:10px;padding:14px 16px;color:#fca5a5;font-size:var(--fs-sm);line-height:1.5}
+
+/* ────── Cargo Library (v2.5.0) ──────
+   Modal-based UI for saving, loading, renaming, and deleting up to 10 named
+   cargoes, plus two pinned-at-top entries (Example Cargo, Last Session) that
+   cannot be deleted. Storage lives in localStorage under lng_cargo_library_v1. */
+.lib-modal{display:none;position:fixed;inset:0;z-index:1000;align-items:center;justify-content:center;padding:16px}
+.lib-modal.lib-open{display:flex}
+.lib-backdrop{position:absolute;inset:0;background:rgba(3,7,18,0.78);backdrop-filter:blur(2px)}
+.lib-dialog{position:relative;width:100%;max-width:560px;max-height:88vh;display:flex;flex-direction:column;background:linear-gradient(135deg,rgba(20,35,60,0.97),rgba(10,16,30,0.97));border:1px solid var(--bd);border-radius:14px;box-shadow:0 20px 60px rgba(0,0,0,0.6);overflow:hidden}
+.lib-dialog-narrow{max-width:440px}
+.lib-header{display:flex;justify-content:space-between;align-items:center;padding:14px 18px;border-bottom:1px solid var(--bd);background:rgba(3,7,18,0.45)}
+.lib-header h2{margin:0;font-size:var(--fs-md);font-weight:600;color:var(--tx);letter-spacing:0.01em}
+.lib-close{background:transparent;border:none;color:var(--tm);font-size:24px;line-height:1;cursor:pointer;padding:0 6px;font-family:inherit;transition:color 0.15s}
+.lib-close:hover{color:var(--tx)}
+.lib-body{padding:18px;overflow-y:auto;flex:1 1 auto}
+.lib-save-btn{width:100%;padding:10px 14px;background:#4ade80;color:#002a1a;border:none;border-radius:8px;font-size:var(--fs-sm);font-weight:600;font-family:inherit;cursor:pointer;margin-bottom:14px;transition:background 0.15s}
+.lib-save-btn:hover{background:#86efac}
+.lib-save-btn:disabled{background:rgba(148,163,184,0.2);color:var(--tm);cursor:not-allowed}
+.lib-divider{height:1px;background:var(--bd);margin:10px 0}
+.lib-iex-row{display:flex;gap:10px;margin-top:14px;padding-top:14px;border-top:1px solid var(--bd)}
+.lib-iex-btn{flex:1 1 0;padding:8px 12px;background:transparent;color:var(--tm);border:1px solid var(--bd);border-radius:6px;font-size:var(--fs-xs);font-weight:600;font-family:inherit;cursor:pointer;letter-spacing:0.02em;transition:all 0.15s}
+.lib-iex-btn:hover{background:rgba(74,222,128,0.1);border-color:rgba(74,222,128,0.55);color:#86efac}
+.lib-empty{font-size:var(--fs-xs);color:var(--tm);text-align:center;padding:14px 0;opacity:0.7;font-style:italic}
+.lib-row{display:flex;align-items:center;gap:10px;padding:10px 12px;border:1px solid var(--bd);border-radius:8px;margin-bottom:8px;background:rgba(3,7,18,0.3)}
+.lib-row-pinned{border-color:rgba(74,222,128,0.3);background:rgba(74,222,128,0.05)}
+.lib-row-info{flex:1 1 auto;min-width:0;overflow:hidden}
+.lib-row-name{font-size:var(--fs-sm);font-weight:600;color:var(--tx);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.lib-row-date{font-size:11px;color:var(--tm);margin-top:2px;opacity:0.7;font-variant-numeric:tabular-nums}
+.lib-row-actions{display:flex;gap:6px;flex-shrink:0}
+.lib-row-load,.lib-row-delete{padding:6px 12px;border:1px solid var(--bd);border-radius:6px;font-size:var(--fs-xs);font-weight:600;font-family:inherit;cursor:pointer;background:transparent;transition:all 0.15s}
+.lib-row-load{color:var(--ac);border-color:rgba(59,130,246,0.35)}
+.lib-row-load:hover{background:rgba(59,130,246,0.15);border-color:var(--ac);color:#93c5fd}
+.lib-row-delete{color:#fca5a5;border-color:rgba(220,38,38,0.35)}
+.lib-row-delete:hover{background:rgba(220,38,38,0.15);border-color:#ef4444;color:#fecaca}
+.lib-label{display:block;font-size:var(--fs-xs);color:var(--tm);margin-bottom:6px;letter-spacing:0.02em}
+.lib-input{width:100%;padding:9px 12px;background:rgba(3,7,18,0.55);border:1px solid var(--bd);border-radius:6px;color:var(--tx);font-family:inherit;font-size:var(--fs-sm);outline:none;transition:border-color 0.15s}
+.lib-input:focus{border-color:var(--ac)}
+.lib-input-meta{display:flex;justify-content:space-between;align-items:center;margin-top:6px;font-size:11px;min-height:16px}
+.lib-validation{color:#fca5a5}
+.lib-validation.lib-warn{color:#fcd34d}
+.lib-counter{color:var(--tm);font-variant-numeric:tabular-nums}
+.lib-confirm-text{margin:0 0 16px 0;font-size:var(--fs-sm);color:var(--tx);line-height:1.5}
+.lib-actions{display:flex;justify-content:flex-end;gap:10px;margin-top:8px}
+.lib-action-cancel,.lib-action-confirm{padding:8px 18px;border-radius:6px;font-size:var(--fs-sm);font-weight:600;font-family:inherit;cursor:pointer;border:1px solid var(--bd);transition:all 0.15s}
+.lib-action-cancel{background:transparent;color:var(--tm)}
+.lib-action-cancel:hover{background:rgba(148,163,184,0.1);color:var(--tx)}
+.lib-action-confirm{background:#4ade80;color:#002a1a;border-color:#4ade80}
+.lib-action-confirm:hover{background:#86efac;border-color:#86efac}
+.lib-action-confirm:disabled{background:rgba(148,163,184,0.2);color:var(--tm);border-color:var(--bd);cursor:not-allowed}
+.lib-action-confirm.lib-action-danger{background:#dc2626;color:#fff;border-color:#dc2626}
+.lib-action-confirm.lib-action-danger:hover{background:#ef4444;border-color:#ef4444}
+.lib-toast{position:fixed;left:50%;transform:translateX(-50%) translateY(20px);bottom:24px;background:rgba(20,35,60,0.96);color:var(--tx);border:1px solid rgba(74,222,128,0.4);border-radius:8px;padding:10px 18px;font-size:var(--fs-sm);font-weight:500;box-shadow:0 8px 24px rgba(0,0,0,0.5);opacity:0;pointer-events:none;transition:opacity 0.3s,transform 0.3s;z-index:1001}
+.lib-toast.lib-toast-show{opacity:1;transform:translateX(-50%) translateY(0)}
+@media(max-width:540px){
+  .lib-modal{padding:8px}
+  .lib-body{padding:14px}
+  .lib-row{padding:9px 10px;gap:8px}
+  .lib-row-load,.lib-row-delete{padding:5px 9px;font-size:11px}
+}
+
 @media print{
   /* Define running footer on every printed page. The @bottom-center margin
      box is a CSS Paged Media feature supported by Chromium/Edge/Safari for
@@ -382,7 +449,7 @@ footer{text-align:center;padding:clamp(16px,3vw,24px) var(--pad);font-size:var(-
   #evp-chart-wrap .evp-current-label{fill:#000 !important;font-weight:700 !important}
   .evp-curve-intro{color:#444 !important;font-size:9pt !important;margin-bottom:8pt !important}
   /* Print styling for Cargo Conditioning panel — adapt dual-axis SVG and toggles to paper. */
-  #cond-panel .cond-chart-help,#cond-panel .cond-controls,#evp-curve-panel .evp-controls{display:none !important}
+  #cond-panel .cond-chart-help,#cond-panel .cond-controls,#evp-curve-panel .evp-controls,.h-lib-btn,#lib-modal,#lib-confirm-modal,#lib-save-modal,#lib-toast{display:none !important}
   #cond-panel .cond-intro{color:#444 !important;font-size:9pt !important;margin-bottom:8pt !important}
   #cond-chart-wrap{background:#fff !important;border:1px solid #999 !important;padding:8mm !important;max-width:100% !important;-webkit-print-color-adjust:exact;print-color-adjust:exact}
   #cond-chart-wrap svg{font-family:inherit !important}
@@ -420,12 +487,15 @@ footer{text-align:center;padding:clamp(16px,3vw,24px) var(--pad);font-size:var(-
 <body>
 
 <header><div class="h-inner">
-<div>
+<div class="h-text">
 <h1>LNG Cargo Properties Calculator</h1>
 <div class="h-sub">Mass · Energy · Quality · Volume · Gas State</div>
 <div class="h-iso" id="h-iso">ISO 6578:2017 · ISO 6976:2016 · GPA 2145-16</div>
 <div id="f-brand" class="h-brand">Created by Ivaylo Krastev</div>
 </div>
+<button id="lib-btn" class="h-lib-btn" aria-label="Open Cargo Library" title="Cargo Library">
+<svg viewBox="0 0 384 384" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M 252.3 44.1 L 251.3 44.2 L 251.3 85.1 C 251.3 131 251.4 127.6 249.9 130.5 C 248.4 133.6 245.9 135.8 242.7 136.8 L 241 137.4 L 180.2 137.4 C 121.6 137.4 119.3 137.4 118.2 137 C 113.9 135.7 110.5 132.1 109.5 127.7 C 109.2 126.5 109.2 122.6 109.2 85.3 L 109.2 44.2 L 84.6 44.2 C 60.6 44.2 59.9 44.2 58.5 44.5 C 56.6 45 54 46.3 52.5 47.6 C 50.3 49.4 48.3 52.6 47.4 55.6 C 47.1 56.8 47.1 61.5 47.1 192.3 L 47.1 327.7 L 47.5 329.1 C 49.1 334.1 53 338 58.1 339.4 L 59.6 339.9 L 324.7 339.9 L 326.6 339.2 C 331.5 337.5 335.1 333.8 336.5 328.9 L 336.9 327.5 L 336.9 93.8 L 336.5 92.6 C 336.3 91.9 335.9 91.1 335.6 90.7 C 335.1 89.9 291.5 46.4 290.6 45.7 C 290.2 45.5 289.4 45 288.8 44.8 L 287.8 44.3 L 277.1 44.2 C 271.2 44.2 263.4 44.2 259.8 44.1 C 256.2 44.1 252.8 44.1 252.3 44.1 Z M 283.7 183.6 C 287 184.8 289.7 187.6 290.8 191.1 C 291.1 192.2 291.1 195.4 291.1 249.6 L 291.1 307 L 290.6 308.4 C 289.4 312 286.7 314.6 283.3 315.6 C 282.4 315.9 274.4 315.9 191.6 315.9 C 93 315.9 100.2 316 98.1 314.9 C 95.4 313.6 93.8 311.6 92.5 308.4 L 92.1 307.4 L 92.1 250.4 C 92.1 212.1 92.1 193.1 92.2 192.3 C 92.5 190.3 93.8 187.8 95.3 186.4 C 96.9 184.7 98.9 183.6 101 183.3 C 101.5 183.2 142.5 183.2 192.2 183.2 L 282.4 183.2 Z M 76 301.1 C 76.9 301.5 76.9 301.8 76.9 308.4 C 76.9 314.8 76.8 315.6 76.2 315.9 C 76 316.1 73.1 316.1 68.9 316.1 C 62.2 316.1 61.9 316.1 61.6 315.8 C 61.2 315.4 61.2 315.1 61.2 310.1 C 61.1 301.7 61.1 301.3 62 301 C 62.2 300.9 65.3 300.8 68.9 300.8 C 74.2 300.8 75.5 300.8 76 301.1 Z M 322.1 301.3 C 322.5 301.7 322.5 301.8 322.6 308 C 322.6 311.4 322.6 314.5 322.5 314.8 C 322.5 315.1 322.3 315.6 322 315.8 C 321.7 316.1 321.4 316.1 314.7 316.1 C 307.9 316.1 307.6 316.1 307.3 315.8 C 306.9 315.4 306.9 315.1 306.9 308.6 L 306.9 301.8 L 307.5 301.3 L 308.1 300.8 L 314.9 300.8 C 321.7 300.9 321.7 300.9 322.1 301.3 Z" fill="currentColor"/><path d="M 113.2 212.7 C 112.1 213.3 112 213.7 112 218.3 C 112 223.1 112.1 223.5 113.3 224.2 C 113.9 224.5 116.7 224.5 191.5 224.5 C 265.1 224.5 269.2 224.5 269.8 224.2 C 270.1 224 270.6 223.6 270.8 223.3 C 271.1 222.8 271.2 222.5 271.2 218.7 C 271.3 214 271.1 213.4 270.1 212.7 L 269.5 212.3 L 191.6 212.3 C 114.7 212.3 113.8 212.3 113.2 212.7 Z" fill="currentColor"/><path d="M 113.4 243.2 C 112.1 243.8 112 244 112 249 C 112 253 112 253.5 112.4 254 C 112.6 254.3 113 254.7 113.3 254.9 C 113.8 255.1 121.8 255.2 191.6 255.2 L 269.4 255.2 L 270 254.7 C 271.2 253.9 271.3 253.6 271.2 248.8 C 271.2 244.8 271.1 244.4 270.8 243.9 C 270.6 243.7 270.1 243.3 269.8 243.1 C 269.2 242.8 265.1 242.8 191.6 242.8 C 114.6 242.8 114.1 242.8 113.4 243.2 Z" fill="currentColor"/><path d="M 113 274.3 C 112 275.1 112 275.4 112 280.3 L 112.1 284.8 L 112.8 285.4 L 113.5 286 L 191.5 286 C 268.7 286 269.5 286 270 285.6 C 271.1 285 271.2 284.7 271.2 279.8 C 271.2 275.8 271.1 275.4 270.8 274.9 C 270.6 274.6 270.2 274.2 269.9 274.1 C 269.5 273.9 259.2 273.8 191.5 273.8 L 113.5 273.8 Z" fill="currentColor"/><path d="M 189.9 53.4 C 189.7 53.5 189.2 53.8 189 54.1 L 188.5 54.7 L 188.5 123.6 L 188.9 124.1 C 189.7 125.1 188.9 125.1 209.3 125.1 C 229.7 125.1 228.8 125.1 229.7 124.1 L 230.1 123.6 L 230.1 54.7 L 229.4 54 L 228.8 53.3 L 209.5 53.3 C 198.9 53.3 190.1 53.3 189.9 53.4 Z" fill="currentColor"/></svg>
+</button>
 </div></header>
 
 <main>
@@ -800,8 +870,76 @@ Combustion &amp; metering reference fixed at <strong style="color:var(--tx)">60 
 <div class="footer-copy" id="f-copy">© 2026 Ivaylo Krastev · Licensed under AGPL-3.0</div>
 <div style="font-size:var(--fs-xs);margin-bottom:6px"><a id="f-site" href="https://ivaylokrastev.com" target="_blank" rel="noopener" style="color:var(--tx);text-decoration:none;display:inline-flex;align-items:center;gap:6px"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>ivaylokrastev.com</a><span style="opacity:0.4;margin:0 8px">&middot;</span><a id="f-repo" href="https://github.com/ivaylo-mk/lng-cargo-calculator" target="_blank" rel="noopener" style="color:var(--tx);text-decoration:none;display:inline-flex;align-items:center;gap:6px"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" style="flex-shrink:0"><path d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.39 7.86 10.91.58.11.79-.25.79-.56 0-.27-.01-1.01-.02-1.97-3.2.69-3.87-1.54-3.87-1.54-.52-1.33-1.28-1.69-1.28-1.69-1.05-.71.08-.7.08-.7 1.16.08 1.77 1.19 1.77 1.19 1.03 1.76 2.7 1.25 3.36.96.1-.74.4-1.25.73-1.54-2.55-.29-5.24-1.28-5.24-5.69 0-1.26.45-2.29 1.19-3.1-.12-.29-.51-1.46.11-3.05 0 0 .97-.31 3.18 1.18.92-.26 1.91-.39 2.89-.39.98 0 1.97.13 2.89.39 2.21-1.49 3.18-1.18 3.18-1.18.62 1.59.23 2.76.11 3.05.74.81 1.19 1.84 1.19 3.1 0 4.42-2.69 5.39-5.25 5.68.41.35.78 1.04.78 2.1 0 1.51-.01 2.73-.01 3.1 0 .31.21.68.8.56C20.71 21.39 24 17.08 24 12c0-6.35-5.15-11.5-11.5-11.5z"/></svg>Source Code</a></div>
 <div style="font-size:var(--fs-xs);color:var(--tm);margin-top:4px;opacity:0.6">Calculations provided for reference purposes only.</div>
-<div style="font-size:var(--fs-xs);color:var(--tm);margin-top:10px;opacity:0.6">Version 2.4.0</div>
+<div style="font-size:var(--fs-xs);color:var(--tm);margin-top:10px;opacity:0.6">Version 2.5.0</div>
 </footer>
+
+<!-- ════════════ CARGO LIBRARY ════════════
+     Three modals: library list, save-name dialog, generic confirm dialog.
+     All hidden by default; JS adds .lib-open to show them.
+     The library modal contains pinned specials (Example Cargo, Last Session)
+     at the top, then user cargoes alphabetically. The empty-state message
+     appears below the specials when no user cargoes exist. -->
+<div id="lib-modal" class="lib-modal" role="dialog" aria-modal="true" aria-labelledby="lib-modal-title">
+  <div class="lib-backdrop"></div>
+  <div class="lib-dialog">
+    <div class="lib-header">
+      <h2 id="lib-modal-title">Cargo Library</h2>
+      <button class="lib-close" id="lib-close" aria-label="Close">&times;</button>
+    </div>
+    <div class="lib-body">
+      <button id="lib-save-current" class="lib-save-btn">Save Current Cargo</button>
+      <div id="lib-list-pinned"></div>
+      <div class="lib-divider"></div>
+      <div id="lib-list-user"></div>
+      <div class="lib-iex-row">
+        <button id="lib-import" class="lib-iex-btn" title="Import cargoes from a backup file">Import</button>
+        <button id="lib-export" class="lib-iex-btn" title="Export your saved cargoes to a backup file">Export</button>
+        <input type="file" id="lib-import-file" accept=".json,application/json" style="display:none">
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="lib-save-modal" class="lib-modal" role="dialog" aria-modal="true" aria-labelledby="lib-save-title">
+  <div class="lib-backdrop"></div>
+  <div class="lib-dialog lib-dialog-narrow">
+    <div class="lib-header">
+      <h2 id="lib-save-title">Save Cargo</h2>
+      <button class="lib-close" id="lib-save-close" aria-label="Close">&times;</button>
+    </div>
+    <div class="lib-body">
+      <label for="lib-save-name" class="lib-label">Cargo name</label>
+      <input type="text" id="lib-save-name" class="lib-input" maxlength="30" autocomplete="off" spellcheck="false">
+      <div class="lib-input-meta">
+        <span id="lib-save-validation" class="lib-validation"></span>
+        <span id="lib-save-counter" class="lib-counter">0/30</span>
+      </div>
+      <div class="lib-actions">
+        <button id="lib-save-cancel" class="lib-action-cancel">Cancel</button>
+        <button id="lib-save-confirm" class="lib-action-confirm">Save</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="lib-confirm-modal" class="lib-modal" role="dialog" aria-modal="true" aria-labelledby="lib-confirm-title">
+  <div class="lib-backdrop"></div>
+  <div class="lib-dialog lib-dialog-narrow">
+    <div class="lib-header">
+      <h2 id="lib-confirm-title">Confirm</h2>
+      <button class="lib-close" id="lib-confirm-close" aria-label="Close">&times;</button>
+    </div>
+    <div class="lib-body">
+      <p id="lib-confirm-message" class="lib-confirm-text"></p>
+      <div class="lib-actions">
+        <button id="lib-confirm-cancel" class="lib-action-cancel">Cancel</button>
+        <button id="lib-confirm-ok" class="lib-action-confirm">Confirm</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="lib-toast" class="lib-toast" aria-live="polite"></div>
 
 <script>
 /* ═══════════════════════════════════════════════════════════════════
@@ -2465,6 +2603,341 @@ function renderConditioning(r){
 
 function scrollToRef(id){var el=document.getElementById(id);if(!el)return;var d=el.closest("details");if(d)d.open=true;setTimeout(function(){el.scrollIntoView({behavior:"smooth",block:"start"})},150)}
 
+/* ────── Cargo Library (v2.5.0) ──────
+   Save/load named cargo configurations to localStorage. Holds up to 10 user
+   cargoes plus two pinned-at-top specials: Example Cargo (the original app
+   defaults) and Last Session (auto-updated on every input change, 500 ms
+   debounced). Loading a named cargo does NOT overwrite Last Session.
+   Fails gracefully if localStorage is unavailable. */
+var LIB=(function(){
+  var KEY="lng_cargo_library_v1";
+  var MAX_USER=10, NAME_MAX=30;
+  var RESERVED=["Last Session","Example Cargo"];
+  var _lastSessionTimer=null;
+
+  /* Default example cargo — same values as the inline HTML input defaults.
+     Defined here as a fallback in case localStorage is empty on first load. */
+  function defaultExample(){
+    var x={};
+    COMP.forEach(function(c){x[c.id]=c.def});
+    return{temp:-159.00,vol:"146,000",cref:"15",mref:"15",std:"ISO",x:x};
+  }
+
+  /* Try to read the stored library; returns a normalized structure even on
+     parse failure or first run. Stored format:
+       { version: 1,
+         lastSession: <state or null>,
+         exampleCargo: <state>,        // editable? no, but stored for completeness
+         cargoes: [{name, ts, state}, ...] } */
+  function loadLib(){
+    var def={version:1,lastSession:null,exampleCargo:defaultExample(),cargoes:[]};
+    try{
+      var raw=localStorage.getItem(KEY);
+      if(!raw)return def;
+      var parsed=JSON.parse(raw);
+      if(!parsed||typeof parsed!=="object")return def;
+      if(!Array.isArray(parsed.cargoes))parsed.cargoes=[];
+      if(!parsed.exampleCargo)parsed.exampleCargo=defaultExample();
+      return parsed;
+    }catch(e){return def}
+  }
+  function saveLib(lib){
+    try{localStorage.setItem(KEY,JSON.stringify(lib));return true}
+    catch(e){return false}
+  }
+
+  /* Capture the current input field values into a serializable state object. */
+  function currentState(){
+    var x={};
+    COMP.forEach(function(c){
+      var el=$("c-"+c.id);
+      x[c.id]=el?parseFloat(el.value)||0:0;
+    });
+    return{
+      temp:parseFloat($("inp-temp").value)||-159,
+      vol:$("inp-vol").value||"146,000",
+      cref:$("inp-cref").value,
+      mref:$("inp-mref").value,
+      std:$("inp-std").value,
+      x:x
+    };
+  }
+  /* Apply a state object to the input fields, then trigger a recalculation.
+     Used when loading a saved cargo. */
+  function applyState(s){
+    if(!s)return;
+    if(isFinite(s.temp))$("inp-temp").value=s.temp.toFixed(Math.max(2,(s.temp.toString().split(".")[1]||"").length));
+    if(s.vol){
+      /* Format through fmtVol so the thousands separator appears immediately on
+         load, matching what the user would see after the blur handler runs. */
+      var formatted=fmtVol(s.vol);
+      $("inp-vol").value=formatted||s.vol;
+    }
+    if(s.cref)$("inp-cref").value=s.cref;
+    if(s.mref)$("inp-mref").value=s.mref;
+    if(s.std)$("inp-std").value=s.std;
+    if(s.x){
+      COMP.forEach(function(c){
+        var el=$("c-"+c.id);
+        if(el&&isFinite(s.x[c.id]))el.value=parseFloat(s.x[c.id]).toFixed(3);
+      });
+    }
+    render();
+  }
+
+  /* Last Session auto-save: debounce 500 ms after the last input change so
+     we don't write localStorage on every keystroke. */
+  function scheduleLastSession(){
+    if(_lastSessionTimer)clearTimeout(_lastSessionTimer);
+    _lastSessionTimer=setTimeout(function(){
+      var lib=loadLib();
+      lib.lastSession=currentState();
+      saveLib(lib);
+    },500);
+  }
+
+  /* Format a timestamp as "YYYY-MM-DD HH:MM" in the user's local time. */
+  function fmtDate(ts){
+    if(!ts)return"";
+    var d=new Date(ts),pad=function(n){return n<10?"0"+n:""+n};
+    return d.getFullYear()+"-"+pad(d.getMonth()+1)+"-"+pad(d.getDate())+" "+pad(d.getHours())+":"+pad(d.getMinutes());
+  }
+
+  /* Validate a proposed cargo name. Returns {ok:bool, msg:string, exists:bool}.
+     - empty/whitespace-only → not ok
+     - reserved name → not ok
+     - existing name → ok with exists:true (caller will prompt to overwrite) */
+  function validateName(name,lib){
+    var trimmed=(name||"").trim();
+    if(!trimmed)return{ok:false,msg:"Name cannot be empty"};
+    if(trimmed.length>NAME_MAX)return{ok:false,msg:"Name is too long"};
+    for(var i=0;i<RESERVED.length;i++){
+      if(trimmed.toLowerCase()===RESERVED[i].toLowerCase())return{ok:false,msg:"Name is reserved"};
+    }
+    var exists=false;
+    for(var j=0;j<lib.cargoes.length;j++){
+      if(lib.cargoes[j].name.toLowerCase()===trimmed.toLowerCase()){exists=true;break}
+    }
+    return{ok:true,msg:exists?"Name already in use (will overwrite)":"",exists:exists};
+  }
+
+  /* Public API for use by the rest of the app and the modal wiring. */
+  return{
+    KEY:KEY,
+    MAX_USER:MAX_USER,
+    NAME_MAX:NAME_MAX,
+    loadLib:loadLib,
+    saveLib:saveLib,
+    currentState:currentState,
+    applyState:applyState,
+    scheduleLastSession:scheduleLastSession,
+    fmtDate:fmtDate,
+    validateName:validateName,
+    defaultExample:defaultExample,
+    /* Render the library list into the modal. Called every time the modal
+       opens or after any save/load/delete operation. */
+    renderList:function(){
+      var lib=loadLib();
+      var pinnedEl=$("lib-list-pinned"), userEl=$("lib-list-user");
+      if(!pinnedEl||!userEl)return;
+      /* Pinned section: Example Cargo (always present, never deleted),
+         then Last Session (only shown if it has been written at least once). */
+      var pinHtml="";
+      pinHtml+=this.renderRow({name:"Example Cargo",ts:null,kind:"example"});
+      if(lib.lastSession){
+        pinHtml+=this.renderRow({name:"Last Session",ts:lib.lastSession._ts||null,kind:"lastSession"});
+      }
+      pinnedEl.innerHTML=pinHtml;
+      /* User section: sorted alphabetically (case-insensitive). */
+      var sorted=lib.cargoes.slice().sort(function(a,b){
+        return a.name.toLowerCase().localeCompare(b.name.toLowerCase());
+      });
+      if(sorted.length===0){
+        userEl.innerHTML='<div class="lib-empty">No saved data</div>';
+      }else{
+        var userHtml="";
+        for(var i=0;i<sorted.length;i++){
+          userHtml+=this.renderRow({name:sorted[i].name,ts:sorted[i].ts,kind:"user",index:i});
+        }
+        userEl.innerHTML=userHtml;
+      }
+      /* Update "Save Current Cargo" button — disabled if library full. */
+      var saveBtn=$("lib-save-current");
+      if(saveBtn){
+        if(lib.cargoes.length>=MAX_USER){
+          saveBtn.textContent="All 10 slots used — delete one to save a new cargo";
+          saveBtn.disabled=true;
+        }else{
+          saveBtn.textContent="Save Current Cargo";
+          saveBtn.disabled=false;
+        }
+      }
+    },
+    renderRow:function(opts){
+      var dateLine=opts.ts?'<div class="lib-row-date">Last saved: '+fmtDate(opts.ts)+'</div>':"";
+      var actions='';
+      if(opts.kind==="user"){
+        actions='<button class="lib-row-load" data-kind="user" data-name="'+esc(opts.name)+'">Load</button>'+
+                '<button class="lib-row-delete" data-name="'+esc(opts.name)+'">Delete</button>';
+      }else{
+        actions='<button class="lib-row-load" data-kind="'+opts.kind+'">Load</button>';
+      }
+      var pinnedClass=(opts.kind==="user")?"":" lib-row-pinned";
+      return'<div class="lib-row'+pinnedClass+'">'+
+        '<div class="lib-row-info"><div class="lib-row-name">'+esc(opts.name)+'</div>'+dateLine+'</div>'+
+        '<div class="lib-row-actions">'+actions+'</div>'+
+      '</div>';
+    },
+    open:function(){this.renderList();$("lib-modal").classList.add("lib-open")},
+    close:function(){$("lib-modal").classList.remove("lib-open")},
+    /* Save the current cargo under a given name. If name collides, the caller
+       should have already obtained overwrite confirmation. */
+    saveCurrent:function(name){
+      var lib=loadLib();
+      var trimmed=name.trim();
+      var state=currentState();
+      state._ts=Date.now();
+      var existingIdx=-1;
+      for(var i=0;i<lib.cargoes.length;i++){
+        if(lib.cargoes[i].name.toLowerCase()===trimmed.toLowerCase()){existingIdx=i;break}
+      }
+      if(existingIdx>=0){
+        lib.cargoes[existingIdx]={name:trimmed,ts:Date.now(),state:state};
+      }else{
+        lib.cargoes.push({name:trimmed,ts:Date.now(),state:state});
+      }
+      saveLib(lib);
+      this.renderList();
+      toast("Saved: "+trimmed);
+    },
+    loadByName:function(name){
+      var lib=loadLib();
+      for(var i=0;i<lib.cargoes.length;i++){
+        if(lib.cargoes[i].name===name){
+          applyState(lib.cargoes[i].state);
+          toast("Loaded: "+name);
+          this.close();
+          return;
+        }
+      }
+    },
+    loadExample:function(){
+      var lib=loadLib();
+      applyState(lib.exampleCargo);
+      toast("Loaded: Example Cargo");
+      this.close();
+    },
+    loadLastSession:function(){
+      var lib=loadLib();
+      if(lib.lastSession){
+        applyState(lib.lastSession);
+        toast("Loaded: Last Session");
+        this.close();
+      }
+    },
+    deleteByName:function(name){
+      var lib=loadLib();
+      lib.cargoes=lib.cargoes.filter(function(c){return c.name!==name});
+      saveLib(lib);
+      this.renderList();
+      toast("Deleted: "+name);
+    },
+    /* Export the user's saved cargoes to a downloadable JSON file. Only the
+       user cargoes are exported — Last Session is intentionally excluded
+       since it's session-specific state, not a curated library entry.
+       Example Cargo is also excluded since it's regenerated from code, not
+       stored as user data. The file format is versioned so future imports
+       can detect and migrate older exports if the schema ever changes. */
+    exportLibrary:function(){
+      var lib=loadLib();
+      var payload={
+        format:"lng-cargo-library",
+        version:1,
+        exportedAt:new Date().toISOString(),
+        cargoes:lib.cargoes
+      };
+      var json=JSON.stringify(payload,null,2);
+      var blob=new Blob([json],{type:"application/json"});
+      var url=URL.createObjectURL(blob);
+      var a=document.createElement("a");
+      var stamp=new Date().toISOString().slice(0,10).replace(/-/g,"");
+      a.href=url;
+      a.download="lng-cargo-library-"+stamp+".json";
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      setTimeout(function(){URL.revokeObjectURL(url)},100);
+      toast("Exported "+lib.cargoes.length+" "+(lib.cargoes.length===1?"cargo":"cargoes"));
+    },
+    /* Validate an imported payload — defensive structural check. Returns
+       {ok, msg, cargoes}. Rejects files that don't look like a library
+       export to protect against accidental imports of unrelated JSON. */
+    validateImport:function(parsed){
+      if(!parsed||typeof parsed!=="object")return{ok:false,msg:"File is not a valid library backup"};
+      if(parsed.format!=="lng-cargo-library")return{ok:false,msg:"File is not a Cargo Library backup"};
+      if(!Array.isArray(parsed.cargoes))return{ok:false,msg:"Backup contains no cargo list"};
+      /* Validate each cargo entry has the minimum required fields. Allow
+         extra fields (forward compatibility) but require name and state. */
+      var valid=[];
+      for(var i=0;i<parsed.cargoes.length;i++){
+        var c=parsed.cargoes[i];
+        if(!c||typeof c.name!=="string"||!c.state||typeof c.state!=="object")continue;
+        if(c.name.trim().length===0||c.name.length>NAME_MAX)continue;
+        valid.push({
+          name:c.name.trim(),
+          ts:isFinite(c.ts)?c.ts:Date.now(),
+          state:c.state
+        });
+      }
+      if(valid.length===0)return{ok:false,msg:"Backup contains no valid cargoes"};
+      /* Truncate to MAX_USER if the import is oversized — keep the first N. */
+      if(valid.length>MAX_USER){
+        valid=valid.slice(0,MAX_USER);
+      }
+      return{ok:true,cargoes:valid};
+    },
+    /* Replace the entire library with imported cargoes. Last Session and
+       Example Cargo are preserved (Last Session belongs to the user's
+       current device session, Example Cargo is regenerated anyway). */
+    importLibrary:function(cargoes){
+      var lib=loadLib();
+      lib.cargoes=cargoes;
+      saveLib(lib);
+      this.renderList();
+      toast("Imported "+cargoes.length+" "+(cargoes.length===1?"cargo":"cargoes"));
+    }
+  };
+})();
+/* Small HTML-escape helper for dynamic content. */
+function esc(s){return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;")}
+/* Toast notification — visible 3 seconds, fades out. */
+var _toastTimer=null;
+function toast(msg){
+  var el=$("lib-toast");if(!el)return;
+  el.textContent=msg;
+  el.classList.add("lib-toast-show");
+  if(_toastTimer)clearTimeout(_toastTimer);
+  _toastTimer=setTimeout(function(){el.classList.remove("lib-toast-show")},3000);
+}
+/* Generic confirm-modal helper. Shows the modal with given message; calls
+   onConfirm if user clicks Confirm, nothing if Cancel/close. Used for both
+   overwrite confirmation and delete confirmation. */
+function libConfirm(message,onConfirm,opts){
+  opts=opts||{};
+  $("lib-confirm-message").textContent=message;
+  var okBtn=$("lib-confirm-ok");
+  okBtn.textContent=opts.confirmText||"Confirm";
+  okBtn.classList.toggle("lib-action-danger",!!opts.danger);
+  $("lib-confirm-modal").classList.add("lib-open");
+  /* Replace the listener so we don't stack handlers on repeated calls. */
+  var newOk=okBtn.cloneNode(true);
+  okBtn.parentNode.replaceChild(newOk,okBtn);
+  newOk.addEventListener("click",function(){
+    $("lib-confirm-modal").classList.remove("lib-open");
+    if(onConfirm)onConfirm();
+  });
+}
+
 function init(){
   buildComp();
   ["inp-temp","inp-vol","inp-cref","inp-mref","inp-std"].forEach(function(id){$(id).addEventListener("input",render);$(id).addEventListener("change",render)});
@@ -2517,6 +2990,171 @@ function init(){
       })(evpBtns[ei]);
     }
   }
+
+  /* ────── Cargo Library wiring ──────
+     The library button in the header opens the modal. List-row buttons (Load,
+     Delete) use event delegation since the list HTML is regenerated on every
+     change. The save dialog is its own small modal with name input, character
+     counter, real-time validation, and an overwrite-confirmation flow. */
+  var libBtn=$("lib-btn");
+  if(libBtn){libBtn.addEventListener("click",function(){LIB.open()})}
+  /* Close handlers — X button, backdrop click, Escape key. */
+  function wireClose(closeId,modalId){
+    var c=$(closeId);if(c)c.addEventListener("click",function(){$(modalId).classList.remove("lib-open")});
+  }
+  wireClose("lib-close","lib-modal");
+  wireClose("lib-save-close","lib-save-modal");
+  wireClose("lib-confirm-close","lib-confirm-modal");
+  /* Cancel button on the confirm modal — same effect as the X close (no
+     onConfirm call, just dismiss). Wired here rather than inside libConfirm
+     so it's a single static listener instead of one per call. */
+  var libConfirmCancel=$("lib-confirm-cancel");
+  if(libConfirmCancel){
+    libConfirmCancel.addEventListener("click",function(){
+      $("lib-confirm-modal").classList.remove("lib-open");
+    });
+  }
+  document.querySelectorAll(".lib-backdrop").forEach(function(b){
+    b.addEventListener("click",function(e){
+      var m=e.target.closest(".lib-modal");
+      if(m)m.classList.remove("lib-open");
+    });
+  });
+  document.addEventListener("keydown",function(e){
+    if(e.key==="Escape"){
+      document.querySelectorAll(".lib-modal.lib-open").forEach(function(m){m.classList.remove("lib-open")});
+    }
+  });
+  /* List-row click delegation: Load and Delete buttons. */
+  $("lib-list-pinned").addEventListener("click",function(e){
+    var btn=e.target.closest("button");if(!btn)return;
+    var kind=btn.getAttribute("data-kind");
+    if(btn.classList.contains("lib-row-load")){
+      if(kind==="example")LIB.loadExample();
+      else if(kind==="lastSession")LIB.loadLastSession();
+    }
+  });
+  $("lib-list-user").addEventListener("click",function(e){
+    var btn=e.target.closest("button");if(!btn)return;
+    var name=btn.getAttribute("data-name");
+    if(btn.classList.contains("lib-row-load")){
+      LIB.loadByName(name);
+    }else if(btn.classList.contains("lib-row-delete")){
+      libConfirm('Delete "'+name+'"? This cannot be undone.',function(){
+        LIB.deleteByName(name);
+      },{confirmText:"Delete",danger:true});
+    }
+  });
+  /* Save Current Cargo button — opens the save-name dialog. */
+  $("lib-save-current").addEventListener("click",function(){
+    var lib=LIB.loadLib();
+    if(lib.cargoes.length>=LIB.MAX_USER){
+      toast("All 10 slots used — delete one to save a new cargo");
+      return;
+    }
+    $("lib-save-name").value="";
+    $("lib-save-counter").textContent="0/"+LIB.NAME_MAX;
+    $("lib-save-validation").textContent="";
+    $("lib-save-validation").classList.remove("lib-warn");
+    $("lib-save-confirm").disabled=true;
+    $("lib-save-modal").classList.add("lib-open");
+    setTimeout(function(){$("lib-save-name").focus()},50);
+  });
+  /* Export button — triggers an immediate JSON file download. */
+  $("lib-export").addEventListener("click",function(){
+    try{LIB.exportLibrary()}
+    catch(err){toast("Export failed")}
+  });
+  /* Import button — triggers the hidden file input. The file-change handler
+     reads the selected file, parses it, validates the structure, then asks
+     the user to confirm before overwriting any existing saved cargoes. */
+  $("lib-import").addEventListener("click",function(){
+    /* Clear value first so picking the same file twice still fires "change". */
+    $("lib-import-file").value="";
+    $("lib-import-file").click();
+  });
+  $("lib-import-file").addEventListener("change",function(e){
+    var file=e.target.files&&e.target.files[0];
+    if(!file)return;
+    var reader=new FileReader();
+    reader.onload=function(ev){
+      var parsed;
+      try{parsed=JSON.parse(ev.target.result)}
+      catch(err){toast("File is not valid JSON");return}
+      var r=LIB.validateImport(parsed);
+      if(!r.ok){toast(r.msg);return}
+      /* Confirmation: import will replace current saved cargoes. Phrase the
+         message based on whether the user currently has any cargoes — no
+         point asking "overwrite" if there's nothing to overwrite. */
+      var lib=LIB.loadLib();
+      var currentCount=lib.cargoes.length;
+      var doImport=function(){LIB.importLibrary(r.cargoes)};
+      if(currentCount>0){
+        libConfirm(
+          "Import will replace your current "+currentCount+" saved "+
+          (currentCount===1?"cargo":"cargoes")+" with "+r.cargoes.length+" "+
+          (r.cargoes.length===1?"cargo":"cargoes")+" from the file. This cannot be undone.",
+          doImport,
+          {confirmText:"Replace",danger:true}
+        );
+      }else{
+        doImport();
+      }
+    };
+    reader.onerror=function(){toast("Could not read file")};
+    reader.readAsText(file);
+  });
+  /* Save-name input: live counter and validation, enable/disable confirm button. */
+  function refreshSaveDialog(){
+    var v=$("lib-save-name").value;
+    $("lib-save-counter").textContent=v.length+"/"+LIB.NAME_MAX;
+    var lib=LIB.loadLib();
+    var r=LIB.validateName(v,lib);
+    var vm=$("lib-save-validation");
+    vm.textContent=r.msg;
+    vm.classList.toggle("lib-warn",r.exists);
+    $("lib-save-confirm").disabled=!r.ok;
+  }
+  $("lib-save-name").addEventListener("input",refreshSaveDialog);
+  /* Enter key in name field = trigger save. */
+  $("lib-save-name").addEventListener("keydown",function(e){
+    if(e.key==="Enter"&&!$("lib-save-confirm").disabled){
+      e.preventDefault();
+      $("lib-save-confirm").click();
+    }
+  });
+  $("lib-save-cancel").addEventListener("click",function(){$("lib-save-modal").classList.remove("lib-open")});
+  $("lib-save-confirm").addEventListener("click",function(){
+    var name=$("lib-save-name").value.trim();
+    var lib=LIB.loadLib();
+    var r=LIB.validateName(name,lib);
+    if(!r.ok)return;
+    var doSave=function(){
+      LIB.saveCurrent(name);
+      $("lib-save-modal").classList.remove("lib-open");
+    };
+    if(r.exists){
+      $("lib-save-modal").classList.remove("lib-open");
+      libConfirm('A cargo named "'+name+'" already exists. Overwrite it?',doSave,{confirmText:"Overwrite"});
+    }else{
+      doSave();
+    }
+  });
+  /* Last Session auto-save: trigger after any input change. */
+  function trackInputForLastSession(id){
+    var el=$(id);if(!el)return;
+    el.addEventListener("input",LIB.scheduleLastSession);
+    el.addEventListener("change",LIB.scheduleLastSession);
+  }
+  ["inp-temp","inp-vol","inp-cref","inp-mref","inp-std"].forEach(trackInputForLastSession);
+  COMP.forEach(function(c){trackInputForLastSession("c-"+c.id)});
+  /* On startup, if Last Session exists, restore it silently (no toast). */
+  var _initLib=LIB.loadLib();
+  if(_initLib.lastSession){
+    /* Defer slightly so the rest of init() finishes wiring inputs first. */
+    setTimeout(function(){LIB.applyState(_initLib.lastSession)},10);
+  }
+
   /* Before printing:
      - Open all <details> panels so content is rendered.
      - Replace each <details> with a plain <div> for the print view, because the
