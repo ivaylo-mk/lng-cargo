@@ -247,7 +247,7 @@ footer{text-align:center;padding:clamp(16px,3vw,24px) var(--pad);font-size:var(-
 #cond-chart-wrap .cond-pt-r{fill:#4ade80;stroke:var(--bg);stroke-width:1.5}
 .cond-legend{display:flex;flex-direction:column;gap:6px;font-size:var(--fs-xs);color:var(--tm)}
 .cond-legend-item{display:flex;align-items:center;gap:10px}
-.cond-legend-swatch{width:22px;height:3px;border-radius:2px;flex-shrink:0}
+.cond-legend-swatch{width:22px;height:6px;flex-shrink:0;display:block}
 .cond-table{width:100%;border-collapse:collapse;font-size:var(--fs-xs);min-width:520px}
 .cond-table th{text-align:left;padding:8px 12px;background:rgba(3,7,18,0.4);color:var(--tx);font-weight:600;font-size:var(--fs-xs);text-transform:uppercase;letter-spacing:0.04em;border-bottom:1px solid var(--bd);white-space:nowrap}
 .cond-table td{padding:7px 12px;color:var(--tm);border-bottom:1px solid rgba(148,163,184,0.08);white-space:nowrap;font-variant-numeric:tabular-nums}
@@ -455,7 +455,11 @@ footer{text-align:center;padding:clamp(16px,3vw,24px) var(--pad);font-size:var(-
   #cond-chart-wrap .cond-pt-r{fill:#15803d !important;stroke:#fff !important;stroke-width:1 !important}
   .cond-legend-row{margin-left:6mm !important}
   .cond-legend{color:#333 !important;font-size:9pt !important}
-  .cond-legend-swatch{border:1px solid #888 !important}
+  .cond-legend-swatch{width:8mm !important;height:2mm !important}
+  /* Match swatch stroke colors to the chart's print colors (the chart
+     uses darker, print-friendly variants vs. the on-screen bright tones). */
+  .cond-legend-item:nth-child(1) .cond-legend-swatch line{stroke:#1d4ed8 !important}
+  .cond-legend-item:nth-child(2) .cond-legend-swatch line{stroke:#15803d !important}
   .cond-table{border:1px solid #888 !important;min-width:0 !important}
   .cond-table th{background:#f0f0f0 !important;color:#000 !important;border-bottom:1px solid #888 !important}
   .cond-table td{color:#333 !important;border-bottom:1px solid #ddd !important}
@@ -552,7 +556,7 @@ Combustion &amp; metering reference fixed at <strong style="color:var(--tx)">60 
 <p>This calculator supports two measurement-standard families, selectable via the <strong>Calculation Standard</strong> dropdown:</p>
 <ul>
 <li><strong>ISO — International</strong> uses ISO 6578:2017 (liquid density via Klosek-McKinley) together with ISO 6976:2016 (molar gross calorific values, summation factors, and real-gas compression factor). The combustion and metering reference temperatures are user-selectable, matching the flexibility required by international LNG Sale and Purchase Agreements. This is the correct standard for cargoes discharged or loaded at most non-US terminals.</li>
-<li><strong>GPA — USA &amp; North America</strong> uses GPA Midstream Standard 2145-16 (<em>Table of Physical Properties for Hydrocarbons and Other Compounds of Interest to the Natural Gas and Natural Gas Liquids Industries</em>, Revised 2016), in which all gas-phase properties are referenced to 60 °F (15.55 °C) and 14.696 psia. This is the industry-standard reference set used by US LNG export terminals (Sabine Pass, Corpus Christi, Cameron, Freeport, Cove Point, Plaquemines, Elba Island, Port Arthur) and by downstream US gas trading, as prescribed by ASTM, API, and NAESB. Volumetric heating values and Wobbe Index are reported natively in <strong>BTU/SCF</strong>, and the total energy is reported in <strong>MMBTU</strong>.</li>
+<li><strong>GPA — USA &amp; North America</strong> uses GPA Midstream Standard 2145-16 (<em>Table of Physical Properties for Hydrocarbons and Other Compounds of Interest to the Natural Gas and Natural Gas Liquids Industries</em>, Revised 2016), in which all gas-phase properties are referenced to 60 °F (15.55 °C) and 14.696 psia. This is the industry-standard reference set used by US LNG export terminals (Sabine Pass, Corpus Christi, Cameron, Freeport, Cove Point, Plaquemines, Golden Pass, Elba Island, Port Arthur) and by downstream US gas trading, as prescribed by ASTM, API, and NAESB. Volumetric heating values and Wobbe Index are reported natively in <strong>BTU/SCF</strong>, and the total energy is reported in <strong>MMBTU</strong>.</li>
 </ul>
 <p>Both standards use the same Klosek-McKinley method and the same ISO 6578 Table B.2 orthobaric molar volumes for LNG density calculation — GPA 2145-16 does not provide cryogenic liquid-phase data at LNG temperatures, so the ISO liquid density tables are used regardless of the selected standard. The practical differences between ISO and GPA therefore arise from:</p>
 <ol>
@@ -860,7 +864,7 @@ Combustion &amp; metering reference fixed at <strong style="color:var(--tx)">60 
 <div class="footer-copy" id="f-copy">© 2026 Ivaylo Krastev · Licensed under AGPL-3.0</div>
 <div style="font-size:var(--fs-xs);margin-bottom:6px"><a id="f-site" href="https://ivaylokrastev.com" target="_blank" rel="noopener" style="color:var(--tx);text-decoration:none;display:inline-flex;align-items:center;gap:6px"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>ivaylokrastev.com</a><span style="opacity:0.4;margin:0 8px">&middot;</span><a id="f-repo" href="https://github.com/ivaylo-mk/lng-cargo-calculator" target="_blank" rel="noopener" style="color:var(--tx);text-decoration:none;display:inline-flex;align-items:center;gap:6px"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" style="flex-shrink:0"><path d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.39 7.86 10.91.58.11.79-.25.79-.56 0-.27-.01-1.01-.02-1.97-3.2.69-3.87-1.54-3.87-1.54-.52-1.33-1.28-1.69-1.28-1.69-1.05-.71.08-.7.08-.7 1.16.08 1.77 1.19 1.77 1.19 1.03 1.76 2.7 1.25 3.36.96.1-.74.4-1.25.73-1.54-2.55-.29-5.24-1.28-5.24-5.69 0-1.26.45-2.29 1.19-3.1-.12-.29-.51-1.46.11-3.05 0 0 .97-.31 3.18 1.18.92-.26 1.91-.39 2.89-.39.98 0 1.97.13 2.89.39 2.21-1.49 3.18-1.18 3.18-1.18.62 1.59.23 2.76.11 3.05.74.81 1.19 1.84 1.19 3.1 0 4.42-2.69 5.39-5.25 5.68.41.35.78 1.04.78 2.1 0 1.51-.01 2.73-.01 3.1 0 .31.21.68.8.56C20.71 21.39 24 17.08 24 12c0-6.35-5.15-11.5-11.5-11.5z"/></svg>Source Code</a></div>
 <div style="font-size:var(--fs-xs);color:var(--tm);margin-top:4px;opacity:0.6">Calculations provided for reference purposes only.</div>
-<div style="font-size:var(--fs-xs);color:var(--tm);margin-top:10px;opacity:0.6">Version 2.5.0</div>
+<div style="font-size:var(--fs-xs);color:var(--tm);margin-top:10px;opacity:0.6">Version 2.5.1</div>
 </footer>
 
 <!-- ════════════ CARGO LIBRARY ════════════
@@ -2087,10 +2091,10 @@ function render(){
   var r=calc(inp.t,inp.v,inp.p,inp.cr,inp.mr,inp.std);
   if(r&&r.error){
     $("results-area").innerHTML='<div class="err-box"><h3>\u26D4 Error \u2014 Calculation Engine Modified</h3><p>Integrity verification failed. The calculation engine has been modified and cannot produce reliable results.</p><p style="margin-top:12px;font-size:0.72rem;opacity:0.6">All calibration constants, attribution, and engine code must remain unmodified.</p></div>';
-    $("detail-section").classList.add("hidden");var ep=$("evp-curve-panel");if(ep)ep.classList.add("hidden");var mp=$("mn-panel");if(mp)mp.classList.add("hidden");var ft=$("app-footer");if(ft)ft.style.display="none";var fb=$("f-brand");if(fb)fb.style.display="none";return;
+    $("detail-section").classList.add("hidden");var ep=$("evp-curve-panel");if(ep)ep.classList.add("hidden");var mp=$("mn-panel");if(mp)mp.classList.add("hidden");var cp=$("cond-panel");if(cp)cp.classList.add("hidden");var ft=$("app-footer");if(ft)ft.style.display="none";var fb=$("f-brand");if(fb)fb.style.display="none";return;
   }
   var ft=$("app-footer");if(ft)ft.style.display="";var fb=$("f-brand");if(fb)fb.style.display="";
-  $("detail-section").classList.remove("hidden");var ep=$("evp-curve-panel");if(ep)ep.classList.remove("hidden");var mp=$("mn-panel");if(mp)mp.classList.remove("hidden");
+  $("detail-section").classList.remove("hidden");var ep=$("evp-curve-panel");if(ep)ep.classList.remove("hidden");var mp=$("mn-panel");if(mp)mp.classList.remove("hidden");var cp=$("cond-panel");if(cp)cp.classList.remove("hidden");
   if(!r){$("results-area").innerHTML='<div class="r-grid"></div>';$("detail-body").innerHTML="";var ec=$("evp-chart-wrap");if(ec)ec.innerHTML="";var mb=$("mn-body");if(mb)mb.innerHTML="";var cb=$("cond-body");if(cb)cb.innerHTML="";if(_mnTimer){clearTimeout(_mnTimer);_mnTimer=null}_mnLastR=null;return}
   r.tOK?$("warn-temp").classList.add("hidden"):$("warn-temp").classList.remove("hidden");
   /* Unified 12-card set for both standards. Unit labels and subtitles
@@ -2411,7 +2415,7 @@ function renderMN(r){
   html+='<tr><td>W&auml;rtsil&auml;, low-pressure premixed dual-fuel (31DF / 50DF)</td><td>~80</td></tr>';
   html+='<tr><td>WinGD, X-DF series (original, Otto cycle, low-pressure)</td><td>~80</td></tr>';
   html+='<tr><td>WinGD, X-DF with DCC, or X-DF 2.0 with iCER</td><td>~65</td></tr>';
-  html+='<tr><td>Rolls-Royce / Bergen, B and C series</td><td>~70&ndash;75</td></tr>';
+  html+='<tr><td>Bergen Engines, B and C series</td><td>~70&ndash;75</td></tr>';
   html+='</tbody></table></div>';
 
   wrap.innerHTML=html;
@@ -2550,8 +2554,12 @@ function renderConditioning(r){
      button vertically aligned with the middle of the legend stack. */
   html+='<div class="cond-legend-row">';
   html+='<div class="cond-legend">';
-  html+='<div class="cond-legend-item"><div class="cond-legend-swatch" style="background:'+'#3b82f6'+'"></div><span>'+leftTitle+'</span></div>';
-  html+='<div class="cond-legend-item"><div class="cond-legend-swatch" style="background:#4ade80;background-image:repeating-linear-gradient(90deg,#4ade80 0,#4ade80 4px,transparent 4px,transparent 7px)"></div><span>'+rightTitle+'</span></div>';
+  /* Swatch is an inline SVG (not a CSS background) so it prints in color
+     even when the user's browser print dialog has "Background graphics"
+     disabled, which is the default on most browsers. SVG strokes are
+     foreground content, not affected by that setting. */
+  html+='<div class="cond-legend-item"><svg class="cond-legend-swatch" viewBox="0 0 22 6" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><line x1="0" y1="3" x2="22" y2="3" stroke="#3b82f6" stroke-width="3"/></svg><span>'+leftTitle+'</span></div>';
+  html+='<div class="cond-legend-item"><svg class="cond-legend-swatch" viewBox="0 0 22 6" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><line x1="0" y1="3" x2="22" y2="3" stroke="#4ade80" stroke-width="3" stroke-dasharray="4 2"/></svg><span>'+rightTitle+'</span></div>';
   html+='</div>';
   html+='<button class="cond-chart-help" onclick="scrollToRef(\'sec-step-12\')" title="Learn more about this calculation" aria-label="Learn more about this calculation">?</button>';
   html+='</div>';

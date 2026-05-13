@@ -7,7 +7,7 @@
 <p align="center">
   <a href="https://lng.ivaylokrastev.com"><img src="https://img.shields.io/badge/PWA-Ready-blue" alt="PWA" /></a>
   <a href="https://lng.ivaylokrastev.com"><img src="https://img.shields.io/badge/Offline-Ready-blue" alt="Offline" /></a>
-  <a href="https://lng.ivaylokrastev.com"><img src="https://img.shields.io/badge/Version-2.5.0-blue" alt="Version" /></a>
+  <a href="https://lng.ivaylokrastev.com"><img src="https://img.shields.io/badge/Version-2.5.1-blue" alt="Version" /></a>
   <a href="./LICENSE"><img src="https://img.shields.io/badge/License-AGPL--3.0-blue" alt="License" /></a>
 </p>
 
@@ -82,14 +82,14 @@ The calculation engine implements established industry-standard methods:
 - **Antoine vapor-pressure correlation** — with NIST Chemistry WebBook and Yaws' Handbook constants, used for the equilibrium vapor pressure and boiling-point inversion.
 - **IUPAC 2007 atomic weights** — for molar mass computation (C = 12.0107, H = 1.00794, N = 14.0067, O = 15.9994, S = 32.065).
 
-The dual-standard design means the calculator matches the way cargo Certificates of Quality are actually issued: select **GPA** when reconciling a US-terminal COQ (Sabine Pass, Corpus Christi, Cameron, Freeport, Plaquemines, Golden Pass, Elba Island, Port Arthur); select **ISO** when reconciling a European, Asian, Middle Eastern, or Australian COQ.
+The dual-standard design means the calculator matches the way cargo Certificates of Quality are actually issued: select **GPA** when reconciling a US-terminal COQ (Sabine Pass, Corpus Christi, Cameron, Freeport, Cove Point, Plaquemines, Golden Pass, Elba Island, Port Arthur); select **ISO** when reconciling a European, Asian, Middle Eastern, or Australian COQ.
 
 ---
 
 ## Features
 
 - **Extensive in-app theory documentation.** Twelve step-by-step derivations of every calculation, with source formulas attributed to their originating standards and clauses. Every result card has a `?` icon that scrolls to the corresponding theory step.
-- **Methane Number panel.** Computes the gas-fuel methane number (EN 16726:2025 Annex A / MNc method) from the LNG composition, with a color-coded indicator (green / amber / red) against typical engine minimums. Includes an "Engine Impact" reference table explaining what each MN range means operationally (full power vs derating vs diesel-mode transfer) and a reference table of indicative MN minimums by manufacturer (MAN, Wärtsilä, WinGD, Rolls-Royce / Bergen) for quick comparison. Useful for ship engineers and dual-fuel engine operators making fuel-quality assessments alongside cargo accounting work — applies to both direct-drive arrangements (e.g., ME-GI, X-DF main engines) and electric arrangements (DFDE / TFDE with dual-fuel medium-speed gensets). The implementation has been validated against the LNG-relevant reference compositions in EN 16726 Annex A Table A.10, agreeing to within 1 MN unit.
+- **Methane Number panel.** Computes the gas-fuel methane number (EN 16726:2025 Annex A / MNc method) from the LNG composition, with a color-coded indicator (green / amber / red) against typical engine minimums. Includes an "Engine Impact" reference table explaining what each MN range means operationally (full power vs derating vs diesel-mode transfer) and a reference table of indicative MN minimums by manufacturer (MAN, Wärtsilä, WinGD, Bergen Engines) for quick comparison. Useful for ship engineers and dual-fuel engine operators making fuel-quality assessments alongside cargo accounting work — applies to both direct-drive arrangements (e.g., ME-GI, X-DF main engines) and electric arrangements (DFDE / TFDE with dual-fuel medium-speed gensets). The implementation has been validated against the LNG-relevant reference compositions in EN 16726 Annex A Table A.10, agreeing to within 1 MN unit.
 - **EVP Sensitivity Curve.** A graph panel showing the equilibrium vapor pressure across a ±1.4 °C window around the observed cargo temperature, with shaded zones indicating the typical membrane LNG carrier tank-pressure operating range. A toggle switches the y-axis between mbar gauge (tank-instrumentation reading) and kPa absolute (thermodynamic bubble-point pressure). Helps anticipate tank pressure response to heat ingress or active cooling during the voyage.
 - **Cargo Conditioning panel.** A dual-axis chart and reference table showing the cumulative mass / volume / energy of liquid that must evaporate to cool the cargo to lower target temperatures (six steps of 0.2 °C, down to 1.0 °C below the observed value), and the equilibrium tank pressure at each target. Toggles let the user view the left axis in volume (m³), mass (tonnes), or energy (GJ), and the right axis in mbar gauge or kPa absolute. The accompanying table always shows every quantity in every unit so that a discharge plan can be evaluated against any specification format. Density at each target temperature is independently recomputed via Klosek-McKinley, so the volume figure reflects the colder, denser liquid rather than a constant-density approximation.
 - **Cargo Library.** Save up to 10 named cargo configurations and load them with a single click via the floppy-disk button in the header. Each saved cargo retains the full state (composition, temperature, volume, standards, reference temperatures) and is timestamped with its last save date. Two pinned entries sit above the user slots: an "Example Cargo" with the calculator's default values (always available, cannot be deleted) and a "Last Session" entry that auto-updates as you work so closing and reopening the app keeps your current cargo intact. Overwrite confirmation and delete confirmation are required for any destructive action. The library can be exported to a JSON backup file and imported back into the calculator on another machine — useful for transferring a curated set of reference cargoes between devices or sharing a library with colleagues.
@@ -183,6 +183,9 @@ The Methane Number calculation (introduced in v2.3.0) embeds a JavaScript implem
 ---
 
 ## Changelog
+
+### Version 2.5.1
+- Minor fixes and optimizations in the code and documentation.
 
 ### Version 2.5.0
 - **New: Cargo Library.** Save, load, rename, and delete up to 10 named cargo configurations via a floppy-disk button in the header. Each saved cargo stores the full input state (composition, temperature, volume, standards, reference temperatures) with a "last saved" timestamp. Two pinned entries — Example Cargo (calculator defaults) and Last Session (auto-updated continuously) — sit above the user slots and cannot be deleted. Overwrite confirmation and delete confirmation are required for destructive actions; toast notifications confirm successful save/load/delete operations. Last Session is restored automatically on app startup, so closing and reopening keeps the user's current cargo intact. Storage uses the browser's localStorage and works offline.
